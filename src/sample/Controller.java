@@ -6,9 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
-import classes.Produit;
 import classes.ProduitInventaire;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -30,6 +28,7 @@ public class Controller {
 
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
+    public Timeline timerLoop;
 
 
     @FXML
@@ -59,6 +58,12 @@ public class Controller {
 
     @FXML
     ProgressIndicator progression;
+
+    @FXML
+    Button boutonStart;
+
+    @FXML
+    Button boutonStop;
 
     public void refresh()
     {
@@ -205,6 +210,10 @@ public class Controller {
     }
 
     public void startTimer(){
+        boutonStart.setDisable(true);
+        boutonStop.setDisable(false);
+        boutonStop.setVisible(true);
+        boutonStart.setVisible(false);
         AtomicInteger timerInit = new AtomicInteger(0);
         if (unitesTemps.getSelectionModel().getSelectedItem().equals("secondes")){
             timerInit.set(Integer.parseInt(tempsField.getText()));
@@ -218,16 +227,23 @@ public class Controller {
 
 
         AtomicInteger myCurrentTime = new AtomicInteger(timerInit.get());
-        Timeline loop4 = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
+        timerLoop = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg) {
                 myCurrentTime.set(myCurrentTime.get()-1);
                 temps.setText("Timer :" + myCurrentTime.get());
                 progression.setProgress(Double.valueOf(Double.valueOf((timerInit.get()-myCurrentTime.get()))/Double.valueOf(timerInit.get())));
             }
         }));
-        loop4.setCycleCount(timerInit.get());
-        loop4.stop();
-        loop4.play();
+        timerLoop.setCycleCount(timerInit.get());
+        timerLoop.play();
+    }
+
+    public void stopTimer(){
+        boutonStart.setDisable(false);
+        boutonStop.setDisable(true);
+        boutonStop.setVisible(false);
+        boutonStart.setVisible(true);
+        timerLoop.stop();
     }
 
     public void openAddRecette()

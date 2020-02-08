@@ -217,7 +217,8 @@
                                           <ChoiceBox fx:id="unitesTemps" prefWidth="150.0" />
                                        </children>
                                     </HBox>
-                                    <Button mnemonicParsing="false" onAction="#startTimer" text="Button" />
+                                    <Button fx:id="boutonStart" mnemonicParsing="false" onAction="#startTimer" text="Débuter" />
+                                    <Button fx:id="boutonStop" disable="true" mnemonicParsing="false" onAction="#stopTimer" text="Arrêter" visible="false" />
                                     <Separator prefWidth="200.0" />
                                     <Label fx:id="temps" scaleX="2.0" scaleY="2.0" text="Time" />
                                     <ProgressIndicator fx:id="progression" prefHeight="200.0" prefWidth="200.0" progress="0.0">
