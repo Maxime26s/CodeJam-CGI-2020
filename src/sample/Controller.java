@@ -24,11 +24,13 @@ public class Controller {
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
 
+    /*
     public void addProduit(){
         LocalDate date = LocalDate.now();
         Produit produit = new Produit("nom", "1111", 10.50f, 10, Mesures.LITRE);
         gestionnaire.getInventaire().add(new ProduitInventaire(produit));
     }
+    */
 
     public void addInventaire(){
 

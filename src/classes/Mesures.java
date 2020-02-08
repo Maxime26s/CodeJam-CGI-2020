@@ -2,12 +2,12 @@ package classes;
 
 public enum Mesures{
     LITRE("Litre"),
-    GRAMME("Litre"),
-    ONCE("Litre"),
-    LIVRE("Litre"),
-    TASSE("Litre"),
-    CUILLERETHE("Litre"),
-    CUILLERESOUPE("Litre");
+    GRAMME("GRAMME"),
+    ONCE("ONCE"),
+    LIVRE("LIVRE"),
+    TASSE("TASSE"),
+    CUILLERETHE("CUILLERE A THE"),
+    CUILLERESOUPE("CUILLERE A SOUPE");
 
     public final String displayName;
 

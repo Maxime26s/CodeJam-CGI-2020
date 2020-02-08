@@ -14,26 +14,15 @@ public class ProduitInventaire {
     private boolean expire;
     private int joursExpiration;
 
-    public ProduitInventaire(Produit produit, float quantite, Mesures typeMesure, DateExpiration dateExp, boolean expire, int joursExpiration) {
-        this.produit = produit;
-        this.quantite = quantite;
-        this.typeMesure = typeMesure;
-        this.dateExp = dateExp;
-        this.expire = expire;
-        this.joursExpiration = joursExpiration;
-    }
-
     public ProduitInventaire(Produit produit, float quantite, Mesures typeMesure, DateExpiration dateExp) {
         this.produit = produit;
         this.quantite = quantite;
         this.typeMesure = typeMesure;
         this.dateExp = dateExp;
+        this.expire = false;
+        this.joursExpiration = 0;
     }
 
-    public ProduitInventaire(Produit produit) {
-        this.produit = produit;
-        this.quantite = 0;
-    }
 
     public Produit getProduit() {
         return produit;
