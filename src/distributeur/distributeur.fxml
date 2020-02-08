@@ -53,11 +53,11 @@
             <MenuItem mnemonicParsing="false" text="Unselect All" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
+            <Menu mnemonicParsing="false" text="Rafraichir">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#reloadItems" text="Rafraichir" />
+               </items>
+            </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
@@ -79,17 +79,29 @@
                                        <children>
                                           <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                              <children>
-                                                <TextField fx:id="modNom" maxWidth="-Infinity" promptText="Nom" />
-                                                <TextField fx:id="modCode" maxWidth="-Infinity" promptText="Code Bar" />
-                                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="498.0" spacing="20.0">
+                                                <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
                                                    <children>
+                                                      <Label prefWidth="75.0" text="Nom:" />
+                                                      <TextField fx:id="modNom" maxWidth="-Infinity" promptText="Nom" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Code Bar:" />
+                                                      <TextField fx:id="modCode" maxWidth="-Infinity" promptText="Code Bar" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefWidth="498.0" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Mesure:" />
                                                       <TextField fx:id="modMes" maxWidth="-Infinity" promptText="Mesure" />
                                                       <VBox spacing="10.0">
                                                          <children>
                                                             <RadioButton fx:id="modG" mnemonicParsing="false" text="Gramme">
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="modType" />
-                                                               </toggleGroup></RadioButton>
+                                                               </toggleGroup>
+                                                            </RadioButton>
                                                             <RadioButton fx:id="modL" mnemonicParsing="false" text="Litre" toggleGroup="$modType" />
                                                          </children>
                                                          <HBox.margin>
@@ -99,18 +111,33 @@
                                                       <RadioButton fx:id="modMili" mnemonicParsing="false" text="Mili">
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="modQuantity" />
-                                                         </toggleGroup></RadioButton>
+                                                         </toggleGroup>
+                                                      </RadioButton>
                                                       <RadioButton fx:id="modRien" mnemonicParsing="false" text="----" toggleGroup="$modQuantity" />
                                                       <RadioButton fx:id="modKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$modQuantity" />
                                                    </children>
                                                 </HBox>
-                                                <TextField fx:id="modPrix" maxWidth="-Infinity" promptText="Prix" />
-                                                <TextField fx:id="modInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
-                                                <Button fx:id="modUpdate" mnemonicParsing="false" text="Mettre à Jour">
-                                                   <VBox.margin>
-                                                      <Insets left="25.0" />
-                                                   </VBox.margin>
-                                                </Button>
+                                                <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Prix:" />
+                                                      <TextField fx:id="modPrix" maxWidth="-Infinity" promptText="Prix" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                                   <children>
+                                                      <Label prefHeight="75.0" prefWidth="75.0" text="Nombre en inventaire:" wrapText="true" />
+                                                      <TextField fx:id="modInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
+                                                   <children>
+                                                      <Button fx:id="modUpdate" mnemonicParsing="false" onAction="#modItemListView" text="Mettre à Jour" />
+                                                      <Label fx:id="oldName" />
+                                                   </children>
+                                                   <padding>
+                                                      <Insets left="100.0" />
+                                                   </padding>
+                                                </HBox>
                                              </children>
                                           </VBox>
                                        </children></AnchorPane>
@@ -122,36 +149,64 @@
                                        <children>
                                           <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                              <children>
-                                                <TextField fx:id="addNom" maxWidth="-Infinity" promptText="Nom" />
-                                                <TextField fx:id="addCode" maxWidth="-Infinity" promptText="Code Bar" />
-                                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="498.0" spacing="20.0">
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
                                                    <children>
-                                                      <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure" />
+                                                      <Label prefWidth="75.0" text="Nom:" />
+                                                      <TextField fx:id="addNom" maxWidth="-Infinity" promptText="Nom" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Code Bar:" />
+                                                      <TextField fx:id="addCode" maxWidth="-Infinity" promptText="Code Bar" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Mesure:" />
+                                                      <TextField fx:id="addMes1" maxWidth="-Infinity" promptText="Mesure" />
                                                       <VBox spacing="10.0">
                                                          <children>
-                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme">
+                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme" />
+                                                            <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre">
                                                                <toggleGroup>
-                                                                  <ToggleGroup fx:id="addType" />
-                                                               </toggleGroup></RadioButton>
-                                                            <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre" toggleGroup="$addType" />
+                                                                  <ToggleGroup fx:id="addType1" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
                                                          </children>
-                                                         <HBox.margin>
-                                                            <Insets />
-                                                         </HBox.margin>
                                                       </VBox>
                                                       <RadioButton fx:id="addMili" mnemonicParsing="false" text="Mili">
                                                          <toggleGroup>
-                                                            <ToggleGroup fx:id="addQuantity" />
-                                                         </toggleGroup></RadioButton>
-                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----" toggleGroup="$addQuantity" />
-                                                      <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
+                                                            <ToggleGroup fx:id="addQuantity1" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="addQuantity1" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="addQuantity1" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
                                                    </children>
                                                 </HBox>
-                                                <TextField fx:id="addPrix" maxWidth="-Infinity" promptText="Prix" />
-                                                <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Prix:" />
+                                                      <TextField fx:id="addPrix" maxWidth="-Infinity" promptText="Prix" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefHeight="75.0" prefWidth="75.0" text="Nombre en inventaire:" wrapText="true" />
+                                                      <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                   </children>
+                                                </HBox>
                                                 <Button fx:id="addAjouter" mnemonicParsing="false" onAction="#addItemListView" text="Ajouter">
                                                    <VBox.margin>
-                                                      <Insets left="45.0" />
+                                                      <Insets left="120.0" />
                                                    </VBox.margin>
                                                 </Button>
                                              </children>

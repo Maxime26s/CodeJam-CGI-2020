@@ -16,6 +16,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class Serveur {
     public static HashMap<String, ProduitEpicerie> hashMapEpicerie = new HashMap<>();
@@ -69,11 +70,12 @@ public class Serveur {
                     sortie.write(nom + "\n");
                     sortie.write(hashMapEpicerie.get(nom).produit.getCodeBar() + "\n");
                     sortie.write(hashMapEpicerie.get(nom).produit.getMesurePoids() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
                     sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
                     sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
                     sortie.close();
-                } else if(message.equals("addItem")){
+                }
+                else if(message.equals("addItem")){
                     String nom = entree.readLine();
                     if(!hashMapEpicerie.containsKey(nom)){
                         String code = entree.readLine();
@@ -97,6 +99,47 @@ public class Serveur {
                                 "ERREUR: LE PRODUIT EXISTE DÉJÀ \n");
                         sortie.close();
                     }
+                }
+                else if(message.equals("modItem")){
+                    String oldName = entree.readLine();
+                    String nom = entree.readLine();
+                    if(oldName.equals(nom)&&hashMapEpicerie.containsKey(nom)||!oldName.equals(nom)&&!hashMapEpicerie.containsKey(nom)){
+                        hashMapEpicerie.remove(oldName);
+                        String code = entree.readLine();
+                        String mesure = entree.readLine();
+                        String prix = entree.readLine();
+                        String owned = entree.readLine();
+                        String type = entree.readLine();
+                        String quantite = entree.readLine();
+                        if(quantite.equals("Rien"))
+                            quantite = "";
+                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
+                        OutputStream fluxSortant = socket.getOutputStream();
+                        OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                        sortie.write("blanc" + "\n" +
+                                "Le produit a été ajouté \n");
+                        sortie.close();
+                    } else {
+                        OutputStream fluxSortant = socket.getOutputStream();
+                        OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                        sortie.write("rouge" + "\n" +
+                                "ERREUR \n");
+                        sortie.close();
+                    }
+                }
+                else if(message.equals("reloadItems")){
+                    TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie);
+                    OutputStream fluxSortant = socket.getOutputStream();
+                    OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                    sortie.write(sorted.size() + "\n");
+                    sorted.forEach((k, v) -> {
+                        try{
+                            sortie.write(k + "\n");
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                    sortie.close();
                 }
                 entree.close();
                 socket.close();
