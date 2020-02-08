@@ -1,7 +1,7 @@
 package classes;
 
 public class ProduitInventaire {
-    Produit produit;
+    public Produit produit;
     float quantite;
     Mesures typeMesure;
 
