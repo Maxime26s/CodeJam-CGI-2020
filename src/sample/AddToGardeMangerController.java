@@ -6,10 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import classes.*;
 
@@ -28,6 +26,14 @@ public class AddToGardeMangerController {
     @FXML
     TextField qteTextField;
 
+    @FXML
+    TableView commandeTable;
+    @FXML
+    TableColumn colNom;
+    @FXML
+    TableColumn colQuantity;
+    @FXML
+    TableColumn colPrix;
     @FXML
     DatePicker datePicker;
 
@@ -59,6 +65,38 @@ public class AddToGardeMangerController {
             System.out.println("Aucun item sélectionné");
             System.out.println(e);
         }
+    }
+
+
+    public void addCommande()
+    {
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+        String produitPrix = "";
+
+
+        for (int i = 0; i < Main.gestionnaire.getProduitsDisponibles().size(); i++)
+        {
+            if (Main.gestionnaire.getProduitsDisponibles().get(i).getNom().contains(listView.getSelectionModel().toString()))
+            {
+                produitPrix = Main.gestionnaire.getProduitsDisponibles().get(i).getPrix();
+                break;
+            }
+            else
+            {
+                produitPrix = "ERROR";
+            }
+        }
+        ProduitTable produitTable = new ProduitTable(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString(),
+                qteTextField.getText().toString(),
+                produitPrix);
+        /*
+        commande.add(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString());
+        ObservableList<ProduitTable> observableList = FXCollections.observableArrayList(commande);
+        */
+
+        commandeTable.getItems().add(produitTable);
     }
 
     public void ajouterAuGardeManger(){
