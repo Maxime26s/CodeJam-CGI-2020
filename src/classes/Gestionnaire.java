@@ -7,10 +7,12 @@ import sample.*;
 public class Gestionnaire {
     private ArrayList<ProduitInventaire> inventaire;
     private ArrayList<Recette> recettes;
+    private ArrayList<Produit> produitsDisponibles;
 
     public Gestionnaire() {
         this.inventaire = new ArrayList<>();
         this.recettes = new ArrayList<>();
+        this.produitsDisponibles = new ArrayList<>();
     }
 
     public void checkExpiry() {
@@ -66,6 +68,14 @@ public class Gestionnaire {
 
     public void setRecettes(ArrayList<Recette> recettes) {
         this.recettes = recettes;
+    }
+
+    public ArrayList<Produit> getProduitsDisponibles() {
+        return produitsDisponibles;
+    }
+
+    public void setProduitsDisponibles(ArrayList<Produit> produitsDisponibles) {
+        this.produitsDisponibles = produitsDisponibles;
     }
 }
 
