@@ -24,8 +24,6 @@ import javafx.util.Duration;
 
 public class Controller {
 
-
-
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
     public Timeline timerLoop;
