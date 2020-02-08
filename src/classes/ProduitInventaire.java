@@ -4,12 +4,12 @@ package classes;
 public class ProduitInventaire {
     private Produit produit;
     private float quantite;
-    private Mesures typeMesure;
+    private String typeMesure;
     private DateExpiration dateExp;
     private boolean expire;
     private int joursExpiration;
 
-    public ProduitInventaire(Produit produit, float quantite, Mesures typeMesure, DateExpiration dateExp) {
+    public ProduitInventaire(Produit produit, float quantite, String typeMesure, DateExpiration dateExp) {
         this.produit = produit;
         this.quantite = quantite;
         this.typeMesure = typeMesure;
@@ -35,11 +35,11 @@ public class ProduitInventaire {
         this.quantite = quantite;
     }
 
-    public Mesures getTypeMesure() {
+    public String getTypeMesure() {
         return typeMesure;
     }
 
-    public void setTypeMesure(Mesures typeMesure) {
+    public void setTypeMesure(String typeMesure) {
         this.typeMesure = typeMesure;
     }
 
