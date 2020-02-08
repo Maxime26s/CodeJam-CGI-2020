@@ -144,14 +144,15 @@
                                                 </ScrollPane>
                                                 <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
                                                 <TextField fx:id="boiteRecherche" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refresh" text="Rafraichir" />
+                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerAliment" text="Supprimer" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </AnchorPane>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
                                        <children>
-                                          <Button layoutY="1.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
-                                          <DialogPane fx:id="affichageInfo" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="278.0" minWidth="-Infinity" prefHeight="278.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0" />
+                                          <DialogPane fx:id="affichageInfo" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="370.0" prefHeight="343.0" prefWidth="522.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -187,7 +188,7 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </ScrollPane>
-                                                <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
+                                                <Label text="Rechercher Ingrédient:" />
                                                 <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
                                              </children>
                                           </VBox>

@@ -19,7 +19,7 @@ public class Recette {
         int total = 0;
         for (ProduitInventaire produit:
              ingredients) {
-            total += produit.getQuantite()*produit.getProduit().getPrix();
+            total += produit.getQuantite()*Integer.parseInt(produit.getProduit().getPrix());
         }
         return total;
     }

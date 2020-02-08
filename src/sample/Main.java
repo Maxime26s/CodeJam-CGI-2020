@@ -22,11 +22,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
+        /*
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat poutine", "8378932", 10, 50, Mesures.LITRE));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat chicken", "8378932", 10, 50, Mesures.GRAMME));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat salade", "8378932", 10, 50, Mesures.CUILLERESOUPE));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat horace", "8378932", 10, 50, Mesures.LITRE));
+
+        */
         /*
         public ArrayList<ProduitInventaire> recetteObjet = new ArrayList<ProduitInventaire>(gestionnaire.getProduitsDisponibles().)
         gestionnaire.getRecettes().add(new Recette())
@@ -34,7 +36,7 @@ public class Main extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Cooking App");
         Scene mainScene = new Scene(root, 480, 400);
         mainScene.getRoot().setStyle("-fx-base:black");
         primaryStage.setScene(mainScene);
