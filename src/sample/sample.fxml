@@ -44,7 +44,7 @@
             </MenuBar>
             <TabPane prefHeight="442.0" prefWidth="644.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Ingrédient">
+                <Tab onSelectionChanged="#updatePerimes" text="Ingrédient">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -56,7 +56,10 @@
                                              <children>
                                                 <ScrollPane layoutX="19.6" layoutY="19.6" prefHeight="321.6" prefWidth="222.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <content>
-                                                    <AnchorPane />
+                                                    <AnchorPane>
+                                                         <children>
+                                                            <ListView fx:id="listApprochantPeremption" prefHeight="200.0" prefWidth="200.0" />
+                                                         </children></AnchorPane>
                                                   </content>
                                                 </ScrollPane>
                                              </children>
@@ -69,7 +72,10 @@
                                              <children>
                                                 <ScrollPane layoutX="19.6" layoutY="19.6" prefHeight="321.6" prefWidth="244.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <content>
-                                                      <AnchorPane />
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <ListView fx:id="listePerimes" prefHeight="200.0" prefWidth="200.0" />
+                                                         </children></AnchorPane>
                                                    </content>
                                                 </ScrollPane>
                                              </children>

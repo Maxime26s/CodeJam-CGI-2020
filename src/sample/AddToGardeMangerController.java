@@ -6,13 +6,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import classes.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AddToGardeMangerController {
 
@@ -24,6 +27,9 @@ public class AddToGardeMangerController {
 
     @FXML
     TextField qteTextField;
+
+    @FXML
+    DatePicker datePicker;
 
     public void openAddAlimentWindow()
     {
@@ -58,6 +64,7 @@ public class AddToGardeMangerController {
     public void ajouterAuGardeManger(){
         try{
             Produit itemSelected = Main.gestionnaire.getProduitsDisponibles().get(listView.getSelectionModel().getSelectedIndex());
+            LocalDate localDate = datePicker.getValue();
 
             boolean preexistant = false;
             for (ProduitInventaire produitInventaire:
@@ -65,18 +72,14 @@ public class AddToGardeMangerController {
                 if (produitInventaire.getProduit() == itemSelected){
                     preexistant = true;
                     produitInventaire.setQuantite(produitInventaire.getQuantite()+Float.parseFloat(qteTextField.getText()));
+                    produitInventaire.setDateExp(new DateExpiration(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
+                    produitInventaire.setExpire(false);
                 }
             }
             if (!preexistant){
                 Main.gestionnaire.getInventaire().add(new ProduitInventaire(itemSelected, Float.parseFloat(qteTextField.getText()),
-                        itemSelected.getMesureType(), new DateExpiration(2020, 3, 25)));
+                        itemSelected.getMesureType(), new DateExpiration(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth())));
             }
-
-/*
-            System.out.println(Main.gestionnaire.getInventaire().get(0).getProduit().getNom());
-            System.out.println(Main.gestionnaire.getInventaire().get(0).getQuantite());
-
- */
 
         }catch (Exception e){
             System.out.println(e);

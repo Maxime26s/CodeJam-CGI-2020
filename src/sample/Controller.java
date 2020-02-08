@@ -34,6 +34,12 @@ public class Controller {
     @FXML
     TextField boiteRecherche;
 
+    @FXML
+    ListView listApprochantPeremption;
+
+    @FXML
+    ListView listePerimes;
+
     public void refresh()
     {
         ArrayList<String> arrayGardeManger = new ArrayList<String>();
@@ -134,6 +140,43 @@ public class Controller {
         {
             e.printStackTrace();
         }
+    }
+
+    public void updatePerimes(){
+        ArrayList<ProduitInventaire> produitsPerimes = new ArrayList<>();
+        ArrayList<ProduitInventaire> produitsEnDanger = new ArrayList<>();
+
+        Main.gestionnaire.checkExpiry();
+        for (ProduitInventaire produit:
+             Main.gestionnaire.getInventaire()) {
+            if (produit.isExpire()){
+                produitsPerimes.add(produit);
+            }
+            else if (produit.getJoursExpiration() <= 3){
+                produitsEnDanger.add(produit);
+            }
+        }
+
+        ArrayList<String> produitsPerimesString = new ArrayList<>();
+        for (ProduitInventaire produit:
+                produitsPerimes) {
+            produitsPerimesString.add(produit.getProduit().getNom());
+        }
+
+        ObservableList<String> observableList1 = FXCollections.observableList(produitsPerimesString);
+        listePerimes.setItems(observableList1);
+
+        ArrayList<String> produitsEnDangerString = new ArrayList<>();
+        for (ProduitInventaire produit:
+                produitsEnDanger) {
+            produitsEnDangerString.add(produit.getProduit().getNom() + "   " +Integer.toString(produit.getJoursExpiration()));
+        }
+        ObservableList<String> observableList2 = FXCollections.observableList(produitsEnDangerString);
+        listApprochantPeremption.setItems(observableList2);
+    }
+
+    public void startTimer(){
+
     }
 
     public void openAddRecette()
