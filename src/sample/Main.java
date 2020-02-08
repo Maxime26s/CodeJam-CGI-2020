@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+
 public class Main extends Application {
 
     @Override
@@ -23,6 +25,10 @@ public class Main extends Application {
         primaryStage.setWidth(bounds.getWidth());
         primaryStage.setHeight(bounds.getHeight());
         primaryStage.show();
+    }
+
+    public static LocalDate getCurrentDate(){
+        return LocalDate.now();
     }
 
 

@@ -14,8 +14,8 @@ public class Controller {
 
     public void addProduit(){
         LocalDate date = LocalDate.now();
-        Produit produit = new Produit("nom", "1111", 10.50f, date, 10, Mesures.LITRE);
-        gestionnaire.inventaire.add(new ProduitInventaire(produit));
+        Produit produit = new Produit("nom", "1111", 10.50f, 10, Mesures.LITRE);
+        gestionnaire.getInventaire().add(new ProduitInventaire(produit));
     }
 
     public void addInventaire(){
