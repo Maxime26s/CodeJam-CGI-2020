@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Server {
+public class Serveur {
     public static HashMap<String, ProduitEpicerie> hashMapEpicerie;
     public static float revenu = 0;
 
