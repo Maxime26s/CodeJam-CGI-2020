@@ -1,10 +1,5 @@
 package classes;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ProduitInventaire {
     private Produit produit;
