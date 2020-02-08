@@ -141,13 +141,14 @@ public class Controller {
         try
         {
             Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("addToGardeManger.fxml"));
-            Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
+            Main.addToGardeMangerStage.setTitle("Que voulez-vous commander?");
             try
             {
                 Main.addToGardeMangerStage.initModality(Modality.APPLICATION_MODAL);
             }
             catch(Exception ignored) {}
-            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 480, 400));
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 695, 640));
+            Main.addToGardeMangerStage.setResizable(false);
             Main.addToGardeMangerStage.show();
         }
         catch(Exception e)

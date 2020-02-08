@@ -202,25 +202,6 @@ public class DistributeurController {
         erreur.setText(message);
     }
 
-    public static void sendData() {
-        try {
-            Socket socket = new Socket("127.0.0.1", 8080);
-
-            OutputStream fluxSortant = socket.getOutputStream();
-            OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
-            sortie.write("commande\n");
-            sortie.write(commande.size() + "\n");
-            for (int i = 0; i < commande.size(); i++) {
-                sortie.write(commande.get(i)[0] + "\n");
-                sortie.write(commande.get(i)[1] + "\n");
-                sortie.write(commande.get(i)[2] + "\n");
-            }
-            sortie.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void reloadItems(){
         try {
             Socket socket = new Socket("127.0.0.1", 8080);
@@ -235,7 +216,6 @@ public class DistributeurController {
             listView.getSelectionModel().clearSelection();
             listView.getItems().clear();
             String amount = entree.readLine();
-            String parts[] = new String[Integer.parseInt(amount)];
             for(int i = 0;i<Integer.parseInt(amount);i++){
                 listView.getItems().add(entree.readLine());
             }

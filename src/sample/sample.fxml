@@ -184,7 +184,7 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </ScrollPane>
-                                                <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
+                                                <Label text="Rechercher Ingrédient:" />
                                                 <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
                                              </children>
                                           </VBox>
