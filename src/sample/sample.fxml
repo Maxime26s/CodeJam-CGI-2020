@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="400.0" maxWidth="735.0" minHeight="400.0" minWidth="480.0" prefHeight="400.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="565.0" maxWidth="735.0" minHeight="400.0" minWidth="480.0" prefHeight="565.0" prefWidth="889.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <VBox prefHeight="403.0" prefWidth="470.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -37,6 +37,7 @@
                 <Menu mnemonicParsing="false" text="Add">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#openAddToGardeMangerWindow" text="Ajouter au Garde-Manger" />
+                        <MenuItem mnemonicParsing="false" onAction="#openAddRecette" text="Ajouter une Recette" />
                   </items>
                 </Menu>
               </menus>
@@ -108,21 +109,21 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <SplitPane dividerPositions="0.3577405857740586" prefHeight="344.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <SplitPane dividerPositions="0.2304964539007092" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <items>
                                   <AnchorPane>
                                        <children>
-                                          <VBox prefHeight="342.4" prefWidth="139.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <ScrollPane hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0">
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0">
                                                   <content>
-                                                    <AnchorPane prefHeight="266.0" prefWidth="166.0">
+                                                    <AnchorPane>
                                                          <children>
-                                                            <ScrollPane hbarPolicy="NEVER" prefHeight="266.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                                                            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                               <content>
-                                                                <AnchorPane prefHeight="267.0" prefWidth="166.0">
+                                                                <AnchorPane>
                                                                      <children>
-                                                                        <ListView fx:id="listeGardeManger" onMouseClicked="#showInfo" prefHeight="247.0" prefWidth="166.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ListView fx:id="listeGardeManger" onMouseClicked="#showInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                               </content>
@@ -132,7 +133,7 @@
                                                   </content>
                                                 </ScrollPane>
                                                 <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
-                                                <TextField fx:id="boiteRecherche" onAction="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
+                                                <TextField fx:id="boiteRecherche" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -140,7 +141,7 @@
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
                                        <children>
                                           <Button layoutY="1.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
-                                          <DialogPane fx:id="affichageInfo" headerText="Info:" layoutX="19.0" layoutY="44.0" prefHeight="374.0" prefWidth="410.0" />
+                                          <DialogPane fx:id="affichageInfo" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="278.0" minWidth="-Infinity" prefHeight="278.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0" />
                                        </children>
                                     </AnchorPane>
                                 </items>
@@ -148,6 +149,51 @@
                            </children>
                         </AnchorPane>
                     </content>
+                  </Tab>
+                  <Tab text="Livre Recette">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <SplitPane dividerPositions="0.2304964539007092" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <items>
+                                    <AnchorPane>
+                                       <children>
+                                          <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0">
+                                                   <content>
+                                                      <AnchorPane>
+                                                         <children>
+                                                            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <content>
+                                                                  <AnchorPane>
+                                                                     <children>
+                                                                        <ListView fx:id="listeGardeManger1" onMouseClicked="#showInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                     </children>
+                                                                  </AnchorPane>
+                                                               </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </ScrollPane>
+                                                <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
+                                                <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
+                                       <children>
+                                          <Button layoutY="1.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                                          <DialogPane fx:id="affichageInfo1" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="278.0" minWidth="-Infinity" prefHeight="278.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </items>
+                              </SplitPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
                   </Tab>
               </tabs>
             </TabPane>

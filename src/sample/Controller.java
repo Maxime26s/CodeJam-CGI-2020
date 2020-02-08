@@ -1,17 +1,10 @@
 package sample;
-import classes.Mesures;
-import classes.Produit;
 import classes.Gestionnaire;
-import classes.ProduitInventaire;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.net.Socket;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,10 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
-
-import javax.swing.text.html.ImageView;
 
 public class Controller {
 
@@ -51,34 +41,37 @@ public class Controller {
             arrayGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
         }
         ObservableList<String> observableList = FXCollections.observableArrayList(arrayGardeManger);
+        gestionnaire.checkExpiry();
         listeGardeManger.setItems(observableList);
     }
 
     public void resultatRecherche()
     {
-        ArrayList<String> arrayGardeManger = new ArrayList<String>();
+        ArrayList<String> rechercheGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
-            if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(boiteRecherche.getText()))
+            if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().toLowerCase().contains(boiteRecherche.getText().toLowerCase()))
             {
-            arrayGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
+            rechercheGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
             }
-            ObservableList<String> observableList = FXCollections.observableArrayList(arrayGardeManger);
-            listeGardeManger.setItems(observableList);
         }
+        ObservableList<String> observableList = FXCollections.observableArrayList(rechercheGardeManger);
+        listeGardeManger.setItems(observableList);
     }
 
     public void showInfo()
     {
-        String nomProduit = Main.gestionnaire.getInventaire().get(listeGardeManger.getSelectionModel().getSelectedIndex()).getProduit().getNom();
+        String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
         for(int i = 0; i < Main.gestionnaire.getInventaire().size(); i++)
         {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit))
             {
                 String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
-                        + "\t" +
+                        + "\n" +
                 "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
-                        + "\t" +
-                Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getTypeMesure().toString();
+                        + "\n" +
+                Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getTypeMesure().toString()
+                        + "\n" + "Jours avant expiration: " +
+                Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
                 affichageInfo.setContentText(infoBuffer);
             }
         }
@@ -128,6 +121,26 @@ public class Controller {
         try
         {
             Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("addToGardeManger.fxml"));
+            Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
+            try
+            {
+                Main.addToGardeMangerStage.initModality(Modality.APPLICATION_MODAL);
+            }
+            catch(Exception ignored) {}
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 480, 400));
+            Main.addToGardeMangerStage.show();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void openAddRecette()
+    {
+        try
+        {
+            Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("AddRecette.fxml"));
             Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
             try
             {

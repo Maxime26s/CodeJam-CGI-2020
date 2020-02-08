@@ -1,8 +1,6 @@
 package sample;
 
-import classes.Gestionnaire;
-import classes.Mesures;
-import classes.Produit;
+import classes.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -14,6 +12,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main extends Application {
     public static Stage alimentStage = new Stage();
@@ -28,7 +27,10 @@ public class Main extends Application {
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat chicken", "8378932", 10, 50, Mesures.GRAMME));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat salade", "8378932", 10, 50, Mesures.CUILLERESOUPE));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat horace", "8378932", 10, 50, Mesures.LITRE));
-
+        /*
+        public ArrayList<ProduitInventaire> recetteObjet = new ArrayList<ProduitInventaire>(gestionnaire.getProduitsDisponibles().)
+        gestionnaire.getRecettes().add(new Recette())
+         */
 
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
