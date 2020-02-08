@@ -62,7 +62,7 @@ public class Serveur {
                     sortie.close();
                     save(parts,"Envoie");
                     System.out.println("Commande terminé");
-                    saveInventory();
+                    //saveInventory();
                 } else if(message.equals("findByName")){
                     String nom = entree.readLine();
                     OutputStream fluxSortant = socket.getOutputStream();
@@ -119,6 +119,7 @@ public class Serveur {
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
                         sortie.close();
+                        //saveInventory();
                     } else {
                         OutputStream fluxSortant = socket.getOutputStream();
                         OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
@@ -141,6 +142,11 @@ public class Serveur {
                     });
                     sortie.close();
                 }
+                else if(message.equals("supItem")){
+                    String toDelete = entree.readLine();
+                    hashMapEpicerie.remove(toDelete);
+                }
+
                 entree.close();
                 socket.close();
                 serveur.close();
@@ -148,6 +154,7 @@ public class Serveur {
                 e.printStackTrace();
                 System.out.println("ERREUR: Le client n'a pas pu se connecter");
             }
+            saveInventory();
         }
     }
 
@@ -156,7 +163,7 @@ public class Serveur {
             ObjectOutputStream sortie = new ObjectOutputStream(
                     new BufferedOutputStream(
                             new FileOutputStream("inventaireEpicerie.dat")));
-            sortie.writeObject(revenu);
+            sortie.writeFloat(revenu);
             sortie.writeObject(hashMapEpicerie);
             sortie.close();
         } catch (IOException e) {
@@ -170,7 +177,7 @@ public class Serveur {
                     new BufferedInputStream(
                             new FileInputStream("inventaireEpicerie.dat")));
             try {
-                revenu = entree.readInt();
+                revenu = entree.readFloat();
                 hashMapEpicerie = (HashMap<String, ProduitEpicerie>) entree.readObject();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
