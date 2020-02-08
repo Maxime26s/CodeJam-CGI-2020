@@ -72,14 +72,17 @@ public class AddToGardeMangerController {
                         itemSelected.getMesureType(), new DateExpiration(2020, 3, 25)));
             }
 
-            /*
+/*
             System.out.println(Main.gestionnaire.getInventaire().get(0).getProduit().getNom());
             System.out.println(Main.gestionnaire.getInventaire().get(0).getQuantite());
-             */
+
+ */
+
         }catch (Exception e){
             System.out.println(e);
         }
     }
+
 
     public void updateListView(){
         ArrayList<String> nomsAlimentsDispos = new ArrayList<>();
