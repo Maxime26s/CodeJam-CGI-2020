@@ -23,13 +23,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        /*
+
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat poutine", "8378932", 10, 50, Mesures.LITRE));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat chicken", "8378932", 10, 50, Mesures.GRAMME));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat salade", "8378932", 10, 50, Mesures.CUILLERESOUPE));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat horace", "8378932", 10, 50, Mesures.LITRE));
 
-         */
+
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
