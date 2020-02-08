@@ -24,7 +24,6 @@ public class Main extends Application {
         mainScene.getRoot().setStyle("-fx-base:black");
         primaryStage.setScene(mainScene);
         mainScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
-        primaryStage.setScene(new Scene(root, 300, 275));
         Screen screen = Screen.getPrimary();
         Rectangle2D bounds = screen.getVisualBounds();
 

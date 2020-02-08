@@ -26,9 +26,9 @@ public class Server {
         while(true) {
             try {
                 ServerSocket serveur = new ServerSocket(8080);
-
+                System.out.println("Waiting...");
                 Socket socket = serveur.accept();
-
+                System.out.println("Found!");
                 InputStream fluxEntrant = socket.getInputStream();
                 BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
                 String message = entree.readLine();

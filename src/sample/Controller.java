@@ -19,25 +19,7 @@ import javafx.stage.Modality;
 
 public class Controller {
 
-    public void openAddToGardeMangerWindow()
-    {
-        try
-        {
-            Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("addToGardeManger.fxml"));
-            Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
-            try
-            {
-                Main.addToGardeMangerStage.initModality(Modality.APPLICATION_MODAL);
-            }
-            catch(Exception ignored) {}
-            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 480, 400));
-            Main.addToGardeMangerStage.show();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
+
 
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
@@ -75,6 +57,26 @@ public class Controller {
             }
             sortie.close();
         } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void openAddToGardeMangerWindow()
+    {
+        try
+        {
+            Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("addToGardeManger.fxml"));
+            Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
+            try
+            {
+                Main.addToGardeMangerStage.initModality(Modality.APPLICATION_MODAL);
+            }
+            catch(Exception ignored) {}
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 480, 400));
+            Main.addToGardeMangerStage.show();
+        }
+        catch(Exception e)
+        {
             e.printStackTrace();
         }
     }
