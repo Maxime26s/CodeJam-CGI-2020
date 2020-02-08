@@ -1,3 +1,8 @@
+package classes;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Produit {
@@ -6,13 +11,15 @@ public class Produit {
     private float prix;
     private Date dateExp;
     private int mesurePoids;
-    private String mesureType;
+    private Mesures mesureType;
 
-    public Produit(String nom, String codeBar, float prix, Date dateExp, int mesurePoids, String mesureType) {
+    public Produit(String nom, String codeBar, float prix, LocalDate dateExp, int mesurePoids, Mesures mesureType) {
         this.nom = nom;
         this.codeBar = codeBar;
         this.prix = prix;
-        this.dateExp = dateExp;
+        this.dateExp = java.util.Date.from(dateExp.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());;
         this.mesurePoids = mesurePoids;
         this.mesureType = mesureType;
     }
@@ -57,11 +64,11 @@ public class Produit {
         this.mesurePoids = mesurePoids;
     }
 
-    public String getMesureType() {
+    public Mesures getMesureType() {
         return mesureType;
     }
 
-    public void setMesureType(String mesureType) {
+    public void setMesureType(Mesures mesureType) {
         this.mesureType = mesureType;
     }
 }
