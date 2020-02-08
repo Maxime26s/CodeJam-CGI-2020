@@ -33,7 +33,6 @@ public class Gestionnaire {
         }
     }
 
-
     public void retirerIngredients(Recette p_recette, ArrayList<ProduitInventaire> p_inventaire){
         for (ProduitInventaire ingredientRequis:
              p_recette.getIngredientsRequis()) {

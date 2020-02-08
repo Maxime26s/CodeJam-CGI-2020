@@ -8,16 +8,18 @@ import java.util.Date;
 public class Produit {
     private String nom;
     private String codeBar;
-    private float prix;
-    private int mesurePoids;
-    private Mesures mesureType;
+    private String prix;
+    private String mesurePoids;
+    private String mesureType;
+    private String quantite;
 
-    public Produit(String nom, String codeBar, float prix, int mesurePoids, Mesures mesureType) {
+    public Produit(String nom, String codeBar, String prix, String mesurePoids, String mesureType, String quantite) {
         this.nom = nom;
         this.codeBar = codeBar;
         this.prix = prix;
         this.mesurePoids = mesurePoids;
         this.mesureType = mesureType;
+        this.quantite = quantite;
     }
 
     public String getNom() {
@@ -36,27 +38,35 @@ public class Produit {
         this.codeBar = codeBar;
     }
 
-    public float getPrix() {
+    public String getPrix() {
         return prix;
     }
 
-    public void setPrix(float prix) {
+    public void setPrix(String prix) {
         this.prix = prix;
     }
 
-    public int getMesurePoids() {
+    public String getMesurePoids() {
         return mesurePoids;
     }
 
-    public void setMesurePoids(int mesurePoids) {
+    public void setMesurePoids(String mesurePoids) {
         this.mesurePoids = mesurePoids;
     }
 
-    public Mesures getMesureType() {
+    public String getMesureType() {
         return mesureType;
     }
 
-    public void setMesureType(Mesures mesureType) {
+    public void setMesureType(String mesureType) {
         this.mesureType = mesureType;
+    }
+
+    public String getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(String quantite) {
+        this.quantite = quantite;
     }
 }

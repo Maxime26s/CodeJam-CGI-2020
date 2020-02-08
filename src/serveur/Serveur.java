@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Serveur {
-    public static HashMap<String, ProduitEpicerie> hashMapEpicerie;
+    public static HashMap<String, ProduitEpicerie> hashMapEpicerie = new HashMap<>();
     public static float revenu = 0;
 
     public static void main(String[] args) {
@@ -54,18 +54,55 @@ public class Serveur {
                             sortie.write(envoie[i+1] + "\n");
                             hashMapEpicerie.get(parts[i]).quantite = 0;
                         }
-                        envoie[i+2]=Float.toString(hashMapEpicerie.get(parts[i]).produit.getPrix()*Integer.parseInt(envoie[i+1]));
+                        envoie[i+2]=Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i]).produit.getPrix())*Integer.parseInt(envoie[i+1]));
                         sortie.write(envoie[i+2] + "\n");
                         revenu+=Float.parseFloat(envoie[i+2]);
                     }
+                    sortie.close();
                     save(parts,"Envoie");
                     System.out.println("Commande terminé");
                     saveInventory();
+                } else if(message.equals("findByName")){
+                    String nom = entree.readLine();
+                    OutputStream fluxSortant = socket.getOutputStream();
+                    OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                    sortie.write(nom + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getCodeBar() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getMesurePoids() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
+                    sortie.close();
+                } else if(message.equals("addItem")){
+                    String nom = entree.readLine();
+                    if(!hashMapEpicerie.containsKey(nom)){
+                        String code = entree.readLine();
+                        String mesure = entree.readLine();
+                        String prix = entree.readLine();
+                        String owned = entree.readLine();
+                        String type = entree.readLine();
+                        String quantite = entree.readLine();
+                        if(quantite.equals("Rien"))
+                            quantite = "";
+                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
+                        OutputStream fluxSortant = socket.getOutputStream();
+                        OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                        sortie.write("blanc" + "\n" +
+                                "Le produit a été ajouté \n");
+                        sortie.close();
+                    } else {
+                        OutputStream fluxSortant = socket.getOutputStream();
+                        OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                        sortie.write("rouge" + "\n" +
+                                "ERREUR: LE PRODUIT EXISTE DÉJÀ \n");
+                        sortie.close();
+                    }
                 }
                 entree.close();
                 socket.close();
                 serveur.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("ERREUR: Le client n'a pas pu se connecter");
             }
         }

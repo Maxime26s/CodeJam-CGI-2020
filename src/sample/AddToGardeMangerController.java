@@ -48,7 +48,7 @@ public class AddToGardeMangerController {
     public void checkUniteMesure(){
         try{
             Produit itemSelected = Main.gestionnaire.getProduitsDisponibles().get(listView.getSelectionModel().getSelectedIndex());
-            labelUnite.setText(itemSelected.getMesureType().displayName);
+            labelUnite.setText(itemSelected.getMesureType());
         }catch (Exception e){
             System.out.println("Aucun item sélectionné");
             System.out.println(e);

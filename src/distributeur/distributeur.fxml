@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="distributeur.DistributeurController">
@@ -60,26 +66,100 @@
               <items>
                   <ScrollPane fitToHeight="true" fitToWidth="true">
                      <content>
-                        <ListView fx:id="listView" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="171.0" />
+                        <ListView fx:id="listView" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#loadProduit" prefWidth="171.0" />
                      </content>
                   </ScrollPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
                         <TabPane prefHeight="372.8" prefWidth="445.6" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Produit selectionné">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </Tab>
-                            <Tab text="Ajout d'un produit">
+                            <Tab text="Modifier un produit">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Button layoutX="150.0" layoutY="159.0" mnemonicParsing="false" onAction="#addItemListView" text="Add!" />
+                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                             <children>
+                                                <TextField fx:id="modNom" maxWidth="-Infinity" promptText="Nom" />
+                                                <TextField fx:id="modCode" maxWidth="-Infinity" promptText="Code Bar" />
+                                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="498.0" spacing="20.0">
+                                                   <children>
+                                                      <TextField fx:id="modMes" maxWidth="-Infinity" promptText="Mesure" />
+                                                      <VBox spacing="10.0">
+                                                         <children>
+                                                            <RadioButton fx:id="modG" mnemonicParsing="false" text="Gramme">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="modType" />
+                                                               </toggleGroup></RadioButton>
+                                                            <RadioButton fx:id="modL" mnemonicParsing="false" text="Litre" toggleGroup="$modType" />
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                      <RadioButton fx:id="modMili" mnemonicParsing="false" text="Mili">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="modQuantity" />
+                                                         </toggleGroup></RadioButton>
+                                                      <RadioButton fx:id="modRien" mnemonicParsing="false" text="----" toggleGroup="$modQuantity" />
+                                                      <RadioButton fx:id="modKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$modQuantity" />
+                                                   </children>
+                                                </HBox>
+                                                <TextField fx:id="modPrix" maxWidth="-Infinity" promptText="Prix" />
+                                                <TextField fx:id="modInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                <Button fx:id="modUpdate" mnemonicParsing="false" text="Mettre à Jour">
+                                                   <VBox.margin>
+                                                      <Insets left="25.0" />
+                                                   </VBox.margin>
+                                                </Button>
+                                             </children>
+                                          </VBox>
                                        </children></AnchorPane>
                               </content>
                             </Tab>
+                              <Tab fx:id="addProduit" text="Ajout d'un produit">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                             <children>
+                                                <TextField fx:id="addNom" maxWidth="-Infinity" promptText="Nom" />
+                                                <TextField fx:id="addCode" maxWidth="-Infinity" promptText="Code Bar" />
+                                                <HBox alignment="CENTER_LEFT" prefHeight="18.0" prefWidth="498.0" spacing="20.0">
+                                                   <children>
+                                                      <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure" />
+                                                      <VBox spacing="10.0">
+                                                         <children>
+                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="addType" />
+                                                               </toggleGroup></RadioButton>
+                                                            <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre" toggleGroup="$addType" />
+                                                         </children>
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </VBox>
+                                                      <RadioButton fx:id="addMili" mnemonicParsing="false" text="Mili">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="addQuantity" />
+                                                         </toggleGroup></RadioButton>
+                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----" toggleGroup="$addQuantity" />
+                                                      <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
+                                                   </children>
+                                                </HBox>
+                                                <TextField fx:id="addPrix" maxWidth="-Infinity" promptText="Prix" />
+                                                <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                <Button fx:id="addAjouter" mnemonicParsing="false" onAction="#addItemListView" text="Ajouter">
+                                                   <VBox.margin>
+                                                      <Insets left="45.0" />
+                                                   </VBox.margin>
+                                                </Button>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
                           </tabs>
                         </TabPane>
                      </children>
@@ -88,5 +168,6 @@
             </SplitPane>
          </children>
     </AnchorPane>
+      <Label fx:id="erreur" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" />
   </children>
 </VBox>
