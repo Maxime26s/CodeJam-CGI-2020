@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="245.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddAlimentController">
+   <children>
+      <HBox layoutX="14.0" layoutY="14.0" prefHeight="183.0" prefWidth="350.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="183.0" prefWidth="103.0" spacing="8.5">
+               <children>
+                  <Label text="Nom" />
+                  <Label layoutX="10.0" layoutY="10.0" text="CodeBarre" />
+                  <Label layoutX="10.0" layoutY="28.0" text="Prix" />
+                  <Label layoutX="10.0" layoutY="28.0" text="Date" />
+                  <Label layoutX="10.0" layoutY="45.0" text="Poids" />
+                  <Label layoutX="10.0" layoutY="45.0" text="Mesure" />
+                  <Label layoutX="10.0" layoutY="45.0" text="Super les amis" />
+               </children>
+            </VBox>
+            <VBox prefHeight="183.0" prefWidth="251.0">
+               <children>
+                  <TextField />
+                  <TextField />
+                  <TextField />
+                  <DatePicker />
+                  <TextField />
+                  <ComboBox prefWidth="150.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <Button layoutX="227.0" layoutY="205.0" mnemonicParsing="false" onAction="#close" text="Ajouter Aliment" />
+   </children>
+</AnchorPane>

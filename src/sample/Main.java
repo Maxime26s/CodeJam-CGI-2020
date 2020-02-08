@@ -4,16 +4,24 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
-
+    public static Stage alimentStage = new Stage();
+    public static Stage addToGardeMangerStage = new Stage();
+    public static Parent alimentParent;
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene mainScene = new Scene(root, 480, 400);
+        mainScene.getRoot().setStyle("-fx-base:black");
+        primaryStage.setScene(mainScene);
+        mainScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
         primaryStage.show();
+
     }
 
 
