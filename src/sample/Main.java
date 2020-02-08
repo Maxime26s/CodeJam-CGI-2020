@@ -1,5 +1,8 @@
 package sample;
 
+import classes.Gestionnaire;
+import classes.Mesures;
+import classes.Produit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -16,8 +19,18 @@ public class Main extends Application {
     public static Stage alimentStage = new Stage();
     public static Stage addToGardeMangerStage = new Stage();
     public static Parent alimentParent;
+    public static Gestionnaire gestionnaire = new Gestionnaire();
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        /*
+        gestionnaire.getProduitsDisponibles().add(new Produit("Fat poutine", "8378932", 10, 50, Mesures.LITRE));
+        gestionnaire.getProduitsDisponibles().add(new Produit("Fat chicken", "8378932", 10, 50, Mesures.GRAMME));
+        gestionnaire.getProduitsDisponibles().add(new Produit("Fat salade", "8378932", 10, 50, Mesures.CUILLERESOUPE));
+        gestionnaire.getProduitsDisponibles().add(new Produit("Fat horace", "8378932", 10, 50, Mesures.LITRE));
+
+         */
+
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         Scene mainScene = new Scene(root, 480, 400);
