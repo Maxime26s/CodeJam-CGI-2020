@@ -2,11 +2,15 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.time.LocalDate;
 
 public class Main extends Application {
     public static Stage alimentStage = new Stage();
@@ -20,6 +24,14 @@ public class Main extends Application {
         mainScene.getRoot().setStyle("-fx-base:black");
         primaryStage.setScene(mainScene);
         mainScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
+        primaryStage.setScene(new Scene(root, 300, 275));
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
         primaryStage.show();
 
     }
