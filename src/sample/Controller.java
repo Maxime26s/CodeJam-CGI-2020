@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import classes.ProduitInventaire;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class Controller {
             arrayGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
         }
         ObservableList<String> observableList = FXCollections.observableArrayList(arrayGardeManger);
-        gestionnaire.checkExpiry();
+        Main.gestionnaire.checkExpiry();
         listeGardeManger.setItems(observableList);
     }
 
