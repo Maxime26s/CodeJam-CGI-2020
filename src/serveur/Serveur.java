@@ -62,11 +62,12 @@ public class Serveur {
             switch(message){
                 case "commande":
                     int nbCommande = Integer.parseInt(entree.readLine());
-                    String parts[] = new String[nbCommande*3];
+                    String[] parts = new String[nbCommande*3];
                     for(int i=0;i<parts.length;i++)
                         parts[i] = entree.readLine();
                     save(parts,"Commande");
-                    String envoie[] = new String[nbCommande*3];
+                    String[] envoie = new String[nbCommande*3];
+                    sortie.write(nbCommande+"\n");
                     for(int i=0;i<nbCommande;i++){
                         sortie.write(parts[i] + "\n");
                         envoie[i]=parts[i];
@@ -80,7 +81,6 @@ public class Serveur {
                             hashMapEpicerie.get(parts[i]).quantite = 0;
                         }
                         envoie[i+2]=Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i]).produit.getPrix())*Integer.parseInt(envoie[i+1]));
-                        sortie.write(envoie[i+2] + "\n");
                         revenu+=Float.parseFloat(envoie[i+2]);
                     }
                     sortie.close();

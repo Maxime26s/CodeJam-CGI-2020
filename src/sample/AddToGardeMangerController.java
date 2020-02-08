@@ -13,6 +13,7 @@ import classes.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,33 +77,28 @@ public class AddToGardeMangerController {
 
     public void addCommande()
     {
-        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-        colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        String produitPrix = "";
+        if(!qteTextField.getText().isEmpty()&&Integer.parseInt(qteTextField.getText())>0){
+            colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+            colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+            colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
+            String produitPrix = "";
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            for (int i = 0; i < Main.gestionnaire.getProduitsDisponibles().size(); i++)
+            {
+                if (Main.gestionnaire.getProduitsDisponibles().get(i).getNom().equals(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString()))
+                {
 
 
-        for (int i = 0; i < Main.gestionnaire.getProduitsDisponibles().size(); i++)
-        {
-            if (Main.gestionnaire.getProduitsDisponibles().get(i).getNom().contains(listView.getSelectionModel().toString()))
-            {
-                produitPrix = Main.gestionnaire.getProduitsDisponibles().get(i).getPrix();
-                break;
+                    produitPrix = df.format(Float.parseFloat(Main.gestionnaire.getProduitsDisponibles().get(i).getPrix())*Integer.parseInt(qteTextField.getText()));
+                    break;
+                }
             }
-            else
-            {
-                produitPrix = "ERROR";
-            }
+            ProduitTable produitTable = new ProduitTable(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString(),
+                    qteTextField.getText().toString(),
+                    produitPrix);
+            commandeTable.getItems().add(produitTable);
         }
-        ProduitTable produitTable = new ProduitTable(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString(),
-                qteTextField.getText().toString(),
-                produitPrix);
-        /*
-        commande.add(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString());
-        ObservableList<ProduitTable> observableList = FXCollections.observableArrayList(commande);
-        */
-
-        commandeTable.getItems().add(produitTable);
     }
 
     public void ajouterAuGardeManger(){
@@ -127,6 +123,54 @@ public class AddToGardeMangerController {
 
         }catch (Exception e){
             System.out.println(e);
+        }
+    }
+
+    public void commander(){
+        try {
+            Socket socket = new Socket("127.0.0.1", 8080);
+
+            OutputStream fluxSortant = socket.getOutputStream();
+            OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            ObservableList items = commandeTable.getItems();
+            sortie.write("client\n");
+            sortie.write("commande\n");
+            sortie.write(items.size()+"\n");
+            for(int i=0; i<items.size();i++){
+                sortie.write(((ProduitTable)items.get(i)).getNom()+"\n"+
+                        ((ProduitTable)items.get(i)).getQuantity()+"\n"+
+                        ((ProduitTable)items.get(i)).getPrix()+"\n");
+            }
+            sortie.flush();
+
+            InputStream fluxEntrant = socket.getInputStream();
+            BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
+            String amount = entree.readLine();
+            for(int i = 0;i<Integer.parseInt(amount);i++){
+                String nom= entree.readLine();
+                String quantity = entree.readLine();
+                boolean found=false;
+                for(int j=0;j<Main.gestionnaire.getInventaire().size();i++)
+                    if(Main.gestionnaire.getInventaire().get(j).getProduit().getNom().equals(nom)){
+                        Main.gestionnaire.getInventaire().get(j).setQuantite(Main.gestionnaire.getInventaire().get(j).getQuantite()+Integer.parseInt(quantity));
+                        found=true;
+                        break;
+                    }
+
+                if(!found){
+                    for(int j=0;j<Main.gestionnaire.getProduitsDisponibles().size();j++){
+                        if(Main.gestionnaire.getProduitsDisponibles().get(j).getNom().equals(nom)){
+                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity),"",new DateExpiration(2050,05,01)));
+                                    break;
+                        }
+                    }
+                }
+
+            }
+            sortie.close();
+            entree.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
