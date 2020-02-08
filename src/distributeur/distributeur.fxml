@@ -133,6 +133,7 @@
                                                    <children>
                                                       <Button fx:id="modUpdate" mnemonicParsing="false" onAction="#modItemListView" text="Mettre à Jour" />
                                                       <Label fx:id="oldName" />
+                                                      <Button fx:id="modSup" mnemonicParsing="false" onAction="#modSupItem" text="Supprimer" />
                                                    </children>
                                                    <padding>
                                                       <Insets left="100.0" />
@@ -164,32 +165,24 @@
                                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                                    <children>
                                                       <Label prefWidth="75.0" text="Mesure:" />
-                                                      <TextField fx:id="addMes1" maxWidth="-Infinity" promptText="Mesure" />
+                                                      <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure" />
                                                       <VBox spacing="10.0">
                                                          <children>
-                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme" />
-                                                            <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre">
+                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme">
                                                                <toggleGroup>
-                                                                  <ToggleGroup fx:id="addType1" />
+                                                                  <ToggleGroup fx:id="addType" />
                                                                </toggleGroup>
                                                             </RadioButton>
+                                                            <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre" toggleGroup="$addType" />
                                                          </children>
                                                       </VBox>
                                                       <RadioButton fx:id="addMili" mnemonicParsing="false" text="Mili">
                                                          <toggleGroup>
-                                                            <ToggleGroup fx:id="addQuantity1" />
+                                                            <ToggleGroup fx:id="addQuantity" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----">
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="addQuantity1" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo">
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="addQuantity1" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
+                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----" toggleGroup="$addQuantity" />
+                                                      <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
                                                    </children>
                                                 </HBox>
                                                 <HBox alignment="CENTER_LEFT" spacing="20.0">

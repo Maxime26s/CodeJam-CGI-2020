@@ -1,11 +1,12 @@
 package classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Produit {
+public class Produit implements Serializable {
     private String nom;
     private String codeBar;
     private String prix;

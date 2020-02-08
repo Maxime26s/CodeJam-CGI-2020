@@ -3,7 +3,9 @@ package serveur;
 import classes.Mesures;
 import classes.Produit;
 
-public class ProduitEpicerie {
+import java.io.Serializable;
+
+public class ProduitEpicerie implements Serializable {
     Produit produit;
     int quantite;
 

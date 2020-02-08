@@ -46,6 +46,11 @@ public class DistributeurController {
     @FXML
     private Label erreur, oldName;
 
+    @FXML
+    public void initialize() {
+        reloadItems();
+    }
+
     public void addItemListView(){
         if(!addNom.getText().isEmpty()&&!addCode.getText().isEmpty()&&!addMes.getText().isEmpty()&& !addPrix.getText().isEmpty()
                 &&!addInventaire.getText().isEmpty()&&addType.getSelectedToggle().isSelected()&&addQuantity.getSelectedToggle().isSelected()){
@@ -157,7 +162,7 @@ public class DistributeurController {
             sortie.write("findByName\n");
             sortie.write(listView.getSelectionModel().getSelectedItem()+"\n");
             sortie.flush();
-            oldName.setText("Objet à modifier: " + listView.getSelectionModel().getSelectedItem());
+            oldName.setText(listView.getSelectionModel().getSelectedItem().toString());
             InputStream fluxEntrant = socket.getInputStream();
             BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
             modNom.setText(entree.readLine());
@@ -238,6 +243,23 @@ public class DistributeurController {
             String message = entree.readLine();
             sortie.close();
             entree.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void modSupItem(){
+        try {
+            Socket socket = new Socket("127.0.0.1", 8080);
+
+            OutputStream fluxSortant = socket.getOutputStream();
+            OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            sortie.write("supItem\n");
+            sortie.write(oldName.getText()+"\n");
+            sortie.flush();
+            sortie.close();
+
+            reloadItems();
         } catch (Exception e) {
             e.printStackTrace();
         }
