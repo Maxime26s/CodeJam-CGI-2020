@@ -34,7 +34,7 @@ public class Main extends Application {
 
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Cooking App");
         Scene mainScene = new Scene(root, 480, 400);
         mainScene.getRoot().setStyle("-fx-base:black");
         primaryStage.setScene(mainScene);

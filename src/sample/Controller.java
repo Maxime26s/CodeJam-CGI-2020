@@ -52,6 +52,19 @@ public class Controller {
         listeGardeManger.setItems(observableList);
     }
 
+    public void supprimerAliment()
+    {
+        try
+        {
+            Main.gestionnaire.getInventaire().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
+            refresh();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Aucun aliment selectionné");
+        }
+    }
+
     public void resultatRecherche()
     {
         ArrayList<String> rechercheGardeManger = new ArrayList<String>();
