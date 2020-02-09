@@ -160,16 +160,43 @@ public class Controller {
     public void showInfo() {
         try
         {
+            String expiration = "";
+
             String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
             for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
+                if (Main.gestionnaire.getInventaire().get(i).getJoursExpiration() > 0)
+                {
+                    expiration = Main.gestionnaire.getInventaire().get(i).getJoursExpiration() + " Jours avant expiration.";
+                }
+                else
+                {
+                    expiration = "Expiré depuis " + -Main.gestionnaire.getInventaire().get(i).getJoursExpiration() + " Jours";
+                }
                 if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
+                    String day;
+                    String month;
+                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() < 10)
+                    {
+                        day = "0" + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay();
+                    }
+                    else
+                    {
+                        day = Integer.toString(Main.gestionnaire.getInventaire().get(i).getDateExp().getDay());
+                    }
+                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() < 10)
+                    {
+                        month = "0" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth();
+                    }
+                    else
+                    {
+                        month = Integer.toString(Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth());
+                    }
                     String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
                             + "\n-------------------\n" +
-                            "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
+                            "Expiration: " + day + "-" + month + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
                             + "\n" +
                             Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
-                            + "\n" + "Jours avant expiration: " +
-                            Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
+                            + "\n" + expiration;
                     affichageInfo.setText(infoBuffer);
                 }
             }
@@ -410,6 +437,7 @@ public class Controller {
         String[] timeArray = {"pendant 5 minutes", "jusqu'à texture uniforme", "à souhait", "jusqu'à ébullition", "jusqu'à ce que le mélange épaississe", "généreusement"};
         String[] containerArray = {"dans un bol", "dans une assiette", "dans une chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
         ArrayList<ProduitInventaire> gardemanger = Main.gestionnaire.getInventaire();
+        String nomRecette = "";
         String finalrecette = "";
         int[] quantite = new int[gardemanger.size()];
         for (int i = 0; i < gardemanger.size(); i++) {
@@ -440,7 +468,7 @@ public class Controller {
             int containerint = rand.nextInt(containerArray.length);
             finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
         }
-        recetteAleatoire.setText("Recette Aléatoire:\n\n" + finalrecette);
+
         String[] ingredients = {"agneau", "boeuf", "dinde", "fruit de mer", "gibier", "légumineuses", "oeufs", "oie", "pintade", "volaille", "orge", "quinoa", "poisson", "porc", "poulet", "riz", "tofu", "soya", "veau"};
         String[] debuts = {"bol de", "bol de riz au", "mijoté de", "pilon de", "pizza au", "pâte au", "fondue au", "macaroni au", "poulet grillé au", "pain doré au", "granola au", "tofu au", "gauffres au", "bacon au"};
         Random rand = new Random();
@@ -449,10 +477,11 @@ public class Controller {
         int debutsint = rand.nextInt(debuts.length);
         int auint = rand.nextInt(2);
         if (auint == 1) {
-            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint]);
+            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint];
         } else {
-            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2]);
+            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2];
         }
+        recetteAleatoire.setText("Recette Aléatoire:\n\n" + nomRecette + "\n-----------------\n" + finalrecette);
     }
 
     public void chooseDistributeur() {
