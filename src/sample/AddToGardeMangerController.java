@@ -46,51 +46,44 @@ public class AddToGardeMangerController {
     }
 
     public void openAddAlimentWindow() {
-        try
-        {
+        try {
             Parent alimentScene = FXMLLoader.load(getClass().getResource("addAliment.fxml"));
             Main.alimentStage.setTitle("Enter yer aliment por favor");
-            try
-            {
+            try {
                 Main.alimentStage.initModality(Modality.APPLICATION_MODAL);
+            } catch (Exception ignored) {
             }
-            catch(Exception ignored) {}
             Main.alimentStage.setScene(new Scene(alimentScene, 480, 400));
             Main.alimentStage.show();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void checkUniteMesure(){
-        try{
+    public void checkUniteMesure() {
+        try {
             Produit itemSelected = Main.gestionnaire.getProduitsDisponibles().get(listView.getSelectionModel().getSelectedIndex());
             labelUnite.setText(itemSelected.getMesureType());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Aucun item sélectionné");
             System.out.println(e);
         }
     }
 
 
-    public void addCommande()
-    {
-        if(!qteTextField.getText().isEmpty()&&Integer.parseInt(qteTextField.getText())>0){
+    public void addCommande() {
+        if (!qteTextField.getText().isEmpty() && Integer.parseInt(qteTextField.getText()) > 0) {
             colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
             colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
             colPrix.setCellValueFactory(new PropertyValueFactory<>("prix"));
             String produitPrix = "";
 
             DecimalFormat df = new DecimalFormat("#.##");
-            for (int i = 0; i < Main.gestionnaire.getProduitsDisponibles().size(); i++)
-            {
-                if (Main.gestionnaire.getProduitsDisponibles().get(i).getNom().equals(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString()))
-                {
+            for (int i = 0; i < Main.gestionnaire.getProduitsDisponibles().size(); i++) {
+                if (Main.gestionnaire.getProduitsDisponibles().get(i).getNom().equals(listView.getItems().get(listView.getSelectionModel().getSelectedIndex()).toString())) {
 
 
-                    produitPrix = df.format(Float.parseFloat(Main.gestionnaire.getProduitsDisponibles().get(i).getPrix())*Integer.parseInt(qteTextField.getText()));
+                    produitPrix = df.format(Float.parseFloat(Main.gestionnaire.getProduitsDisponibles().get(i).getPrix()) * Integer.parseInt(qteTextField.getText()));
                     break;
                 }
             }
@@ -101,32 +94,32 @@ public class AddToGardeMangerController {
         }
     }
 
-    public void ajouterAuGardeManger(){
-        try{
+    public void ajouterAuGardeManger() {
+        try {
             Produit itemSelected = Main.gestionnaire.getProduitsDisponibles().get(listView.getSelectionModel().getSelectedIndex());
             LocalDate localDate = datePicker.getValue();
 
             boolean preexistant = false;
-            for (ProduitInventaire produitInventaire:
-                 Main.gestionnaire.getInventaire()) {
-                if (produitInventaire.getProduit() == itemSelected){
+            for (ProduitInventaire produitInventaire :
+                    Main.gestionnaire.getInventaire()) {
+                if (produitInventaire.getProduit() == itemSelected) {
                     preexistant = true;
-                    produitInventaire.setQuantite(produitInventaire.getQuantite()+Float.parseFloat(qteTextField.getText()));
+                    produitInventaire.setQuantite(produitInventaire.getQuantite() + Float.parseFloat(qteTextField.getText()));
                     produitInventaire.setDateExp(new DateExpiration(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()));
                     produitInventaire.setExpire(false);
                 }
             }
-            if (!preexistant){
+            if (!preexistant) {
                 Main.gestionnaire.getInventaire().add(new ProduitInventaire(itemSelected, Float.parseFloat(qteTextField.getText()),
                         itemSelected.getMesureType(), new DateExpiration(localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth())));
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public void commander(){
+    public void commander() {
         try {
             Socket socket = new Socket("127.0.0.1", 8080);
 
@@ -135,33 +128,33 @@ public class AddToGardeMangerController {
             ObservableList items = commandeTable.getItems();
             sortie.write("client\n");
             sortie.write("commande\n");
-            sortie.write(items.size()+"\n");
-            for(int i=0; i<items.size();i++){
-                sortie.write(((ProduitTable)items.get(i)).getNom()+"\n"+
-                        ((ProduitTable)items.get(i)).getQuantity()+"\n"+
-                        ((ProduitTable)items.get(i)).getPrix()+"\n");
+            sortie.write(items.size() + "\n");
+            for (int i = 0; i < items.size(); i++) {
+                sortie.write(((ProduitTable) items.get(i)).getNom() + "\n" +
+                        ((ProduitTable) items.get(i)).getQuantity() + "\n" +
+                        ((ProduitTable) items.get(i)).getPrix() + "\n");
             }
             sortie.flush();
 
             InputStream fluxEntrant = socket.getInputStream();
             BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
             String amount = entree.readLine();
-            for(int i = 0;i<Integer.parseInt(amount);i++){
-                String nom= entree.readLine();
+            for (int i = 0; i < Integer.parseInt(amount); i++) {
+                String nom = entree.readLine();
                 String quantity = entree.readLine();
-                boolean found=false;
-                for(int j=0;j<Main.gestionnaire.getInventaire().size();i++)
-                    if(Main.gestionnaire.getInventaire().get(j).getProduit().getNom().equals(nom)){
-                        Main.gestionnaire.getInventaire().get(j).setQuantite(Main.gestionnaire.getInventaire().get(j).getQuantite()+Integer.parseInt(quantity));
-                        found=true;
+                boolean found = false;
+                for (int j = 0; j < Main.gestionnaire.getInventaire().size(); j++)
+                    if (Main.gestionnaire.getInventaire().get(j).getProduit().getNom().equals(nom)) {
+                        Main.gestionnaire.getInventaire().get(j).setQuantite(Main.gestionnaire.getInventaire().get(j).getQuantite() + Integer.parseInt(quantity));
+                        found = true;
                         break;
                     }
 
-                if(!found){
-                    for(int j=0;j<Main.gestionnaire.getProduitsDisponibles().size();j++){
-                        if(Main.gestionnaire.getProduitsDisponibles().get(j).getNom().equals(nom)){
-                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity),"",new DateExpiration(2050,05,01)));
-                                    break;
+                if (!found) {
+                    for (int j = 0; j < Main.gestionnaire.getProduitsDisponibles().size(); j++) {
+                        if (Main.gestionnaire.getProduitsDisponibles().get(j).getNom().equals(nom)) {
+                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity), "", new DateExpiration(2050, 05, 01)));
+                            break;
                         }
                     }
                 }
@@ -174,19 +167,19 @@ public class AddToGardeMangerController {
         }
     }
 
-    public void updateListView(){
+    public void updateListView() {
         listView.getSelectionModel().clearSelection();
         listView.getItems().clear();
         ArrayList<String> nomsAlimentsDispos = new ArrayList<>();
-        for (Produit produit:
-             Main.gestionnaire.getProduitsDisponibles()) {
+        for (Produit produit :
+                Main.gestionnaire.getProduitsDisponibles()) {
             nomsAlimentsDispos.add(produit.getNom());
         }
         ObservableList<String> observableList = FXCollections.observableList(nomsAlimentsDispos);
         listView.setItems(observableList);
     }
 
-    public void reloadItems(){
+    public void reloadItems() {
         try {
             Socket socket = new Socket("127.0.0.1", 8080);
 
@@ -200,7 +193,7 @@ public class AddToGardeMangerController {
             BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
             String amount = entree.readLine();
             Main.gestionnaire.getProduitsDisponibles().clear();
-            for(int i = 0;i<Integer.parseInt(amount);i++){
+            for (int i = 0; i < Integer.parseInt(amount); i++) {
                 Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
             }
             sortie.close();

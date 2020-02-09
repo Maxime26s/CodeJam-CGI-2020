@@ -24,7 +24,7 @@ public class Serveur {
 
     public static void main(String[] args) {
         loadInventory();
-        while(true) {
+        while (true) {
             try {
                 ServerSocket serveur = new ServerSocket(8080);
                 System.out.println("Waiting...");
@@ -34,7 +34,7 @@ public class Serveur {
                 BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
                 String message = entree.readLine();
                 System.out.println("Protocole " + message + " demandé");
-                switch(message){
+                switch (message) {
                     case "client":
                         client(socket, entree, serveur);
                         break;
@@ -54,38 +54,42 @@ public class Serveur {
     }
 
     private static void client(Socket socket, BufferedReader entree, ServerSocket serveur) {
-        try{
+        try {
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             String nom;
             String message = entree.readLine();
-            switch(message){
+            switch (message) {
                 case "commande":
+
                     int nbCommande = Integer.parseInt(entree.readLine());
-                    String[] parts = new String[nbCommande*3];
-                    for(int i=0;i<parts.length;i++)
+                    String[] parts = new String[nbCommande * 3];
+                    for (int i = 0; i < parts.length; i++)
                         parts[i] = entree.readLine();
+
                     save(parts,"Commande");
-                    String[] envoie = new String[nbCommande*3];
-                    sortie.write(nbCommande+"\n");
-                    for(int i=0;i<nbCommande;i++){
-                        sortie.write(parts[i] + "\n");
-                        envoie[i]=parts[i];
-                        if(hashMapEpicerie.get(parts[i]).quantite-Integer.parseInt(parts[i+1])>=0){
-                            envoie[i+1]=parts[i+1];
-                            sortie.write(envoie[i+1] + "\n");
-                            hashMapEpicerie.get(parts[i]).quantite-=Integer.parseInt(parts[i+1]);
-                        } else{
-                            envoie[i+1]=Integer.toString(Integer.parseInt(parts[i+1])+hashMapEpicerie.get(parts[i]).quantite-Integer.parseInt(parts[i+1]));
-                            sortie.write(envoie[i+1] + "\n");
-                            hashMapEpicerie.get(parts[i]).quantite = 0;
+
+                    String[] envoie = new String[nbCommande * 3];
+                    sortie.write(nbCommande + "\n");
+                    for (int i = 0; i < nbCommande; i++) {
+                        sortie.write(parts[i * 3] + "\n");
+                        envoie[i] = parts[i];
+                        if (hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]) >= 0) {
+                            envoie[i + 1] = parts[i * 3 + 1];
+                            sortie.write(envoie[i * 3 + 1] + "\n");
+                            hashMapEpicerie.get(parts[i * 3]).quantite -= Integer.parseInt(parts[i * 3 + 1]);
+                        } else {
+                            envoie[i * 3 + 1] = Integer.toString(Integer.parseInt(parts[i * 3 + 1]) + hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]));
+                            sortie.write(envoie[i * 3 + 1] + "\n");
+                            hashMapEpicerie.get(parts[i * 3]).quantite = 0;
                         }
-                        envoie[i+2]=Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i]).produit.getPrix())*Integer.parseInt(envoie[i+1]));
-                        revenu+=Float.parseFloat(envoie[i+2]);
+                        envoie[i * 3 + 2] = Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i * 3]).produit.getPrix()) * Integer.parseInt(envoie[i * 3 + 1]));
+                        revenu += Float.parseFloat(envoie[i * 3 + 2]);
                     }
                     sortie.close();
                     save(parts,"Envoie");
                     System.out.println("Commande terminé");
+
                     break;
                 case "findByName":
                     nom = entree.readLine();
@@ -99,14 +103,14 @@ public class Serveur {
                     break;
                 case "addItem":
                     nom = entree.readLine();
-                    if(!hashMapEpicerie.containsKey(nom)){
+                    if (!hashMapEpicerie.containsKey(nom)) {
                         String code = entree.readLine();
                         String mesure = entree.readLine();
                         String prix = entree.readLine();
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
-                        if(quantite.equals("Rien"))
+                        if (quantite.equals("Rien"))
                             quantite = "";
                         hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
 
@@ -123,14 +127,14 @@ public class Serveur {
                     TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie);
                     sortie.write(sorted.size() + "\n");
                     sorted.forEach((k, v) -> {
-                        try{
-                            sortie.write(k + "\n"+
-                                    v.produit.getCodeBar() +"\n"+
-                                    v.produit.getPrix()+"\n"+
-                                    v.produit.getMesurePoids()+"\n"+
-                                    v.produit.getMesureType()+"\n"+
-                                    v.produit.getQuantite()+"\n");
-                        } catch (Exception e){
+                        try {
+                            sortie.write(k + "\n" +
+                                    v.produit.getCodeBar() + "\n" +
+                                    v.produit.getPrix() + "\n" +
+                                    v.produit.getMesurePoids() + "\n" +
+                                    v.produit.getMesureType() + "\n" +
+                                    v.produit.getQuantite() + "\n");
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     });
@@ -140,17 +144,18 @@ public class Serveur {
             entree.close();
             socket.close();
             serveur.close();
-        } catch(Exception e){}
+        } catch (Exception e) {
+        }
 
     }
 
     private static void distribueur(Socket socket, BufferedReader entree, ServerSocket serveur) {
-        try{
+        try {
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             String nom;
             String message = entree.readLine();
-            switch(message){
+            switch (message) {
                 case "findByName":
                     nom = entree.readLine();
                     sortie.write(nom + "\n");
@@ -163,14 +168,14 @@ public class Serveur {
                     break;
                 case "addItem":
                     nom = entree.readLine();
-                    if(!hashMapEpicerie.containsKey(nom)){
+                    if (!hashMapEpicerie.containsKey(nom)) {
                         String code = entree.readLine();
                         String mesure = entree.readLine();
                         String prix = entree.readLine();
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
-                        if(quantite.equals("Rien"))
+                        if (quantite.equals("Rien"))
                             quantite = "";
                         hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
 
@@ -186,7 +191,7 @@ public class Serveur {
                 case "modItem":
                     String oldName = entree.readLine();
                     nom = entree.readLine();
-                    if(oldName.equals(nom)&&hashMapEpicerie.containsKey(nom)||!oldName.equals(nom)&&!hashMapEpicerie.containsKey(nom)){
+                    if (oldName.equals(nom) && hashMapEpicerie.containsKey(nom) || !oldName.equals(nom) && !hashMapEpicerie.containsKey(nom)) {
                         hashMapEpicerie.remove(oldName);
                         String code = entree.readLine();
                         String mesure = entree.readLine();
@@ -194,7 +199,7 @@ public class Serveur {
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
-                        if(quantite.equals("Rien"))
+                        if (quantite.equals("Rien"))
                             quantite = "";
                         hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
                         sortie.write("blanc" + "\n" +
@@ -211,9 +216,9 @@ public class Serveur {
                     TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie);
                     sortie.write(sorted.size() + "\n");
                     sorted.forEach((k, v) -> {
-                        try{
+                        try {
                             sortie.write(k + "\n");
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     });
@@ -227,11 +232,12 @@ public class Serveur {
             entree.close();
             socket.close();
             serveur.close();
-        } catch(Exception e){}
+        } catch (Exception e) {
+        }
 
     }
 
-    public static void saveInventory(){
+    public static void saveInventory() {
         try {
             ObjectOutputStream sortie = new ObjectOutputStream(
                     new BufferedOutputStream(
@@ -244,7 +250,7 @@ public class Serveur {
         }
     }
 
-    static void loadInventory(){
+    static void loadInventory() {
         try {
             ObjectInputStream entree = new ObjectInputStream(
                     new BufferedInputStream(
@@ -260,12 +266,12 @@ public class Serveur {
         }
     }
 
-    static void save(String[] parts, String name){
+    static void save(String[] parts, String name) {
         DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date=new Date();
+        Date date = new Date();
         try {
-            ObjectOutputStream sortie = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(name+"_"+df.format(date)+".dat")));
-            for(int i=0;i<parts.length;i++)
+            ObjectOutputStream sortie = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(name + "_" + df.format(date) + ".dat")));
+            for (int i = 0; i < parts.length; i++)
                 sortie.writeObject(parts[i]);
             sortie.close();
         } catch (IOException e) {
