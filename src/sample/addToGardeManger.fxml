@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane onMouseEntered="#updateListView" prefHeight="640.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddToGardeMangerController">
+<AnchorPane minHeight="640.0" minWidth="772.0" onMouseEntered="#updateListView" prefHeight="640.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AddToGardeMangerController">
    <children>
       <HBox>
          <children>

@@ -206,7 +206,7 @@ public class Controller {
             }
             catch(Exception ignored) {}
             addToGardeMangerScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
-            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 695, 640));
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 765, 640));
             Main.addToGardeMangerStage.setResizable(false);
             Main.addToGardeMangerStage.show();
         }
