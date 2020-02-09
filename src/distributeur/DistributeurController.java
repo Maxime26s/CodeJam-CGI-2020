@@ -28,9 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DistributeurController {
-    public static Gestionnaire gestionnaire = new Gestionnaire();
-    public static ArrayList<String[]> commande = new ArrayList<String[]>();
-
     @FXML
     private ListView listView;
 
@@ -60,6 +57,7 @@ public class DistributeurController {
 
                 OutputStream fluxSortant = socket.getOutputStream();
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                sortie.write("distributeur\n");
                 sortie.write("addItem\n");
                 sortie.write(addNom.getText()+"\n");
                 sortie.write(addCode.getText()+"\n");
@@ -108,6 +106,7 @@ public class DistributeurController {
 
                 OutputStream fluxSortant = socket.getOutputStream();
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+                sortie.write("distributeur\n");
                 sortie.write("modItem\n");
                 sortie.write(oldName.getText()+"\n");
                 sortie.write(modNom.getText()+"\n");
@@ -139,7 +138,7 @@ public class DistributeurController {
                 entree.close();
                 reloadItems();
                 messageParser(couleur, message);
-                oldName.setText("Objet à modifier: " + modNom.getText());
+                oldName.setText(modNom.getText());
             } catch(Exception e){
                 messageParser("rouge", "ERREUR LORS DE L'ENVOIE DES DONNÉES");
                 e.printStackTrace();
@@ -159,6 +158,7 @@ public class DistributeurController {
 
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            sortie.write("distributeur\n");
             sortie.write("findByName\n");
             sortie.write(listView.getSelectionModel().getSelectedItem()+"\n");
             sortie.flush();
@@ -208,6 +208,7 @@ public class DistributeurController {
 
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            sortie.write("distributeur\n");
             sortie.write("reloadItems\n");
             sortie.flush();
 
@@ -234,6 +235,7 @@ public class DistributeurController {
 
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            sortie.write("distributeur\n");
             sortie.write("supItem\n");
             sortie.write(oldName.getText()+"\n");
             sortie.flush();
