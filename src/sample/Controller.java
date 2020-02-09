@@ -34,10 +34,10 @@ public class Controller {
     ListView listeGardeManger, listeRecettes;
 
     @FXML
-    DialogPane affichageInfo, affichageInfo1;
+    DialogPane affichageInfo;
 
     @FXML
-    TextField boiteRecherche;
+    TextField boiteRecherche, boiteRecherche1;
 
     @FXML
     ListView listApprochantPeremption;
@@ -53,7 +53,7 @@ public class Controller {
     ChoiceBox unitesTemps;
 
     @FXML
-    Label temps;
+    Label temps, affichageInfo1;
 
     @FXML
     ProgressIndicator progression;
@@ -64,7 +64,8 @@ public class Controller {
     @FXML
     Button boutonStop;
 
-    public void refresh() {
+    public void refresh()
+    {
         ArrayList<String> arrayGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             arrayGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
@@ -80,6 +81,8 @@ public class Controller {
         ObservableList<String> observableList1 = FXCollections.observableArrayList(arrayRecettes);
         Main.gestionnaire.checkExpiry();
         listeRecettes.setItems(observableList1);
+        Main.gestionnaire.saveInventaire();
+        Main.gestionnaire.saveRecettes();
     }
 
     public void supprimerAliment() {
@@ -91,7 +94,21 @@ public class Controller {
         }
     }
 
-    public void resultatRecherche() {
+    public void supprimerRecette()
+    {
+        try
+        {
+            Main.gestionnaire.getRecettes().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
+            refresh();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Aucun aliment selectionné");
+        }
+    }
+
+    public void resultatRecherche()
+    {
         ArrayList<String> rechercheGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().toLowerCase().contains(boiteRecherche.getText().toLowerCase())) {
@@ -102,7 +119,21 @@ public class Controller {
         listeGardeManger.setItems(observableList);
     }
 
-    public void showInfo() {
+    public void resultatRecherche1()
+    {
+        ArrayList<String> rechercheRecette = new ArrayList<String>();
+        for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
+            if (Main.gestionnaire.getRecettes().get(i).getNom().toLowerCase().contains(boiteRecherche1.getText().toLowerCase()))
+            {
+                rechercheRecette.add(Main.gestionnaire.getRecettes().get(i).getNom());
+            }
+        }
+        ObservableList<String> observableList = FXCollections.observableArrayList(rechercheRecette);
+        listeRecettes.setItems(observableList);
+    }
+
+    public void showInfo()
+    {
         String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
@@ -123,18 +154,25 @@ public class Controller {
         for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
             if (Main.gestionnaire.getRecettes().get(i).getNom().contains(nomRecette)) {
                 String infoBuffer = Main.gestionnaire.getRecettes().get(i).getNom()
-                        + "\n" +
+                        + "\n" + "\n" +
                         "Ingrédients: "
                         + "\n";
                 for (ProduitInventaire produitInventaire :
                         Main.gestionnaire.getRecettes().get(i).getIngredientsRequis()) {
                     infoBuffer = infoBuffer + produitInventaire.getProduit().getNom() + ": "
-                            + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n\n";
+                            + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n";
                 }
-                infoBuffer = infoBuffer + Main.gestionnaire.getRecettes().get(i).getInstructions()
-                        + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$";
-
-                affichageInfo1.setContentText(infoBuffer);
+                infoBuffer = infoBuffer +  "\n" +  "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
+                        + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
+                if (Main.gestionnaire.getRecettes().get(i).getTags().size() != 0){
+                    infoBuffer = infoBuffer + "[";
+                    for (String tag:
+                            Main.gestionnaire.getRecettes().get(i).getTags()) {
+                        infoBuffer = infoBuffer + tag + ", ";
+                    }
+                    infoBuffer = infoBuffer.substring(0, infoBuffer.length()-2) + "]";
+                }
+                affichageInfo1.setText(infoBuffer);
             }
         }
     }
@@ -187,7 +225,7 @@ public class Controller {
             } catch (Exception ignored) {
             }
             addToGardeMangerScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
-            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 695, 640));
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 765, 640));
             Main.addToGardeMangerStage.setResizable(false);
             Main.addToGardeMangerStage.show();
         } catch (Exception e) {

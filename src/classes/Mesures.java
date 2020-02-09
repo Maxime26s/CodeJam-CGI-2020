@@ -1,6 +1,7 @@
 package classes;
+import java.io.Serializable;
 
-public enum Mesures {
+public enum Mesures implements Serializable {
     LITRE("Litre"),
     GRAMME("GRAMME"),
     ONCE("ONCE"),

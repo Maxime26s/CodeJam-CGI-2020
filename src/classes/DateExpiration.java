@@ -1,8 +1,9 @@
 package classes;
 
 import java.time.LocalDate;
+import java.io.Serializable;
 
-public class DateExpiration {
+public class DateExpiration implements Serializable {
     private int year, month, day;
 
     public DateExpiration(int year, int month, int day) {

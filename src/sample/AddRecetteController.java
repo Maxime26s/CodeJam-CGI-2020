@@ -1,20 +1,27 @@
 package sample;
 
-import classes.DateExpiration;
-import classes.Produit;
-import classes.ProduitInventaire;
-import classes.Recette;
+import classes.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
 
 public class AddRecetteController {
 
     @FXML
-    TextField ingredientRecetteField;
+    ChoiceBox ingredientRecetteField;
+
+    @FXML
+    TableView tableIngredients;
+
+    @FXML
+    TableColumn colNom;
+
+    @FXML
+    TableColumn colQuantity;
 
     @FXML
     TextField qteField;
@@ -34,16 +41,35 @@ public class AddRecetteController {
     public void initialize() {
         ingredients = new ArrayList<>();
         quantites = new ArrayList<>();
+        colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
+        colQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        ArrayList<String> ingredientsDispo = new ArrayList<>();
+
+        for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++)
+        {
+            ingredientsDispo.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
+        }
+        ingredientRecetteField.setItems(FXCollections.observableList(ingredientsDispo));
     }
 
-    public void ajouterIngredient() {
-        ingredients.add(ingredientRecetteField.getText());
-        ingredientRecetteField.setText("");
+    public void ajouterIngredient(){
+        ingredients.add(ingredientRecetteField.getValue().toString());
+        ProduitTable tempo = new ProduitTable(ingredientRecetteField.getValue().toString(),qteField.getText(),"0");
+        ingredientRecetteField.setValue(null);
         quantites.add(Float.parseFloat(qteField.getText()));
+        tableIngredients.getItems().add(tempo);
         qteField.setText("");
     }
 
-    public void ajouterRecetteAuLivre() {
+    public void retireringredient()
+    {
+        int i = tableIngredients.getSelectionModel().getSelectedIndex();
+        ingredients.remove(i);
+        quantites.remove(i);
+        tableIngredients.getItems().remove(i);
+    }
+
+    public void ajouterRecetteAuLivre(){
         ArrayList<ProduitInventaire> produitInventaires = new ArrayList<>();
         int i = 0;
         for (String ingredient :
