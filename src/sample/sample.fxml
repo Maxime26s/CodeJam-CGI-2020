@@ -34,7 +34,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" onAction="#generateRandomRecette" />
+                    <MenuItem mnemonicParsing="false" onAction="#generateRandomRecette" text="Delete" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Add">
@@ -188,16 +188,24 @@
                                                    </content>
                                                 </ScrollPane>
                                                 <Label text="Rechercher recette:" />
-                                                <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
+                                                <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche1" prefHeight="38.0" prefWidth="139.0" />
                                                 <Button mnemonicParsing="false" onAction="#refresh" prefHeight="26.0" prefWidth="174.0" text="Rafraîchir" />
-                                                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="167.0" text="Supprimer" />
+                                                <Button mnemonicParsing="false" onAction="#supprimerRecette" prefHeight="26.0" prefWidth="167.0" text="Supprimer" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
                                        <children>
-                                          <DialogPane fx:id="affichageInfo1" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="278.0" minWidth="-Infinity" prefHeight="278.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0" />
+                                          <ScrollPane prefHeight="410.4" prefWidth="561.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                                                   <children>
+                                                      <Label fx:id="affichageInfo1" text="Info:" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
                                        </children>
                                     </AnchorPane>
                                  </items>
