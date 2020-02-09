@@ -75,7 +75,7 @@
                                                                         </AnchorPane>
                                                                     </content>
                                                                 </ScrollPane>
-                                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddToGardeMangerWindow" text="Acheter" />
+                                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#chooseDistributeur" text="Acheter" />
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerAliment" text="Supprimer" />
                                                             </children>
                                                         </VBox>
