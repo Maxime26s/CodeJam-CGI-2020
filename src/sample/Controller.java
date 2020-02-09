@@ -34,10 +34,10 @@ public class Controller {
 
 
     @FXML
-    ListView listeGardeManger;
+    ListView listeGardeManger, listeRecettes;
 
     @FXML
-    DialogPane affichageInfo;
+    DialogPane affichageInfo, affichageInfo1;
 
     @FXML
     TextField boiteRecherche;
@@ -76,6 +76,14 @@ public class Controller {
         ObservableList<String> observableList = FXCollections.observableArrayList(arrayGardeManger);
         Main.gestionnaire.checkExpiry();
         listeGardeManger.setItems(observableList);
+
+        ArrayList<String> arrayRecettes = new ArrayList<String>();
+        for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
+            arrayRecettes.add(Main.gestionnaire.getRecettes().get(i).getNom());
+        }
+        ObservableList<String> observableList1 = FXCollections.observableArrayList(arrayRecettes);
+        Main.gestionnaire.checkExpiry();
+        listeRecettes.setItems(observableList1);
     }
 
     public void supprimerAliment()
@@ -119,6 +127,30 @@ public class Controller {
                         + "\n" + "Jours avant expiration: " +
                 Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
                 affichageInfo.setContentText(infoBuffer);
+            }
+        }
+    }
+
+    public void showRecette()
+    {
+        String nomRecette = listeRecettes.getItems().get(listeRecettes.getSelectionModel().getSelectedIndex()).toString();
+        for(int i = 0; i < Main.gestionnaire.getRecettes().size(); i++)
+        {
+            if (Main.gestionnaire.getRecettes().get(i).getNom().contains(nomRecette))
+            {
+                String infoBuffer = Main.gestionnaire.getRecettes().get(i).getNom()
+                        + "\n" +
+                        "Ingrédients: "
+                        + "\n";
+                for (ProduitInventaire produitInventaire:
+                    Main.gestionnaire.getRecettes().get(i).getIngredientsRequis()) {
+                    infoBuffer = infoBuffer + produitInventaire.getProduit().getNom() + ": "
+                            + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n\n";
+                }
+                infoBuffer = infoBuffer + Main.gestionnaire.getRecettes().get(i).getInstructions()
+                        + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$";
+
+                affichageInfo1.setContentText(infoBuffer);
             }
         }
     }
@@ -177,6 +209,28 @@ public class Controller {
             Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 695, 640));
             Main.addToGardeMangerStage.setResizable(false);
             Main.addToGardeMangerStage.show();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void openAddRecetteWindow()
+    {
+        try
+        {
+            Parent addRecetteScene = FXMLLoader.load(getClass().getResource("AddRecette.fxml"));
+            Main.addRecetteStage.setTitle("Nouvelle recette");
+            try
+            {
+                Main.addRecetteStage.initModality(Modality.APPLICATION_MODAL);
+            }
+            catch(Exception ignored) {}
+            addRecetteScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
+            Main.addRecetteStage.setScene(new Scene(addRecetteScene, 695, 640));
+            Main.addRecetteStage.setResizable(false);
+            Main.addRecetteStage.show();
         }
         catch(Exception e)
         {

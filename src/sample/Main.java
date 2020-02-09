@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Main extends Application {
     public static Stage alimentStage = new Stage();
     public static Stage addToGardeMangerStage = new Stage();
+    public static Stage addRecetteStage = new Stage();
     public static Parent alimentParent;
     public static Gestionnaire gestionnaire = new Gestionnaire();
     @Override

@@ -13,7 +13,7 @@ public class DistributeurMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("distributeur.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("Épicerie");
         Scene mainScene = new Scene(root, 480, 400);
         mainScene.getRoot().setStyle("-fx-base:black");
         primaryStage.setScene(mainScene);
