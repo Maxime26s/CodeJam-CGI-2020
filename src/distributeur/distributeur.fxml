@@ -47,6 +47,76 @@
                             <children>
                                 <TabPane prefHeight="372.8" prefWidth="445.6" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <tabs>
+                                        <Tab fx:id="addProduit" text="Ajout d'un produit">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                    <children>
+                                                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                                            <children>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefWidth="75.0" text="Nom:" />
+                                                                        <TextField fx:id="addNom" maxWidth="-Infinity" promptText="Nom" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefWidth="75.0" text="Code Bar:" />
+                                                                        <TextField fx:id="addCode" maxWidth="-Infinity" promptText="Code Bar" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefWidth="75.0" text="Mesure:" />
+                                                                        <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure (&gt;0.001)" />
+                                                                        <VBox spacing="10.0">
+                                                                            <children>
+                                                                                <RadioButton fx:id="addG" mnemonicParsing="false" selected="true" text="Gramme">
+                                                                                    <toggleGroup>
+                                                                                        <ToggleGroup fx:id="addType" />
+                                                                                    </toggleGroup>
+                                                                                </RadioButton>
+                                                                                <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre" toggleGroup="$addType" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <RadioButton fx:id="addMili" mnemonicParsing="false" text="Mili">
+                                                                            <toggleGroup>
+                                                                                <ToggleGroup fx:id="addQuantity" />
+                                                                            </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton fx:id="addRien" mnemonicParsing="false" selected="true" text="----" toggleGroup="$addQuantity" />
+                                                                        <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefWidth="75.0" text="Prix:" />
+                                                                        <TextField fx:id="addPrix" maxWidth="-Infinity" promptText="Prix" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefHeight="75.0" prefWidth="75.0" text="Nombre en inventaire:" wrapText="true" />
+                                                                        <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                                    <children>
+                                                                        <Label prefWidth="75.0" text="Longévité:" />
+                                                                        <TextField fx:id="addLong" maxWidth="-Infinity" promptText="Longévité (jours)" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <Button fx:id="addAjouter" mnemonicParsing="false" onAction="#addItemListView" text="Ajouter">
+                                                                    <VBox.margin>
+                                                                        <Insets left="120.0" />
+                                                                    </VBox.margin>
+                                                                </Button>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </AnchorPane>
+                                            </content>
+                                        </Tab>
                                         <Tab text="Modifier un produit">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -123,76 +193,6 @@
                                                                         <Insets left="100.0" />
                                                                     </padding>
                                                                 </HBox>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </Tab>
-                                        <Tab fx:id="addProduit" text="Ajout d'un produit">
-                                            <content>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                                    <children>
-                                                        <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                                                            <children>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefWidth="75.0" text="Nom:" />
-                                                                        <TextField fx:id="addNom" maxWidth="-Infinity" promptText="Nom" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefWidth="75.0" text="Code Bar:" />
-                                                                        <TextField fx:id="addCode" maxWidth="-Infinity" promptText="Code Bar" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefWidth="75.0" text="Mesure:" />
-                                                                        <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure (&gt;0.001)" />
-                                                                        <VBox spacing="10.0">
-                                                                            <children>
-                                                                                <RadioButton fx:id="addG" mnemonicParsing="false" selected="true" text="Gramme">
-                                                                                    <toggleGroup>
-                                                                                        <ToggleGroup fx:id="addType" />
-                                                                                    </toggleGroup>
-                                                                                </RadioButton>
-                                                                                <RadioButton fx:id="addL" mnemonicParsing="false" text="Litre" toggleGroup="$addType" />
-                                                                            </children>
-                                                                        </VBox>
-                                                                        <RadioButton fx:id="addMili" mnemonicParsing="false" text="Mili">
-                                                                            <toggleGroup>
-                                                                                <ToggleGroup fx:id="addQuantity" />
-                                                                            </toggleGroup>
-                                                                        </RadioButton>
-                                                                        <RadioButton fx:id="addRien" mnemonicParsing="false" selected="true" text="----" toggleGroup="$addQuantity" />
-                                                                        <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefWidth="75.0" text="Prix:" />
-                                                                        <TextField fx:id="addPrix" maxWidth="-Infinity" promptText="Prix" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefHeight="75.0" prefWidth="75.0" text="Nombre en inventaire:" wrapText="true" />
-                                                                        <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
-                                                                    <children>
-                                                                        <Label prefWidth="75.0" text="Longévité:" />
-                                                                        <TextField fx:id="addLong" maxWidth="-Infinity" promptText="Longévité (jours)" />
-                                                                    </children>
-                                                                </HBox>
-                                                                <Button fx:id="addAjouter" mnemonicParsing="false" onAction="#addItemListView" text="Ajouter">
-                                                                    <VBox.margin>
-                                                                        <Insets left="120.0" />
-                                                                    </VBox.margin>
-                                                                </Button>
                                                             </children>
                                                         </VBox>
                                                     </children>
