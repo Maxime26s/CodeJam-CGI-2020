@@ -162,7 +162,7 @@ public class Controller {
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
                 String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
-                        + "\n" +
+                        + "\n-------------------\n" +
                         "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
                         + "\n" +
                         Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
@@ -179,7 +179,7 @@ public class Controller {
             if (Main.gestionnaire.getRecettes().get(i).getNom().contains(nomRecette)) {
                 recetteSelected = Main.gestionnaire.getRecettes().get(i);
                 String infoBuffer = Main.gestionnaire.getRecettes().get(i).getNom()
-                        + "\n" + "\n" +
+                        + "\n-------------------" + "\n" +
                         "Ingrédients: "
                         + "\n";
                 for (ProduitInventaire produitInventaire :
@@ -187,8 +187,8 @@ public class Controller {
                     infoBuffer = infoBuffer + produitInventaire.getProduit().getNom() + ": "
                             + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n";
                 }
-                infoBuffer = infoBuffer + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
-                        + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
+                infoBuffer = infoBuffer + "\n-------------------" + "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
+                        + "\n-------------------\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
                 if (Main.gestionnaire.getRecettes().get(i).getTags().size() != 0) {
                     infoBuffer = infoBuffer + "[";
                     for (String tag :
@@ -330,6 +330,7 @@ public class Controller {
         unites.add("heures");
         ObservableList<String> observableList = FXCollections.observableList(unites);
         unitesTemps.setItems(observableList);
+        unitesTemps.setValue("secondes");
     }
 
     public void startTimer() {
@@ -351,7 +352,7 @@ public class Controller {
         timerLoop = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             public void handle(ActionEvent arg) {
                 myCurrentTime.set(myCurrentTime.get() - 1);
-                temps.setText("Timer :" + myCurrentTime.get());
+                temps.setText("Temps restant : " + myCurrentTime.get());
                 progression.setProgress(Double.valueOf(Double.valueOf((timerInit.get() - myCurrentTime.get())) / Double.valueOf(timerInit.get())));
             }
         }));
