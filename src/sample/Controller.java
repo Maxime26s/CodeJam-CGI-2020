@@ -48,10 +48,7 @@ public class Controller {
     @FXML
     ListView listApprochantPeremption;
 
-    @FXML
-    ListView listePerimes;
-
-    //Timer stuff
+// Timer
     @FXML
     TextField tempsField;
 
@@ -72,6 +69,7 @@ public class Controller {
 
     public static int selectedIndex = 0;
 
+    // Rafraichit l'affichage des infos et du garde-manger
     public void refresh() {
         ArrayList<String> arrayGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
@@ -94,7 +92,7 @@ public class Controller {
         showInfo();
         Main.gestionnaire.saveProduits();
     }
-
+    // Supprime un aliment du garde-manger
     public void supprimerAliment() {
         try {
             Main.gestionnaire.getInventaire().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
@@ -103,9 +101,8 @@ public class Controller {
             System.out.println("Aucun aliment selectionné");
         }
     }
-
-    public void modifierAliment()
-    {
+    // Modifie la date d'expiration d'un aliment
+    public void modifierAliment() {
         try {
             selectedIndex = Main.gestionnaire.getInventaire().indexOf(Main.gestionnaire.getInventaire().get(listeGardeManger.getSelectionModel().getSelectedIndex()));
             Parent modifierAlimentScene = FXMLLoader.load(getClass().getResource("modifierAliment.fxml"));
@@ -123,18 +120,16 @@ public class Controller {
             System.out.println("Aucun aliment selectionné");
         }
     }
-
-    public void supprimerRecette()
-    {
-        try
-        {
+    // Supprime une recette du livre de recettes
+    public void supprimerRecette() {
+        try {
             Main.gestionnaire.getRecettes().remove(listeRecettes.getSelectionModel().getSelectedIndex());
             refresh();
         } catch (Exception e) {
             System.out.println("Aucun aliment selectionné");
         }
     }
-
+    // créer une recherche dans le garde-manger
     public void resultatRecherche() {
         ArrayList<String> rechercheGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
@@ -145,7 +140,7 @@ public class Controller {
         ObservableList<String> observableList = FXCollections.observableArrayList(rechercheGardeManger);
         listeGardeManger.setItems(observableList);
     }
-
+    // créer une recherche dans le livre de recette
     public void resultatRecherche1() {
         ArrayList<String> rechercheRecette = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
@@ -156,39 +151,29 @@ public class Controller {
         ObservableList<String> observableList = FXCollections.observableArrayList(rechercheRecette);
         listeRecettes.setItems(observableList);
     }
-
+    // montre les informations de l'aliment selectionné dans le garde-manger
     public void showInfo() {
-        try
-        {
+        try {
             String expiration = "";
 
             String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
             for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
-                if (Main.gestionnaire.getInventaire().get(i).getJoursExpiration() > 0)
-                {
+                if (Main.gestionnaire.getInventaire().get(i).getJoursExpiration() > 0) {
                     expiration = Main.gestionnaire.getInventaire().get(i).getJoursExpiration() + " Jours avant expiration.";
-                }
-                else
-                {
+                } else {
                     expiration = "Expiré depuis " + -Main.gestionnaire.getInventaire().get(i).getJoursExpiration() + " Jours";
                 }
                 if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
                     String day;
                     String month;
-                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() < 10)
-                    {
+                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() < 10) {
                         day = "0" + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay();
-                    }
-                    else
-                    {
+                    } else {
                         day = Integer.toString(Main.gestionnaire.getInventaire().get(i).getDateExp().getDay());
                     }
-                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() < 10)
-                    {
+                    if (Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() < 10) {
                         month = "0" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth();
-                    }
-                    else
-                    {
+                    } else {
                         month = Integer.toString(Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth());
                     }
                     String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
@@ -200,10 +185,11 @@ public class Controller {
                     affichageInfo.setText(infoBuffer);
                 }
             }
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored){};
+        ;
     }
-
+    // montre les informations de la recette selectionnée dans le livre
     public void showRecette() {
         String nomRecette = listeRecettes.getItems().get(listeRecettes.getSelectionModel().getSelectedIndex()).toString();
         for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
@@ -232,8 +218,7 @@ public class Controller {
             }
         }
     }
-
-
+    // construit et consume les ingrédients de la recette selectionnée
     public void consommerRecette() {
         Recette selected = recetteSelected;
         boolean assezIngredient = true;
@@ -289,7 +274,7 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
+    // Ouvre fenetre achat
     public void openAddToGardeMangerWindow() {
         try {
             Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("addToGardeManger.fxml"));
@@ -306,7 +291,7 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
+    // Ouvre fenetre ajout de recette
     public void openAddRecetteWindow() {
         try {
             Parent addRecetteScene = FXMLLoader.load(getClass().getResource("AddRecette.fxml"));
@@ -323,7 +308,7 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
+    // vérifie si des aliments vont périmer bientot
     public void updatePerimes() {
         ArrayList<ProduitInventaire> produitsPerimes = new ArrayList<>();
         ArrayList<ProduitInventaire> produitsEnDanger = new ArrayList<>();
@@ -341,19 +326,16 @@ public class Controller {
         ArrayList<String> produitsPerimesString = new ArrayList<>();
         for (ProduitInventaire produit :
                 produitsPerimes) {
-            if (produit.getJoursExpiration() > 0)
-            {
+            if (produit.getJoursExpiration() > 0) {
                 produitsPerimesString.add(produit.getProduit().getNom() + "   " + Integer.toString(produit.getJoursExpiration()) + " Jours restants");
-            }
-            else
-            {
+            } else {
                 produitsPerimesString.add(produit.getProduit().getNom() + "   " + " Expiré depuis " + Integer.toString(-produit.getJoursExpiration()) + " Jours");
             }
         }
         ObservableList<String> observableList2 = FXCollections.observableList(produitsPerimesString);
         listApprochantPeremption.setItems(observableList2);
     }
-
+    // timer
     public void initUnitesTimer() {
         ArrayList<String> unites = new ArrayList<>();
         unites.add("secondes");
@@ -363,7 +345,7 @@ public class Controller {
         unitesTemps.setItems(observableList);
         unitesTemps.setValue("secondes");
     }
-
+    // debut timer
     public void startTimer() {
         boutonStart.setDisable(true);
         boutonStop.setDisable(false);
@@ -407,7 +389,7 @@ public class Controller {
         });
         timerLoop.play();
     }
-
+    // stop timer
     public void stopTimer() {
         boutonStart.setDisable(false);
         boutonStop.setDisable(true);
@@ -430,7 +412,7 @@ public class Controller {
             e.printStackTrace();
         }
     }
-
+    // Genere une recette aléatoire avec les ingrédients possédés
     public void generateRandomRecette() {
         String[] verbeArray = {"Ajouter", "Piler", "Mariner", "Mélanger", "Faire cuire", "Battre"};
         String[] adjectifArray = {"vigoureusement", "abondamment", "efficacement", "rapidement", "à l'ancienne", "avec précaution"};
@@ -442,22 +424,19 @@ public class Controller {
         String nomRecette = "";
         String finalrecette = "";
         minIngredient = 2;
-        if (gardemanger.size() < 2)
-        {
+        if (gardemanger.size() < 2) {
             minIngredient = gardemanger.size();
         }
-        if (gardemanger.size() > 10)
-        {
+        if (gardemanger.size() > 10) {
             maxIngredient = 10;
+        } else {
+            maxIngredient = gardemanger.size() - 1;
         }
-        else {
-            maxIngredient = gardemanger.size()-1;
-        }
-        int nbIngredient = (int)(Math.random()*maxIngredient + minIngredient);
-        int[] quantite = new int[nbIngredient+1];
+        int nbIngredient = (int) (Math.random() * maxIngredient + minIngredient);
+        int[] quantite = new int[nbIngredient + 1];
         ArrayList<ProduitInventaire> gardemangerSave = (ArrayList<ProduitInventaire>) gardemanger.clone();
         for (int i = 0; i < nbIngredient; i++) {
-            int ingredientIndex = (int)(Math.random()*gardemanger.size());
+            int ingredientIndex = (int) (Math.random() * gardemanger.size());
             float mesure = Math.round(Float.parseFloat(gardemanger.get(ingredientIndex).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
             if (mesure >= 1000) {
                 mesure *= 0.001;
@@ -475,7 +454,7 @@ public class Controller {
         }
         gardemanger = (ArrayList<ProduitInventaire>) gardemangerSave.clone();
         for (int i = 0; i < nbIngredient; i++) {
-            int ingredientIndex = (int)(Math.random()*gardemanger.size());
+            int ingredientIndex = (int) (Math.random() * gardemanger.size());
             float mesure = Math.round(Float.parseFloat(gardemanger.get(ingredientIndex).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
             if (mesure >= 1000) {
                 mesure *= 0.001;
@@ -503,10 +482,10 @@ public class Controller {
             nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredTitre.get(ingredientint);
         } else {
             nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredTitre.get(ingredientint) + " et au " + ingredTitre.get(ingredientint2);
-    }
+        }
         recetteAleatoire.setText("Recette Aléatoire:\n\n" + nomRecette + "\n-----------------\n" + finalrecette);
     }
-
+    // choisir un distributeur pour l'achat d'aliments
     public void chooseDistributeur() {
         try {
             ChoiceDialog<String> alerte = new ChoiceDialog<>("Default");

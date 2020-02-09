@@ -19,7 +19,6 @@ public class Serveur {
     public static HashMap<String, HashMap<String, ProduitEpicerie>> hashMapEpicerie = new HashMap<>();
     public static HashMap<String, Revenu> hashMapRevenu = new HashMap<>();
     public static String distributeurCourant = "Default";
-
     public static void main(String[] args) {
         loadInventory();
         if (!hashMapEpicerie.containsKey("Default")){
