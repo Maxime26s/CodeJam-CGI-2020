@@ -1,7 +1,9 @@
 package classes;
 
 
-public class ProduitInventaire {
+import java.io.Serializable;
+
+public class ProduitInventaire implements Serializable {
     private Produit produit;
     private float quantite;
     private String typeMesure;
