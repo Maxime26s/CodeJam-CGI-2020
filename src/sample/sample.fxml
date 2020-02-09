@@ -39,7 +39,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Add">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#openAddToGardeMangerWindow" text="Ajouter au Garde-Manger" />
+                                <MenuItem mnemonicParsing="false" onAction="#chooseDistributeur" text="Ajouter au Garde-Manger" />
                                 <MenuItem mnemonicParsing="false" onAction="#openAddRecetteWindow" text="Ajouter une Recette" />
                             </items>
                         </Menu>

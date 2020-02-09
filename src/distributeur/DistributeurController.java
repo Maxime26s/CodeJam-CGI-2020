@@ -28,6 +28,8 @@ public class DistributeurController {
         reloadItems();
     }
 
+    private String username = "Default";
+
     public void addItemListView() {
         if (!addNom.getText().isEmpty() && !addCode.getText().isEmpty() && !addMes.getText().isEmpty() && !addPrix.getText().isEmpty()
                 && !addInventaire.getText().isEmpty() && addType.getSelectedToggle().isSelected() && addQuantity.getSelectedToggle().isSelected()) {
@@ -38,6 +40,7 @@ public class DistributeurController {
                 OutputStream fluxSortant = socket.getOutputStream();
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
                 sortie.write("distributeur\n");
+                sortie.write(username + "\n");
                 sortie.write("addItem\n");
                 sortie.write(addNom.getText() + "\n");
                 sortie.write(addCode.getText() + "\n");
@@ -88,6 +91,7 @@ public class DistributeurController {
                 OutputStream fluxSortant = socket.getOutputStream();
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
                 sortie.write("distributeur\n");
+                sortie.write(username + "\n");
                 sortie.write("modItem\n");
                 sortie.write(oldName.getText() + "\n");
                 sortie.write(modNom.getText() + "\n");
@@ -141,6 +145,7 @@ public class DistributeurController {
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             sortie.write("distributeur\n");
+            sortie.write(username + "\n");
             sortie.write("findByName\n");
             sortie.write(listView.getSelectionModel().getSelectedItem() + "\n");
             sortie.flush();
@@ -190,6 +195,7 @@ public class DistributeurController {
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             sortie.write("distributeur\n");
+            sortie.write(username + "\n");
             sortie.write("reloadItems\n");
             sortie.flush();
 
@@ -217,6 +223,7 @@ public class DistributeurController {
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             sortie.write("distributeur\n");
+            sortie.write(username + "\n");
             sortie.write("supItem\n");
             sortie.write(oldName.getText() + "\n");
             sortie.flush();
@@ -226,5 +233,13 @@ public class DistributeurController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void changerCompte(){
+        TextInputDialog alerteValeur = new TextInputDialog("Entrez ici");
+        alerteValeur.setTitle("Authentification");
+        alerteValeur.setHeaderText("Entrez votre nom de distributeur");
+        username = alerteValeur.showAndWait().get();
+        reloadItems();
     }
 }

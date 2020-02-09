@@ -11,14 +11,18 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class Serveur {
-    public static HashMap<String, ProduitEpicerie> hashMapEpicerie = new HashMap<>();
+    public static HashMap<String, HashMap<String, ProduitEpicerie>> hashMapEpicerie = new HashMap<>();
     public static float revenu = 0;
+    public static String distributeurCourant = "Default";
 
     public static void main(String[] args) {
         loadInventory();
+        if (!hashMapEpicerie.containsKey("Default"))
+            hashMapEpicerie.put("Default", new HashMap<>());
         while (true) {
             try {
                 ServerSocket serveur = new ServerSocket(8080);
@@ -72,59 +76,25 @@ public class Serveur {
                     for (int i = 0; i < nbCommande; i++) {
                         sortie.write(parts[i * 3] + "\n");
                         envoie[i * 3] = parts[i * 3];
-                        if (hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]) >= 0) {
-                            envoie[i + 1] = parts[i * 3 + 1];
+                        if (hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]) >= 0) {
+                            envoie[i * 3 + 1] = parts[i * 3 + 1];
                             sortie.write(envoie[i * 3 + 1] + "\n");
-                            hashMapEpicerie.get(parts[i * 3]).quantite -= Integer.parseInt(parts[i * 3 + 1]);
+                            hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).quantite -= Integer.parseInt(parts[i * 3 + 1]);
                         } else {
-                            envoie[i * 3 + 1] = Integer.toString(Integer.parseInt(parts[i * 3 + 1]) + hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]));
+                            envoie[i * 3 + 1] = Integer.toString(Integer.parseInt(parts[i * 3 + 1]) + hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]));
                             sortie.write(envoie[i * 3 + 1] + "\n");
-                            hashMapEpicerie.get(parts[i * 3]).quantite = 0;
+                            hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).quantite = 0;
                         }
-                        envoie[i * 3 + 2] = Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i * 3]).produit.getPrix()) * Integer.parseInt(envoie[i * 3 + 1]));
-                        revenu += Float.parseFloat(envoie[i * 3 + 2]);
+                        revenu += (Math.round(Float.parseFloat(hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).produit.getPrix()) * 100.0f) / 100.0f) * Integer.parseInt(envoie[i * 3 + 1]);
+                        envoie[i * 3 + 2] = Float.toString(revenu);
                     }
                     sortie.close();
                     save(parts, "Envoie");
                     System.out.println("Commande terminé");
 
                     break;
-                case "findByName":
-                    nom = entree.readLine();
-                    sortie.write(nom + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getCodeBar() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getMesurePoids() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getLongevite() + "\n");
-                    sortie.close();
-                    break;
-                case "addItem":
-                    nom = entree.readLine();
-                    if (!hashMapEpicerie.containsKey(nom)) {
-                        String code = entree.readLine();
-                        String mesure = entree.readLine();
-                        String prix = entree.readLine();
-                        String owned = entree.readLine();
-                        String type = entree.readLine();
-                        String quantite = entree.readLine();
-                        String longevite = entree.readLine();
-                        if (quantite.equals("Rien"))
-                            quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
-
-                        sortie.write("blanc" + "\n" +
-                                "Le produit a été ajouté \n");
-                        sortie.close();
-                    } else {
-                        sortie.write("rouge" + "\n" +
-                                "ERREUR: LE PRODUIT EXISTE DÉJÀ \n");
-                        sortie.close();
-                    }
-                    break;
                 case "reloadItems":
-                    TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie);
+                    TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie.get(distributeurCourant));
                     sortie.write(sorted.size() + "\n");
                     sorted.forEach((k, v) -> {
                         try {
@@ -141,17 +111,30 @@ public class Serveur {
                     });
                     sortie.close();
                     break;
+                case "changeDistributeur":
+                    sortie.write(hashMapEpicerie.size() + "\n");
+                    Set<String> keys = hashMapEpicerie.keySet();
+                    for (String key : keys) {
+                        sortie.write(key + "\n");
+                    }
+                    sortie.flush();
+                    distributeurCourant = entree.readLine();
+                    sortie.close();
+                    break;
             }
             entree.close();
             socket.close();
             serveur.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
     private static void distribueur(Socket socket, BufferedReader entree, ServerSocket serveur) {
         try {
+            String username = entree.readLine();
+            if (!hashMapEpicerie.containsKey(username))
+                hashMapEpicerie.put(username, new HashMap<>());
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             String nom;
@@ -160,17 +143,17 @@ public class Serveur {
                 case "findByName":
                     nom = entree.readLine();
                     sortie.write(nom + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getCodeBar() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getMesurePoids() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
-                    sortie.write(hashMapEpicerie.get(nom).produit.getLongevite() + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).produit.getCodeBar() + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).produit.getMesurePoids() + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).produit.getPrix() + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).quantite + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).produit.getMesureType() + "\n");
+                    sortie.write(hashMapEpicerie.get(username).get(nom).produit.getLongevite() + "\n");
                     sortie.close();
                     break;
                 case "addItem":
                     nom = entree.readLine();
-                    if (!hashMapEpicerie.containsKey(nom)) {
+                    if (!hashMapEpicerie.get(username).containsKey(nom)) {
                         String code = entree.readLine();
                         String mesure = entree.readLine();
                         String prix = entree.readLine();
@@ -180,7 +163,7 @@ public class Serveur {
                         String longevite = entree.readLine();
                         if (quantite.equals("Rien"))
                             quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
+                        hashMapEpicerie.get(username).put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
 
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
@@ -194,8 +177,8 @@ public class Serveur {
                 case "modItem":
                     String oldName = entree.readLine();
                     nom = entree.readLine();
-                    if (oldName.equals(nom) && hashMapEpicerie.containsKey(nom) || !oldName.equals(nom) && !hashMapEpicerie.containsKey(nom)) {
-                        hashMapEpicerie.remove(oldName);
+                    if (oldName.equals(nom) && hashMapEpicerie.get(username).containsKey(nom) || !oldName.equals(nom) && !hashMapEpicerie.get(username).containsKey(nom)) {
+                        hashMapEpicerie.get(username).remove(oldName);
                         String code = entree.readLine();
                         String mesure = entree.readLine();
                         String prix = entree.readLine();
@@ -205,11 +188,11 @@ public class Serveur {
                         String longevite = entree.readLine();
                         if (quantite.equals("Rien"))
                             quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
+                        hashMapEpicerie.get(username).put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
                         sortie.close();
-                        //saveInventory();
+                        saveInventory();
                     } else {
                         sortie.write("rouge" + "\n" +
                                 "ERREUR \n");
@@ -217,7 +200,7 @@ public class Serveur {
                     }
                     break;
                 case "reloadItems":
-                    TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie);
+                    TreeMap<String, ProduitEpicerie> sorted = new TreeMap<>(hashMapEpicerie.get(username));
                     sortie.write(sorted.size() + "\n");
                     sorted.forEach((k, v) -> {
                         try {
@@ -230,7 +213,7 @@ public class Serveur {
                     break;
                 case "supItem":
                     String toDelete = entree.readLine();
-                    hashMapEpicerie.remove(toDelete);
+                    hashMapEpicerie.get(username).remove(toDelete);
                     break;
             }
             entree.close();
@@ -239,7 +222,6 @@ public class Serveur {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void saveInventory() {
@@ -262,7 +244,7 @@ public class Serveur {
                             new FileInputStream("inventaireEpicerie.dat")));
             try {
                 revenu = entree.readFloat();
-                hashMapEpicerie = (HashMap<String, ProduitEpicerie>) entree.readObject();
+                hashMapEpicerie = (HashMap<String, HashMap<String, ProduitEpicerie>>) entree.readObject();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
