@@ -24,6 +24,9 @@ public class DistributeurController {
     private Label erreur, oldName;
 
     @FXML
+    private Menu revenu;
+
+    @FXML
     public void initialize() {
         reloadItems();
     }
@@ -207,6 +210,7 @@ public class DistributeurController {
             for (int i = 0; i < Integer.parseInt(amount); i++) {
                 listView.getItems().add(entree.readLine());
             }
+            revenu.setText(entree.readLine());
             String couleur = entree.readLine();
             String message = entree.readLine();
             sortie.close();
