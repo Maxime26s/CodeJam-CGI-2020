@@ -66,26 +66,28 @@ public class Serveur {
                     String[] parts = new String[nbCommande * 3];
                     for (int i = 0; i < parts.length; i++)
                         parts[i] = entree.readLine();
-                    //save(parts,"Commande");
-                    String[] envoie = new String[nbCommande*3];
-                    sortie.write(nbCommande+"\n");
-                    for(int i=0;i<nbCommande;i++){
-                        sortie.write(parts[i] + "\n");
-                        envoie[i]=parts[i];
-                        if(hashMapEpicerie.get(parts[i]).quantite-Integer.parseInt(parts[i+1])>=0){
-                            envoie[i+1]=parts[i+1];
-                            sortie.write(envoie[i+1] + "\n");
-                            hashMapEpicerie.get(parts[i]).quantite-=Integer.parseInt(parts[i+1]);
-                        } else{
-                            envoie[i+1]=Integer.toString(Integer.parseInt(parts[i+1])+hashMapEpicerie.get(parts[i]).quantite-Integer.parseInt(parts[i+1]));
-                            sortie.write(envoie[i+1] + "\n");
-                            hashMapEpicerie.get(parts[i]).quantite = 0;
+
+                    save(parts, "Commande");
+
+                    String[] envoie = new String[nbCommande * 3];
+                    sortie.write(nbCommande + "\n");
+                    for (int i = 0; i < nbCommande; i++) {
+                        sortie.write(parts[i * 3] + "\n");
+                        envoie[i * 3] = parts[i * 3];
+                        if (hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]) >= 0) {
+                            envoie[i + 1] = parts[i * 3 + 1];
+                            sortie.write(envoie[i * 3 + 1] + "\n");
+                            hashMapEpicerie.get(parts[i * 3]).quantite -= Integer.parseInt(parts[i * 3 + 1]);
+                        } else {
+                            envoie[i * 3 + 1] = Integer.toString(Integer.parseInt(parts[i * 3 + 1]) + hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]));
+                            sortie.write(envoie[i * 3 + 1] + "\n");
+                            hashMapEpicerie.get(parts[i * 3]).quantite = 0;
                         }
                         envoie[i * 3 + 2] = Float.toString(Integer.parseInt(hashMapEpicerie.get(parts[i * 3]).produit.getPrix()) * Integer.parseInt(envoie[i * 3 + 1]));
                         revenu += Float.parseFloat(envoie[i * 3 + 2]);
                     }
                     sortie.close();
-                    //save(parts,"Envoie");
+                    save(parts, "Envoie");
                     System.out.println("Commande terminé");
 
                     break;
