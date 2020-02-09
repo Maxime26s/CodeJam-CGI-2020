@@ -34,7 +34,7 @@ public class Controller {
     ListView listeGardeManger, listeRecettes;
 
     @FXML
-    DialogPane affichageInfo;
+    Label affichageInfo;
 
     @FXML
     TextField boiteRecherche, boiteRecherche1;
@@ -98,7 +98,7 @@ public class Controller {
     {
         try
         {
-            Main.gestionnaire.getRecettes().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
+            Main.gestionnaire.getRecettes().remove(listeRecettes.getSelectionModel().getSelectedIndex());
             refresh();
         }
         catch(Exception e)
@@ -141,10 +141,10 @@ public class Controller {
                         + "\n" +
                         "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
                         + "\n" +
-                        Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getTypeMesure().toString()
+                        Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
                         + "\n" + "Jours avant expiration: " +
                         Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
-                affichageInfo.setContentText(infoBuffer);
+                affichageInfo.setText(infoBuffer);
             }
         }
     }

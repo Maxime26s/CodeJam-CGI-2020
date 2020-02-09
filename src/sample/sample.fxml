@@ -3,7 +3,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -45,88 +44,21 @@
                         </Menu>
                     </menus>
                 </MenuBar>
-                <TabPane prefHeight="442.0" prefWidth="644.0" tabClosingPolicy="UNAVAILABLE">
+                <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
-                        <Tab onSelectionChanged="#updatePerimes" text="Ingrédient">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                    <children>
-                                        <HBox layoutX="247.0" layoutY="-21.0" prefHeight="412.0" prefWidth="590.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <children>
-                                                <TitledPane animated="false" collapsible="false" text="Ingrédients Approchant Péremption">
-                                                    <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="229.0">
-                                                            <children>
-                                                                <ScrollPane layoutX="19.6" layoutY="19.6" prefHeight="321.6" prefWidth="222.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                    <content>
-                                                                        <AnchorPane>
-                                                                            <children>
-                                                                                <ListView fx:id="listApprochantPeremption" prefHeight="200.0" prefWidth="200.0" />
-                                                                            </children>
-                                                                        </AnchorPane>
-                                                                    </content>
-                                                                </ScrollPane>
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </TitledPane>
-                                                <TitledPane animated="false" collapsible="false" layoutX="10.0" layoutY="10.0" text="Ingrédients à Rupture Imminente">
-                                                    <content>
-                                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="252.0">
-                                                            <children>
-                                                                <ScrollPane layoutX="19.6" layoutY="19.6" prefHeight="321.6" prefWidth="244.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                                    <content>
-                                                                        <AnchorPane>
-                                                                            <children>
-                                                                                <ListView fx:id="listePerimes" prefHeight="200.0" prefWidth="200.0" />
-                                                                            </children>
-                                                                        </AnchorPane>
-                                                                    </content>
-                                                                </ScrollPane>
-                                                            </children>
-                                                        </AnchorPane>
-                                                    </content>
-                                                </TitledPane>
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
-                        <Tab text="Générateur de Recette">
-                            <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                    <children>
-                                        <SplitPane dividerPositions="0.29797979797979796" prefHeight="344.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <items>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Button mnemonicParsing="false" prefHeight="342.4" prefWidth="139.2" text="Générer Recette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                                        <ComboBox layoutX="16.0" layoutY="215.0" prefHeight="26.0" prefWidth="108.0" promptText="Diet" />
-                                                    </children>
-                                                </AnchorPane>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                                    <children>
-                                                        <Label layoutX="24.0" layoutY="14.0" text="Recette Générée:" />
-                                                    </children>
-                                                </AnchorPane>
-                                            </items>
-                                        </SplitPane>
-                                    </children>
-                                </AnchorPane>
-                            </content>
-                        </Tab>
                         <Tab text="Garde-Manger">
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <SplitPane dividerPositions="0.2304964539007092" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                        <SplitPane dividerPositions="0.2304964539007092, 0.7105837424986361" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <items>
                                                 <AnchorPane>
                                                     <children>
-                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <children>
-                                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0">
+                                                                <Label maxWidth="1.7976931348623157E308" text="Rechercher Ingrédient:" VBox.vgrow="ALWAYS" />
+                                                                <TextField fx:id="boiteRecherche" onKeyTyped="#resultatRecherche" prefHeight="21.0" prefWidth="166.0" />
+                                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0" VBox.vgrow="ALWAYS">
                                                                     <content>
                                                                         <AnchorPane>
                                                                             <children>
@@ -143,19 +75,34 @@
                                                                         </AnchorPane>
                                                                     </content>
                                                                 </ScrollPane>
-                                                                <Label prefHeight="24.0" prefWidth="139.0" text="Rechercher Ingrédient:" />
-                                                                <TextField fx:id="boiteRecherche" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
-                                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#refresh" text="Rafraichir" />
+                                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddToGardeMangerWindow" text="Acheter" />
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerAliment" text="Supprimer" />
                                                             </children>
                                                         </VBox>
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
-                                                    <children>
-                                                        <DialogPane fx:id="affichageInfo" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="370.0" prefHeight="343.0" prefWidth="522.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
-                                                    </children>
+                                       <children>
+                                          <Label fx:id="affichageInfo" alignment="TOP_LEFT" prefHeight="410.4" prefWidth="561.6" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                                       </children>
                                                 </AnchorPane>
+                                    <TitledPane animated="false" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ingrédients Approchant Péremption">
+                                       <content>
+                                          <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                             <children>
+                                                <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="19.6" layoutY="19.6" prefHeight="483.2" prefWidth="242.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <content>
+                                                      <AnchorPane maxHeight="1.7976931348623157E308" minHeight="-Infinity">
+                                                         <children>
+                                                            <ListView fx:id="listApprochantPeremption" maxHeight="1.7976931348623157E308" minHeight="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </AnchorPane>
+                                       </content>
+                                    </TitledPane>
                                             </items>
                                         </SplitPane>
                                     </children>
@@ -170,9 +117,11 @@
                                             <items>
                                                 <AnchorPane>
                                                     <children>
-                                                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                        <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                             <children>
-                                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="276.0" prefWidth="168.0">
+                                                                <Label maxWidth="1.7976931348623157E308" text="Rechercher Recette:" VBox.vgrow="ALWAYS" />
+                                                                <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="0.0" prefWidth="166.0" />
+                                                                <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="276.0" prefWidth="168.0" VBox.vgrow="ALWAYS">
                                                                     <content>
                                                                         <AnchorPane>
                                                                             <children>
@@ -180,7 +129,7 @@
                                                                                     <content>
                                                                                         <AnchorPane>
                                                                                             <children>
-                                                                                                <ListView fx:id="listeRecettes" onMouseClicked="#showRecette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                <ListView fx:id="listeRecettes" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#showRecette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                                             </children>
                                                                                         </AnchorPane>
                                                                                     </content>
@@ -189,18 +138,39 @@
                                                                         </AnchorPane>
                                                                     </content>
                                                                 </ScrollPane>
-                                                                <Label text="Rechercher recette:" />
-                                                                <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
-                                                                <Button mnemonicParsing="false" onAction="#refresh" prefHeight="26.0" prefWidth="174.0" text="Rafraîchir" />
-                                                                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="167.0" text="Supprimer" />
+                                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openAddRecetteWindow" prefHeight="26.0" prefWidth="174.0" text="Ajouter" VBox.vgrow="ALWAYS" />
+                                                                <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerRecette" prefHeight="26.0" prefWidth="167.0" text="Supprimer" />
                                                             </children>
                                                         </VBox>
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
                                        <children>
-                                          <Label fx:id="affichageInfo1" prefHeight="410.4" prefWidth="561.6" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Label fx:id="affichageInfo1" alignment="TOP_LEFT" prefHeight="410.4" prefWidth="561.6" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
                                        </children>
+                                                </AnchorPane>
+                                            </items>
+                                        </SplitPane>
+                                    </children>
+                                </AnchorPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Générateur de Recette">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <children>
+                                        <SplitPane dividerPositions="0.29797979797979796" prefHeight="344.0" prefWidth="480.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                            <items>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                    <children>
+                                                        <Button mnemonicParsing="false" prefHeight="342.4" prefWidth="139.2" text="Générer Recette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                    </children>
+                                                </AnchorPane>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                                    <children>
+                                                        <Label layoutX="24.0" layoutY="14.0" text="Recette Générée:" />
+                                                        <ComboBox layoutX="47.0" layoutY="457.0" prefHeight="26.0" prefWidth="108.0" promptText="Diet" />
+                                                    </children>
                                                 </AnchorPane>
                                             </items>
                                         </SplitPane>
@@ -212,37 +182,33 @@
                             <content>
                                 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                                     <children>
-                                        <ScrollPane prefHeight="412.0" prefWidth="735.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                            <content>
-                                                <AnchorPane>
-                                                    <children>
-                                                        <HBox alignment="CENTER" prefHeight="510.0" prefWidth="735.0">
-                                                            <children>
-                                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
-                                                                    <children>
-                                                                        <HBox alignment="CENTER" prefHeight="103.0" prefWidth="323.0">
-                                                                            <children>
-                                                                                <TextField fx:id="tempsField" />
-                                                                                <ChoiceBox fx:id="unitesTemps" prefWidth="150.0" />
-                                                                            </children>
-                                                                        </HBox>
-                                                                        <Button fx:id="boutonStart" mnemonicParsing="false" onAction="#startTimer" text="Débuter" />
-                                                                        <Button fx:id="boutonStop" disable="true" mnemonicParsing="false" onAction="#stopTimer" text="Arrêter" visible="false" />
-                                                                    </children>
-                                                                </VBox>
-                                                                <Separator orientation="VERTICAL" prefHeight="200.0" />
-                                                                <VBox alignment="CENTER" prefHeight="412.0" prefWidth="181.0" spacing="100.0" HBox.hgrow="ALWAYS">
-                                                                    <children>
-                                                                        <Label fx:id="temps" text="Time" />
-                                                                        <ProgressIndicator fx:id="progression" prefHeight="200.0" prefWidth="200.0" progress="0.0" />
-                                                                    </children>
-                                                                </VBox>
-                                                            </children>
-                                                        </HBox>
-                                                    </children>
-                                                </AnchorPane>
-                                            </content>
-                                        </ScrollPane>
+                                          <AnchorPane AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                                              <children>
+                                                  <HBox alignment="CENTER" prefHeight="409.6" prefWidth="635.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                      <children>
+                                                          <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="410.0" prefWidth="60.0" HBox.hgrow="ALWAYS">
+                                                              <children>
+                                                                  <HBox alignment="CENTER" prefHeight="103.0" prefWidth="323.0">
+                                                                      <children>
+                                                                          <TextField fx:id="tempsField" />
+                                                                          <ChoiceBox fx:id="unitesTemps" prefWidth="150.0" />
+                                                                      </children>
+                                                                  </HBox>
+                                                                  <Button fx:id="boutonStart" mnemonicParsing="false" onAction="#startTimer" text="Débuter" />
+                                                                  <Button fx:id="boutonStop" disable="true" mnemonicParsing="false" onAction="#stopTimer" text="Arrêter" visible="false" />
+                                                              </children>
+                                                          </VBox>
+                                                          <Separator orientation="VERTICAL" HBox.hgrow="ALWAYS" />
+                                                          <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="410.0" prefWidth="60.0" spacing="100.0" HBox.hgrow="ALWAYS">
+                                                              <children>
+                                                                  <Label fx:id="temps" text="Time" />
+                                                                  <ProgressIndicator fx:id="progression" prefHeight="200.0" prefWidth="200.0" progress="0.0" />
+                                                              </children>
+                                                          </VBox>
+                                                      </children>
+                                                  </HBox>
+                                              </children>
+                                          </AnchorPane>
                                     </children>
                                 </AnchorPane>
                             </content>
