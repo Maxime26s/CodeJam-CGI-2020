@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -28,7 +27,7 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Close" />
+                                <MenuItem mnemonicParsing="false" onAction="#updatePerimes" text="Close" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
@@ -66,7 +65,7 @@
                                                                                     <content>
                                                                                         <AnchorPane>
                                                                                             <children>
-                                                                                                <ListView fx:id="listeGardeManger" onMouseClicked="#showInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                                                <ListView fx:id="listeGardeManger" onMouseClicked="#showInfo" prefHeight="361.0" prefWidth="163.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                                             </children>
                                                                                         </AnchorPane>
                                                                                     </content>
@@ -76,6 +75,7 @@
                                                                     </content>
                                                                 </ScrollPane>
                                                                 <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#chooseDistributeur" text="Acheter" />
+                                                <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#modifierAliment" text="Modifier" />
                                                                 <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#supprimerAliment" text="Supprimer" />
                                                             </children>
                                                         </VBox>
@@ -163,13 +163,12 @@
                                             <items>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                     <children>
-                                                        <Button mnemonicParsing="false" prefHeight="342.4" prefWidth="139.2" text="Générer Recette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                        <Button mnemonicParsing="false" onAction="#generateRandomRecette" prefHeight="342.4" prefWidth="139.2" text="Générer Recette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                     </children>
                                                 </AnchorPane>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                                     <children>
-                                                        <Label layoutX="24.0" layoutY="14.0" text="Recette Générée:" />
-                                                        <ComboBox layoutX="47.0" layoutY="457.0" prefHeight="26.0" prefWidth="108.0" promptText="Diet" />
+                                                        <Label fx:id="recetteAleatoire" alignment="TOP_LEFT" layoutX="24.0" layoutY="14.0" text="Recette Générée:" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
                                                     </children>
                                                 </AnchorPane>
                                             </items>

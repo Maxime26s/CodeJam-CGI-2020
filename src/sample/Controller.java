@@ -1,5 +1,6 @@
 package sample;
 
+import classes.ComparateurExpiry;
 import classes.Gestionnaire;
 import classes.ProduitInventaire;
 import javafx.animation.KeyFrame;
@@ -19,6 +20,7 @@ import javafx.util.Duration;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -52,7 +54,7 @@ public class Controller {
     ChoiceBox unitesTemps;
 
     @FXML
-    Label temps, affichageInfo1;
+    Label temps, affichageInfo1, recetteAleatoire;
 
     @FXML
     ProgressIndicator progression;
@@ -62,6 +64,8 @@ public class Controller {
 
     @FXML
     Button boutonStop;
+
+    public static int selectedIndex = 0;
 
     public void refresh() {
         ArrayList<String> arrayGardeManger = new ArrayList<String>();
@@ -81,11 +85,33 @@ public class Controller {
         listeRecettes.setItems(observableList1);
         Main.gestionnaire.saveInventaire();
         Main.gestionnaire.saveRecettes();
+        updatePerimes();
+        showInfo();
     }
 
     public void supprimerAliment() {
         try {
             Main.gestionnaire.getInventaire().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
+            refresh();
+        } catch (Exception e) {
+            System.out.println("Aucun aliment selectionné");
+        }
+    }
+
+    public void modifierAliment()
+    {
+        try {
+            selectedIndex = Main.gestionnaire.getInventaire().indexOf(Main.gestionnaire.getInventaire().get(listeGardeManger.getSelectionModel().getSelectedIndex()));
+            Parent modifierAlimentScene = FXMLLoader.load(getClass().getResource("modifierAliment.fxml"));
+            Main.modifierAlimentStage.setTitle(Main.gestionnaire.getInventaire().get(selectedIndex).getProduit().getNom());
+            try {
+                Main.modifierAlimentStage.initModality(Modality.APPLICATION_MODAL);
+            } catch (Exception ignored) {
+            }
+            modifierAlimentScene.getStylesheets().add("modena_dark.css"); //Dark Theme: https://github.com/joffrey-bion/javafx-themes
+            Main.modifierAlimentStage.setScene(new Scene(modifierAlimentScene, 380, 220));
+            Main.modifierAlimentStage.setResizable(false);
+            Main.modifierAlimentStage.show();
             refresh();
         } catch (Exception e) {
             System.out.println("Aucun aliment selectionné");
@@ -249,28 +275,26 @@ public class Controller {
         Main.gestionnaire.checkExpiry();
         for (ProduitInventaire produit :
                 Main.gestionnaire.getInventaire()) {
-            if (produit.isExpire()) {
+            if (produit.getJoursExpiration() <= 15) {
                 produitsPerimes.add(produit);
-            } else if (produit.getJoursExpiration() <= 3) {
-                produitsEnDanger.add(produit);
             }
         }
+
+        Collections.sort(produitsPerimes, new ComparateurExpiry());
 
         ArrayList<String> produitsPerimesString = new ArrayList<>();
         for (ProduitInventaire produit :
                 produitsPerimes) {
-            produitsPerimesString.add(produit.getProduit().getNom());
+            if (produit.getJoursExpiration() > 0)
+            {
+                produitsPerimesString.add(produit.getProduit().getNom() + "   " + Integer.toString(produit.getJoursExpiration()) + " Jours restants");
+            }
+            else
+            {
+                produitsPerimesString.add(produit.getProduit().getNom() + "   " + " Expiré depuis " + Integer.toString(-produit.getJoursExpiration()) + " Jours");
+            }
         }
-
-        ObservableList<String> observableList1 = FXCollections.observableList(produitsPerimesString);
-        listePerimes.setItems(observableList1);
-
-        ArrayList<String> produitsEnDangerString = new ArrayList<>();
-        for (ProduitInventaire produit :
-                produitsEnDanger) {
-            produitsEnDangerString.add(produit.getProduit().getNom() + "   " + Integer.toString(produit.getJoursExpiration()));
-        }
-        ObservableList<String> observableList2 = FXCollections.observableList(produitsEnDangerString);
+        ObservableList<String> observableList2 = FXCollections.observableList(produitsPerimesString);
         listApprochantPeremption.setItems(observableList2);
     }
 
@@ -369,7 +393,7 @@ public class Controller {
             int containerint = rand.nextInt(containerArray.length);
             finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
         }
-        System.out.print(finalrecette);
+        recetteAleatoire.setText("Recette Aléatoire:\n\n" + finalrecette);
         String[] ingredients = {"agneau", "boeuf", "dinde", "fruit de mer", "gibier", "légumineuses", "oeufs", "oie", "pintade", "volaille", "orge", "quinoa", "poisson", "porc", "poulet", "riz", "tofu", "soya", "veau"};
         String[] debuts = {"bol de", "bol de riz au", "mijoté de", "pilon de", "pizza au", "pâte au", "fondue au", "macaroni au", "poulet grillé au", "pain doré au", "granola au", "tofu au", "gauffres au", "bacon au"};
         Random rand = new Random();
