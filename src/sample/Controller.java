@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import classes.ProduitInventaire;
+import classes.Recette;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
@@ -341,11 +342,14 @@ public class Controller {
         String[] verbeArray = {"Ajouter", "Piler", "Mariner", "Mélanger", "Faire cuire", "Battre"};
         String[] adjectifArray = {"vigoureusement", "abondamment", "efficacement", "rapidement", "à l'ancienne", "avec précaution"};
         String[] timeArray = {"pendant 5 minutes", "jusqu'à texture uniforme", "à souhait", "jusqu'à ébullition", "jusqu'à ce que le mélange épaississe", "généreusement"};
-        String[] containerArray = {"dans un bol", "dans une assiette", "dans une chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
+        String[] containerArray = {"dans un bol", "dans une assiette", "dans un chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
         ArrayList<ProduitInventaire> gardemanger = Main.gestionnaire.getInventaire();
+        ArrayList<ProduitInventaire> gardemangerrecette = new ArrayList<>();
         String finalrecette = "";
+        String recettename = "";
+        int ingredientlength = (int)(Math.random() * gardemanger.size()) + 1;
         int[] quantite = new int[gardemanger.size()];
-        for(int i=0;i<gardemanger.size();i++){
+        for(int i=0;i<ingredientlength;i++){
             float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
             if(mesure>=1000){
                 mesure*=0.001;
@@ -358,22 +362,16 @@ public class Controller {
             quantite[i] = (int)(Math.random() * mesure) + 1;
 
             finalrecette = finalrecette + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + "\n";
+            gardemangerrecette.add(gardemanger.get(i));
+            gardemangerrecette.get(i).getProduit().setQuantite(Integer.toString(quantite[i]));
         }
-        for(int i=0;i<gardemanger.size();i++){
-            float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
-            if(mesure>=1000){
-                mesure*=0.001;
-
-            }
-            else if(mesure<1){
-                mesure*=1000;
-            }
+        for(int i=0;i<ingredientlength;i++){
             Random rand = new Random();
             int verbeint = rand.nextInt(verbeArray.length);
             int adjectifint = rand.nextInt(adjectifArray.length);
             int timeint = rand.nextInt(timeArray.length);
             int containerint = rand.nextInt(containerArray.length);
-            finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
+            finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " le " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
         }
         System.out.print(finalrecette);
         String[] ingredients = {"agneau", "boeuf", "dinde", "fruit de mer", "gibier", "légumineuses", "oeufs", "oie", "pintade", "volaille", "orge", "quinoa", "poisson", "porc", "poulet", "riz", "tofu", "soya", "veau"};
@@ -384,10 +382,13 @@ public class Controller {
         int debutsint = rand.nextInt(debuts.length);
         int auint = rand.nextInt(2);
         if(auint == 1){
-            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint]);
+            recettename = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint];
         }
         else{
-            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2]);
+            recettename = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2];
         }
+        //System.out.print(recettename);
+
+        Recette recette = new Recette(gardemangerrecette, finalrecette, recettename);
     }
 }
