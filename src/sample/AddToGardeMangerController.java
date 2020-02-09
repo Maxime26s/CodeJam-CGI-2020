@@ -211,7 +211,14 @@ public class AddToGardeMangerController {
             String amount = entree.readLine();
             Main.gestionnaire.getProduitsDisponibles().clear();
             for (int i = 0; i < Integer.parseInt(amount); i++) {
-                Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
+                String nomProd = entree.readLine();
+                for (Produit produit:
+                     Main.gestionnaire.getProduitsDisponibles()) {
+                    if (produit.getNom().equals(nomProd)){
+                        Main.gestionnaire.getProduitsDisponibles().remove(produit);
+                    }
+                }
+                Main.gestionnaire.getProduitsDisponibles().add(new Produit(nomProd, entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
             }
             sortie.close();
             entree.close();

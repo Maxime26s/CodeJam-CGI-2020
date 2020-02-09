@@ -18,7 +18,7 @@ public class Gestionnaire {
     public Gestionnaire() {
         loadInventaire();
         loadRecettes();
-        this.produitsDisponibles = new ArrayList<>();
+        loadProduits();
     }
 
     public void checkExpiry() {
@@ -110,6 +110,36 @@ public class Gestionnaire {
             e.printStackTrace();
             System.out.println("Fail load inventaire");
             this.inventaire = new ArrayList<>();
+        }
+    }
+
+    public void saveProduits() {
+        try {
+            ObjectOutputStream sortie = new ObjectOutputStream(
+                    new BufferedOutputStream(
+                            new FileOutputStream("produitsDispos.dat")));
+            sortie.writeObject(this.produitsDisponibles);
+            sortie.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Fail save Produit");
+        }
+    }
+
+    public void loadProduits() {
+        try {
+            ObjectInputStream entree = new ObjectInputStream(
+                    new BufferedInputStream(
+                            new FileInputStream("produitsDispos.dat")));
+            try {
+                this.produitsDisponibles = (ArrayList<Produit>) entree.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Fail load Produit");
+            this.produitsDisponibles = new ArrayList<>();
         }
     }
 

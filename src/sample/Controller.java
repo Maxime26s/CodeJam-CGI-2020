@@ -3,17 +3,21 @@ package sample;
 import classes.ComparateurExpiry;
 import classes.Gestionnaire;
 import classes.ProduitInventaire;
+import classes.Recette;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 import javafx.util.Duration;
 
@@ -29,6 +33,7 @@ public class Controller {
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
     public Timeline timerLoop;
+    public Recette recetteSelected;
 
 
     @FXML
@@ -87,6 +92,7 @@ public class Controller {
         Main.gestionnaire.saveRecettes();
         updatePerimes();
         showInfo();
+        Main.gestionnaire.saveProduits();
     }
 
     public void supprimerAliment() {
@@ -158,7 +164,7 @@ public class Controller {
             for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
                 if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
                     String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
-                            + "\n" +
+                            + "\n-------------------\n" +
                             "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
                             + "\n" +
                             Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
@@ -175,8 +181,9 @@ public class Controller {
         String nomRecette = listeRecettes.getItems().get(listeRecettes.getSelectionModel().getSelectedIndex()).toString();
         for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
             if (Main.gestionnaire.getRecettes().get(i).getNom().contains(nomRecette)) {
+                recetteSelected = Main.gestionnaire.getRecettes().get(i);
                 String infoBuffer = Main.gestionnaire.getRecettes().get(i).getNom()
-                        + "\n" + "\n" +
+                        + "\n-------------------" + "\n" +
                         "Ingrédients: "
                         + "\n";
                 for (ProduitInventaire produitInventaire :
@@ -184,8 +191,8 @@ public class Controller {
                     infoBuffer = infoBuffer + produitInventaire.getProduit().getNom() + ": "
                             + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n";
                 }
-                infoBuffer = infoBuffer + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
-                        + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
+                infoBuffer = infoBuffer + "\n-------------------" + "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
+                        + "\n-------------------\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
                 if (Main.gestionnaire.getRecettes().get(i).getTags().size() != 0) {
                     infoBuffer = infoBuffer + "[";
                     for (String tag :
@@ -199,16 +206,34 @@ public class Controller {
         }
     }
 
-    /*
-    public void addProduit(){
-        LocalDate date = LocalDate.now();
-        Produit produit = new Produit("nom", "1111", 10.50f, 10, Mesures.LITRE);
-        gestionnaire.getInventaire().add(new ProduitInventaire(produit));
-    }
-    */
 
-    public void addInventaire() {
+    public void consommerRecette() {
+        Recette selected = recetteSelected;
+        boolean assezIngredient = true;
+        for (ProduitInventaire produitRecette :
+                selected.getIngredientsRequis()) {
+            for (ProduitInventaire produitInventaire :
+                    Main.gestionnaire.getInventaire()) {
+                if (produitRecette.getQuantite() > produitInventaire.getQuantite() && produitInventaire.getProduit().getNom().equals(
+                        produitRecette.getProduit().getNom()
+                )) {
+                    assezIngredient = false;
+                }
+            }
 
+        }
+        if (assezIngredient) {
+            for (ProduitInventaire produitRecette :
+                    selected.getIngredientsRequis()) {
+                for (ProduitInventaire produitInventaire :
+                        Main.gestionnaire.getInventaire()) {
+                    if (produitInventaire.getProduit().getNom().equals(produitRecette.getProduit().getNom())) {
+                        produitInventaire.setQuantite(produitInventaire.getQuantite() - produitRecette.getQuantite());
+                    }
+
+                }
+            }
+        }
     }
 
     public void addCommande() {
@@ -309,6 +334,7 @@ public class Controller {
         unites.add("heures");
         ObservableList<String> observableList = FXCollections.observableList(unites);
         unitesTemps.setItems(observableList);
+        unitesTemps.setValue("secondes");
     }
 
     public void startTimer() {
@@ -330,11 +356,28 @@ public class Controller {
         timerLoop = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             public void handle(ActionEvent arg) {
                 myCurrentTime.set(myCurrentTime.get() - 1);
-                temps.setText("Timer :" + myCurrentTime.get());
+                temps.setText("Temps restant : " + myCurrentTime.get());
                 progression.setProgress(Double.valueOf(Double.valueOf((timerInit.get() - myCurrentTime.get())) / Double.valueOf(timerInit.get())));
             }
         }));
         timerLoop.setCycleCount(timerInit.get());
+        timerLoop.setOnFinished(event -> {
+            String musicFile = "src/alarme.wav";     // For example
+
+            Media sound = new Media(new File(musicFile).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            mediaPlayer.play();
+
+            Alert alerte = new Alert(Alert.AlertType.INFORMATION);
+            alerte.setTitle("Alerte minuterie");
+            alerte.setHeaderText("Minuterie terminée");
+            alerte.setContentText(
+                    "Appuyez sur le bouton pour l'arrêter");
+            alerte.setOnCloseRequest(event1 -> {
+                mediaPlayer.stop();
+            });
+            alerte.show();
+        });
         timerLoop.play();
     }
 
