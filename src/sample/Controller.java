@@ -21,8 +21,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.util.Duration;
+import java.util.Random;
+import java.lang.Math;
 
 public class Controller {
+
+
 
     public static Gestionnaire gestionnaire = new Gestionnaire();
     public static ArrayList<String[]> commande = new ArrayList<String[]>();
@@ -311,5 +315,79 @@ public class Controller {
         boutonStop.setVisible(false);
         boutonStart.setVisible(true);
         timerLoop.stop();
+    }
+
+    public void openAddRecette()
+    {
+        try
+        {
+            Parent addToGardeMangerScene = FXMLLoader.load(getClass().getResource("AddRecette.fxml"));
+            Main.addToGardeMangerStage.setTitle("Watchu Puttin' in yer Frigo?");
+            try
+            {
+                Main.addToGardeMangerStage.initModality(Modality.APPLICATION_MODAL);
+            }
+            catch(Exception ignored) {}
+            Main.addToGardeMangerStage.setScene(new Scene(addToGardeMangerScene, 480, 400));
+            Main.addToGardeMangerStage.show();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void generateRandomRecette(){
+        String[] verbeArray = {"Ajouter", "Piler", "Mariner", "Mélanger", "Faire cuire", "Battre"};
+        String[] adjectifArray = {"vigoureusement", "abondamment", "efficacement", "rapidement", "à l'ancienne", "avec précaution"};
+        String[] timeArray = {"pendant 5 minutes", "jusqu'à texture uniforme", "à souhait", "jusqu'à ébullition", "jusqu'à ce que le mélange épaississe", "généreusement"};
+        String[] containerArray = {"dans un bol", "dans une assiette", "dans une chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
+        ArrayList<ProduitInventaire> gardemanger = Main.gestionnaire.getInventaire();
+        String finalrecette = "";
+        int[] quantite = new int[gardemanger.size()];
+        for(int i=0;i<gardemanger.size();i++){
+            float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
+            if(mesure>=1000){
+                mesure*=0.001;
+
+            }
+            else if(mesure<1){
+                mesure*=1000;
+            }
+            Random rand = new Random();
+            quantite[i] = (int)(Math.random() * mesure) + 1;
+
+            finalrecette = finalrecette + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + "\n";
+        }
+        for(int i=0;i<gardemanger.size();i++){
+            float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
+            if(mesure>=1000){
+                mesure*=0.001;
+
+            }
+            else if(mesure<1){
+                mesure*=1000;
+            }
+            Random rand = new Random();
+            int verbeint = rand.nextInt(verbeArray.length);
+            int adjectifint = rand.nextInt(adjectifArray.length);
+            int timeint = rand.nextInt(timeArray.length);
+            int containerint = rand.nextInt(containerArray.length);
+            finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
+        }
+        System.out.print(finalrecette);
+        String[] ingredients = {"agneau", "boeuf", "dinde", "fruit de mer", "gibier", "légumineuses", "oeufs", "oie", "pintade", "volaille", "orge", "quinoa", "poisson", "porc", "poulet", "riz", "tofu", "soya", "veau"};
+        String[] debuts = {"bol de", "bol de riz au", "mijoté de", "pilon de", "pizza au", "pâte au", "fondue au", "macaroni au", "poulet grillé au", "pain doré au", "granola au", "tofu au", "gauffres au", "bacon au"};
+        Random rand = new Random();
+        int ingredientint = rand.nextInt(ingredients.length);
+        int ingredientint2 = rand.nextInt(ingredients.length);
+        int debutsint = rand.nextInt(debuts.length);
+        int auint = rand.nextInt(2);
+        if(auint == 1){
+            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint]);
+        }
+        else{
+            System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2]);
+        }
     }
 }
