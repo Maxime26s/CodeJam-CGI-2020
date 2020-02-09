@@ -45,6 +45,16 @@ public class AddToGardeMangerController {
         reloadItems();
     }
 
+    public void annuler()
+    {
+        Main.addToGardeMangerStage.close();
+    }
+
+    public void removeCommande()
+    {
+
+    }
+
     public void openAddAlimentWindow() {
         try
         {
@@ -150,7 +160,7 @@ public class AddToGardeMangerController {
                 String nom= entree.readLine();
                 String quantity = entree.readLine();
                 boolean found=false;
-                for(int j=0;j<Main.gestionnaire.getInventaire().size();i++)
+                for(int j=0;j<Main.gestionnaire.getInventaire().size();j++)
                     if(Main.gestionnaire.getInventaire().get(j).getProduit().getNom().equals(nom)){
                         Main.gestionnaire.getInventaire().get(j).setQuantite(Main.gestionnaire.getInventaire().get(j).getQuantite()+Integer.parseInt(quantity));
                         found=true;
@@ -169,6 +179,7 @@ public class AddToGardeMangerController {
             }
             sortie.close();
             entree.close();
+            Main.addToGardeMangerStage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

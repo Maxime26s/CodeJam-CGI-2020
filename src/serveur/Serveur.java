@@ -65,7 +65,7 @@ public class Serveur {
                     String[] parts = new String[nbCommande*3];
                     for(int i=0;i<parts.length;i++)
                         parts[i] = entree.readLine();
-                    save(parts,"Commande");
+                    //save(parts,"Commande");
                     String[] envoie = new String[nbCommande*3];
                     sortie.write(nbCommande+"\n");
                     for(int i=0;i<nbCommande;i++){
@@ -84,7 +84,7 @@ public class Serveur {
                         revenu+=Float.parseFloat(envoie[i+2]);
                     }
                     sortie.close();
-                    save(parts,"Envoie");
+                    //save(parts,"Envoie");
                     System.out.println("Commande terminé");
                     break;
                 case "findByName":
