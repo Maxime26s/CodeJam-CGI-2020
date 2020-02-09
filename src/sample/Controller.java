@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.util.Duration;
+import java.util.Random;
 
 public class Controller {
 
@@ -278,6 +279,22 @@ public class Controller {
         catch(Exception e)
         {
             e.printStackTrace();
+        }
+    }
+
+    public void generateRandomRecette(){
+        String[] verbeArray = {"Ajouter", "Piler", "Mariner", "Mélanger", "Faire cuire", "Battre"};
+        String[] adjectifArray = {"vigoureusement", "abondamment", "efficacement", "rapidement", "à l'ancienne", "avec précaution"};
+        String[] timeArray = {"pendant 5 minutes", "jusqu'à texture uniforme", "à souhait", "jusqu'à ébullition", "jusqu'à ce que le mélange épaississe", "généreusement"};
+        String[] containerArray = {"dans un bol", "dans une assiette", "dans une chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
+        ArrayList<ProduitInventaire> gardemanger = Main.gestionnaire.getInventaire();
+        for(int i=0;i<gardemanger.size();i++){
+            Random rand = new Random();
+            int verbeint = rand.nextInt(verbeArray.length);
+            int adjectifint = rand.nextInt(adjectifArray.length);
+            int timeint = rand.nextInt(timeArray.length);
+            int containerint = rand.nextInt(containerArray.length);
+            System.out.print(verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " 40 " + gardemanger.get(i).getProduit().getNom() + " " + containerArray[containerint] + " " + timeArray[timeint]);
         }
     }
 }
