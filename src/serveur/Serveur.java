@@ -13,16 +13,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Serveur {
     public static HashMap<String, HashMap<String, ProduitEpicerie>> hashMapEpicerie = new HashMap<>();
-    public static float revenu = 0;
+    public static HashMap<String, Revenu> hashMapRevenu = new HashMap<>();
     public static String distributeurCourant = "Default";
 
     public static void main(String[] args) {
         loadInventory();
-        if (!hashMapEpicerie.containsKey("Default"))
+        if (!hashMapEpicerie.containsKey("Default")){
             hashMapEpicerie.put("Default", new HashMap<>());
+            hashMapRevenu.put("Default", new Revenu(0f));
+        }
+
         while (true) {
             try {
                 ServerSocket serveur = new ServerSocket(8080);
@@ -38,7 +42,7 @@ public class Serveur {
                         client(socket, entree, serveur);
                         break;
                     case "distributeur":
-                        distribueur(socket, entree, serveur);
+                        distributeur(socket, entree, serveur);
                         break;
                 }
                 entree.close();
@@ -85,11 +89,11 @@ public class Serveur {
                             sortie.write(envoie[i * 3 + 1] + "\n");
                             hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).quantite = 0;
                         }
-                        revenu += (Math.round(Float.parseFloat(hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).produit.getPrix()) * 100.0f) / 100.0f) * Integer.parseInt(envoie[i * 3 + 1]);
-                        envoie[i * 3 + 2] = Float.toString(revenu);
+                        hashMapRevenu.get(distributeurCourant).setRevenu(hashMapRevenu.get(distributeurCourant).getRevenu()+(Math.round(Float.parseFloat(hashMapEpicerie.get(distributeurCourant).get(parts[i * 3]).produit.getPrix()) * 100.0f) / 100.0f) * Integer.parseInt(envoie[i * 3 + 1]));
+                        envoie[i * 3 + 2] = Float.toString(hashMapRevenu.get(distributeurCourant).getRevenu());
                     }
                     sortie.close();
-                    save(parts, "Envoie");
+                    //save(parts, "Envoie");
                     System.out.println("Commande terminé");
 
                     break;
@@ -130,11 +134,14 @@ public class Serveur {
         }
     }
 
-    private static void distribueur(Socket socket, BufferedReader entree, ServerSocket serveur) {
+    private static void distributeur(Socket socket, BufferedReader entree, ServerSocket serveur) {
         try {
             String username = entree.readLine();
-            if (!hashMapEpicerie.containsKey(username))
+            if (!hashMapEpicerie.containsKey(username)){
                 hashMapEpicerie.put(username, new HashMap<>());
+                hashMapRevenu.put(username, new Revenu(0f));
+            }
+
             OutputStream fluxSortant = socket.getOutputStream();
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             String nom;
@@ -209,6 +216,7 @@ public class Serveur {
                             e.printStackTrace();
                         }
                     });
+                    sortie.write(Float.toString(hashMapRevenu.get(username).getRevenu()));
                     sortie.close();
                     break;
                 case "supItem":
@@ -229,7 +237,7 @@ public class Serveur {
             ObjectOutputStream sortie = new ObjectOutputStream(
                     new BufferedOutputStream(
                             new FileOutputStream("inventaireEpicerie.dat")));
-            sortie.writeFloat(revenu);
+            sortie.writeObject(hashMapRevenu);
             sortie.writeObject(hashMapEpicerie);
             sortie.close();
         } catch (IOException e) {
@@ -243,7 +251,7 @@ public class Serveur {
                     new BufferedInputStream(
                             new FileInputStream("inventaireEpicerie.dat")));
             try {
-                revenu = entree.readFloat();
+                hashMapRevenu = (HashMap<String, Revenu>) entree.readObject();
                 hashMapEpicerie = (HashMap<String, HashMap<String, ProduitEpicerie>>) entree.readObject();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
