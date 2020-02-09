@@ -13,8 +13,8 @@ public class ProduitInventaire implements Serializable {
 
     public ProduitInventaire(Produit produit, float quantite, String typeMesure, DateExpiration dateExp) {
         this.produit = produit;
-        this.quantite = quantite;
-        this.typeMesure = typeMesure;
+        this.quantite = Float.parseFloat(produit.getMesurePoids())*quantite;
+        this.typeMesure = produit.getMesureType();
         this.dateExp = dateExp;
         this.expire = false;
         this.joursExpiration = 0;
