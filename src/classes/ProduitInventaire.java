@@ -1,39 +1,23 @@
 package classes;
 
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ProduitInventaire {
     private Produit produit;
     private float quantite;
-    private Mesures typeMesure;
+    private String typeMesure;
     private DateExpiration dateExp;
     private boolean expire;
     private int joursExpiration;
 
-    public ProduitInventaire(Produit produit, float quantite, Mesures typeMesure, DateExpiration dateExp, boolean expire, int joursExpiration) {
+    public ProduitInventaire(Produit produit, float quantite, String typeMesure, DateExpiration dateExp) {
         this.produit = produit;
         this.quantite = quantite;
         this.typeMesure = typeMesure;
         this.dateExp = dateExp;
-        this.expire = expire;
-        this.joursExpiration = joursExpiration;
+        this.expire = false;
+        this.joursExpiration = 0;
     }
 
-    public ProduitInventaire(Produit produit, float quantite, Mesures typeMesure, DateExpiration dateExp) {
-        this.produit = produit;
-        this.quantite = quantite;
-        this.typeMesure = typeMesure;
-        this.dateExp = dateExp;
-    }
-
-    public ProduitInventaire(Produit produit) {
-        this.produit = produit;
-        this.quantite = 0;
-    }
 
     public Produit getProduit() {
         return produit;
@@ -51,11 +35,11 @@ public class ProduitInventaire {
         this.quantite = quantite;
     }
 
-    public Mesures getTypeMesure() {
+    public String getTypeMesure() {
         return typeMesure;
     }
 
-    public void setTypeMesure(Mesures typeMesure) {
+    public void setTypeMesure(String typeMesure) {
         this.typeMesure = typeMesure;
     }
 
