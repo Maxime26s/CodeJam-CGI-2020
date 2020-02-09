@@ -248,6 +248,5 @@
             </TabPane>
          </children>
       </VBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" />
    </children>
 </AnchorPane>
