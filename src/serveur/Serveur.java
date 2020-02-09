@@ -70,6 +70,9 @@ public class Serveur {
                     save(parts, "Commande");
 
                     String[] envoie = new String[nbCommande * 3];
+                    for(int i=0;i<envoie.length;i++)
+                        envoie[i]=parts[i];
+
                     sortie.write(nbCommande + "\n");
                     for (int i = 0; i < nbCommande; i++) {
                         sortie.write(parts[i * 3] + "\n");
@@ -233,6 +236,7 @@ public class Serveur {
             socket.close();
             serveur.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
