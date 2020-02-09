@@ -152,19 +152,23 @@ public class Controller {
     }
 
     public void showInfo() {
-        String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
-        for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
-            if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
-                String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
-                        + "\n" +
-                        "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
-                        + "\n" +
-                        Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
-                        + "\n" + "Jours avant expiration: " +
-                        Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
-                affichageInfo.setText(infoBuffer);
+        try
+        {
+            String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
+            for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
+                if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
+                    String infoBuffer = Main.gestionnaire.getInventaire().get(i).getProduit().getNom()
+                            + "\n" +
+                            "Expiration: " + Main.gestionnaire.getInventaire().get(i).getDateExp().getDay() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getMonth() + "-" + Main.gestionnaire.getInventaire().get(i).getDateExp().getYear()
+                            + "\n" +
+                            Main.gestionnaire.getInventaire().get(i).getQuantite() + " " + Main.gestionnaire.getInventaire().get(i).getProduit().getMesureType()
+                            + "\n" + "Jours avant expiration: " +
+                            Main.gestionnaire.getInventaire().get(i).getJoursExpiration();
+                    affichageInfo.setText(infoBuffer);
+                }
             }
         }
+        catch (Exception ignored){};
     }
 
     public void showRecette() {
