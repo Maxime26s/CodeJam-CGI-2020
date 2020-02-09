@@ -40,7 +40,7 @@
                 <Menu mnemonicParsing="false" text="Add">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#openAddToGardeMangerWindow" text="Ajouter au Garde-Manger" />
-                        <MenuItem mnemonicParsing="false" onAction="#openAddRecette" text="Ajouter une Recette" />
+                        <MenuItem mnemonicParsing="false" onAction="#openAddRecetteWindow" text="Ajouter une Recette" />
                   </items>
                 </Menu>
               </menus>
@@ -178,7 +178,7 @@
                                                                <content>
                                                                   <AnchorPane>
                                                                      <children>
-                                                                        <ListView fx:id="listeGardeManger1" onMouseClicked="#showInfo" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                                        <ListView fx:id="listeRecettes" onMouseClicked="#showRecette" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                                      </children>
                                                                   </AnchorPane>
                                                                </content>
@@ -187,15 +187,16 @@
                                                       </AnchorPane>
                                                    </content>
                                                 </ScrollPane>
-                                                <Label text="Rechercher Ingrédient:" />
+                                                <Label text="Rechercher recette:" />
                                                 <TextField fx:id="boiteRecherche1" onKeyTyped="#resultatRecherche" prefHeight="38.0" prefWidth="139.0" />
+                                                <Button mnemonicParsing="false" onAction="#refresh" prefHeight="26.0" prefWidth="174.0" text="Rafraîchir" />
+                                                <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="167.0" text="Supprimer" />
                                              </children>
                                           </VBox>
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="342.0" prefWidth="308.0">
                                        <children>
-                                          <Button layoutY="1.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                                           <DialogPane fx:id="affichageInfo1" headerText="Info:" layoutX="29.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="278.0" minWidth="-Infinity" prefHeight="278.0" prefWidth="469.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0" />
                                        </children>
                                     </AnchorPane>
