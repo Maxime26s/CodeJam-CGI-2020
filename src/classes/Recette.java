@@ -1,9 +1,6 @@
 package classes;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Recette {
     private ArrayList<ProduitInventaire> ingredientsRequis;
@@ -28,11 +25,11 @@ public class Recette {
         this.tags = tags;
     }
 
-    public float calculerTotal(ArrayList<ProduitInventaire> ingredients){
+    public float calculerTotal(ArrayList<ProduitInventaire> ingredients) {
         int total = 0;
-        for (ProduitInventaire produit:
-             ingredients) {
-            total += produit.getQuantite()*Integer.parseInt(produit.getProduit().getPrix());
+        for (ProduitInventaire produit :
+                ingredients) {
+            total += produit.getQuantite() * Integer.parseInt(produit.getProduit().getPrix());
         }
         return total;
     }

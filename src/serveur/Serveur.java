@@ -1,14 +1,7 @@
 package serveur;
 
 import classes.Produit;
-import classes.ProduitInventaire;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -73,8 +65,8 @@ public class Serveur {
                     save(parts, "Commande");
 
                     String[] envoie = new String[nbCommande * 3];
-                    for(int i=0;i<envoie.length;i++)
-                        envoie[i]=parts[i];
+                    for (int i = 0; i < envoie.length; i++)
+                        envoie[i] = parts[i];
 
                     sortie.write(nbCommande + "\n");
                     for (int i = 0; i < nbCommande; i++) {
@@ -285,8 +277,8 @@ public class Serveur {
             Date date = new Date();
             String log = "";
             for (int i = 0; i < parts.length; i++)
-                log+=parts[i]+"\n";
-            Files.write(Paths.get(name + "_" + df.format(date) + ".txt"), log.getBytes() );
+                log += parts[i] + "\n";
+            Files.write(Paths.get(name + "_" + df.format(date) + ".txt"), log.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

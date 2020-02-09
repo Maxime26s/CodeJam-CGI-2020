@@ -1,5 +1,9 @@
 package sample;
 
+import classes.DateExpiration;
+import classes.Produit;
+import classes.ProduitInventaire;
+import classes.ProduitTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,14 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
-import classes.*;
 
 import java.io.*;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddToGardeMangerController {
 
@@ -46,17 +48,15 @@ public class AddToGardeMangerController {
     }
 
     @FXML
-    public void onClose(){
+    public void onClose() {
 
     }
 
-    public void annuler()
-    {
+    public void annuler() {
         Main.addToGardeMangerStage.close();
     }
 
-    public void removeCommande()
-    {
+    public void removeCommande() {
 
     }
 
@@ -106,7 +106,7 @@ public class AddToGardeMangerController {
                     qteTextField.getText().toString(),
                     produitPrix);
             commandeTable.getItems().add(produitTable);
-            
+
         }
     }
 
