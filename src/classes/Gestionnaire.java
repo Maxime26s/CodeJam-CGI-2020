@@ -1,8 +1,12 @@
 package classes;
 
+        import java.io.*;
         import java.time.LocalDate;
         import java.util.ArrayList;
+        import java.util.HashMap;
+
         import sample.*;
+        import serveur.ProduitEpicerie;
 
 public class Gestionnaire {
     private ArrayList<ProduitInventaire> inventaire;
@@ -10,8 +14,8 @@ public class Gestionnaire {
     private ArrayList<Produit> produitsDisponibles;
 
     public Gestionnaire() {
-        this.inventaire = new ArrayList<>();
-        this.recettes = new ArrayList<>();
+        loadInventaire();
+        loadRecettes();
         this.produitsDisponibles = new ArrayList<>();
     }
 
@@ -46,6 +50,66 @@ public class Gestionnaire {
                     ingredientInventaire.setQuantite(ingredientInventaire.getQuantite()-ingredientRequis.getQuantite());
                 }
             }
+        }
+    }
+
+    public void saveRecettes() {
+        try {
+            ObjectOutputStream sortie = new ObjectOutputStream(
+                    new BufferedOutputStream(
+                            new FileOutputStream("recettesSaved.dat")));
+            sortie.writeObject(this.recettes);
+            sortie.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Fail save recettes");
+        }
+    }
+
+    public void loadRecettes() {
+        try {
+            ObjectInputStream entree = new ObjectInputStream(
+                    new BufferedInputStream(
+                            new FileInputStream("recettesSaved.dat")));
+            try {
+                this.recettes = (ArrayList<Recette>) entree.readObject();
+            } catch (ClassNotFoundException e) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Fail load recettes");
+            this.recettes = new ArrayList<>();
+        }
+    }
+
+    public void saveInventaire() {
+        try {
+            ObjectOutputStream sortie = new ObjectOutputStream(
+                    new BufferedOutputStream(
+                            new FileOutputStream("gardeManger.dat")));
+            sortie.writeObject(this.inventaire);
+            sortie.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Fail save inventaire");
+        }
+    }
+
+    public void loadInventaire() {
+        try {
+            ObjectInputStream entree = new ObjectInputStream(
+                    new BufferedInputStream(
+                            new FileInputStream("gardeManger.dat")));
+            try {
+                this.inventaire = (ArrayList<ProduitInventaire>) entree.readObject();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Fail load inventaire");
+            this.inventaire = new ArrayList<>();
         }
     }
 

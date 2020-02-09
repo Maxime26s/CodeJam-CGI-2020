@@ -84,6 +84,8 @@ public class Controller {
         ObservableList<String> observableList1 = FXCollections.observableArrayList(arrayRecettes);
         Main.gestionnaire.checkExpiry();
         listeRecettes.setItems(observableList1);
+        Main.gestionnaire.saveInventaire();
+        Main.gestionnaire.saveRecettes();
     }
 
     public void supprimerAliment()

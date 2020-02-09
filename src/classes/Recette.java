@@ -1,11 +1,12 @@
 package classes;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Recette {
+public class Recette implements Serializable {
     private ArrayList<ProduitInventaire> ingredientsRequis;
     private String instructions;
     private float prix;

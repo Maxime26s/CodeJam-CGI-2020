@@ -1,6 +1,8 @@
 package classes;
 
-public class DateExpiration {
+import java.io.Serializable;
+
+public class DateExpiration implements Serializable {
     private int year, month, day;
 
     public DateExpiration(int year, int month, int day) {
