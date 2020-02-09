@@ -18,7 +18,6 @@ public class ProduitInventaire {
         this.joursExpiration = 0;
     }
 
-
     public Produit getProduit() {
         return produit;
     }

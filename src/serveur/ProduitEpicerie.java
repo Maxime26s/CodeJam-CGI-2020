@@ -1,6 +1,5 @@
 package serveur;
 
-import classes.Mesures;
 import classes.Produit;
 
 import java.io.Serializable;

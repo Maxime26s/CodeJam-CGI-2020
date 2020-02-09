@@ -1,17 +1,12 @@
 package serveur;
 
 import classes.Produit;
-import classes.ProduitInventaire;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,6 +65,9 @@ public class Serveur {
                     save(parts, "Commande");
 
                     String[] envoie = new String[nbCommande * 3];
+                    for (int i = 0; i < envoie.length; i++)
+                        envoie[i] = parts[i];
+
                     sortie.write(nbCommande + "\n");
                     for (int i = 0; i < nbCommande; i++) {
                         sortie.write(parts[i * 3] + "\n");
@@ -99,6 +97,7 @@ public class Serveur {
                     sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
                     sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
                     sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getLongevite() + "\n");
                     sortie.close();
                     break;
                 case "addItem":
@@ -110,9 +109,10 @@ public class Serveur {
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
+                        String longevite = entree.readLine();
                         if (quantite.equals("Rien"))
                             quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
+                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
 
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
@@ -133,7 +133,8 @@ public class Serveur {
                                     v.produit.getPrix() + "\n" +
                                     v.produit.getMesurePoids() + "\n" +
                                     v.produit.getMesureType() + "\n" +
-                                    v.produit.getQuantite() + "\n");
+                                    v.produit.getQuantite() + "\n" +
+                                    v.produit.getLongevite() + "\n");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -164,6 +165,7 @@ public class Serveur {
                     sortie.write(hashMapEpicerie.get(nom).produit.getPrix() + "\n");
                     sortie.write(hashMapEpicerie.get(nom).quantite + "\n");
                     sortie.write(hashMapEpicerie.get(nom).produit.getMesureType() + "\n");
+                    sortie.write(hashMapEpicerie.get(nom).produit.getLongevite() + "\n");
                     sortie.close();
                     break;
                 case "addItem":
@@ -175,9 +177,10 @@ public class Serveur {
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
+                        String longevite = entree.readLine();
                         if (quantite.equals("Rien"))
                             quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
+                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
 
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
@@ -199,9 +202,10 @@ public class Serveur {
                         String owned = entree.readLine();
                         String type = entree.readLine();
                         String quantite = entree.readLine();
+                        String longevite = entree.readLine();
                         if (quantite.equals("Rien"))
                             quantite = "";
-                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite), Integer.parseInt(owned)));
+                        hashMapEpicerie.put(nom, new ProduitEpicerie(new Produit(nom, code, prix, mesure, type, quantite, longevite), Integer.parseInt(owned)));
                         sortie.write("blanc" + "\n" +
                                 "Le produit a été ajouté \n");
                         sortie.close();
@@ -233,6 +237,7 @@ public class Serveur {
             socket.close();
             serveur.close();
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -267,13 +272,13 @@ public class Serveur {
     }
 
     static void save(String[] parts, String name) {
-        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = new Date();
         try {
-            ObjectOutputStream sortie = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(name + "_" + df.format(date) + ".dat")));
+            DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            String log = "";
             for (int i = 0; i < parts.length; i++)
-                sortie.writeObject(parts[i]);
-            sortie.close();
+                log += parts[i] + "\n";
+            Files.write(Paths.get(name + "_" + df.format(date) + ".txt"), log.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

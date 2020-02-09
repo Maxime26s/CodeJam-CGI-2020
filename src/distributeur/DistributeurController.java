@@ -1,38 +1,18 @@
 package distributeur;
 
-import classes.Gestionnaire;
-import classes.Mesures;
-import classes.Produit;
-import classes.ProduitInventaire;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import sample.Main;
 
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.Socket;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class DistributeurController {
     @FXML
     private ListView listView;
 
     @FXML
-    private TextField modNom, modCode, modMes, modPrix, modInventaire, addNom, addCode, addMes, addPrix, addInventaire;
+    private TextField modNom, modCode, modMes, modPrix, modInventaire, modLong, addNom, addCode, addMes, addPrix, addInventaire, addLong;
 
     @FXML
     private RadioButton modG, modL, modMili, modRien, modKilo, addG, addL, addMili, addRien, addKilo;
@@ -48,9 +28,9 @@ public class DistributeurController {
         reloadItems();
     }
 
-    public void addItemListView(){
-        if(!addNom.getText().isEmpty()&&!addCode.getText().isEmpty()&&!addMes.getText().isEmpty()&& !addPrix.getText().isEmpty()
-                &&!addInventaire.getText().isEmpty()&&addType.getSelectedToggle().isSelected()&&addQuantity.getSelectedToggle().isSelected()){
+    public void addItemListView() {
+        if (!addNom.getText().isEmpty() && !addCode.getText().isEmpty() && !addMes.getText().isEmpty() && !addPrix.getText().isEmpty()
+                && !addInventaire.getText().isEmpty() && addType.getSelectedToggle().isSelected() && addQuantity.getSelectedToggle().isSelected()) {
             messageParser("blanc", "Envoie des données...");
             try {
                 Socket socket = new Socket("127.0.0.1", 8080);
@@ -59,25 +39,26 @@ public class DistributeurController {
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
                 sortie.write("distributeur\n");
                 sortie.write("addItem\n");
-                sortie.write(addNom.getText()+"\n");
-                sortie.write(addCode.getText()+"\n");
+                sortie.write(addNom.getText() + "\n");
+                sortie.write(addCode.getText() + "\n");
                 float mesure = Math.round(Float.parseFloat(addMes.getText()) * 1000.0f) / 1000.0f;
-                switch (((RadioButton)addQuantity.getSelectedToggle()).getText()){
+                switch (((RadioButton) addQuantity.getSelectedToggle()).getText()) {
                     case "Kilo":
-                        mesure*=1000;
-                        sortie.write(mesure+"\n");
+                        mesure *= 1000;
+                        sortie.write(mesure + "\n");
                         break;
                     case "Mili":
-                        mesure*=0.0001;
-                        sortie.write(mesure+"\n");
+                        mesure *= 0.0001;
+                        sortie.write(mesure + "\n");
                         break;
                     default:
-                        sortie.write(mesure+"\n");
+                        sortie.write(mesure + "\n");
                 }
-                sortie.write(addPrix.getText()+"\n");
-                sortie.write(addInventaire.getText()+"\n");
-                sortie.write(((RadioButton)addType.getSelectedToggle()).getText() + "\n");
-                sortie.write(((RadioButton)addQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(addPrix.getText() + "\n");
+                sortie.write(addInventaire.getText() + "\n");
+                sortie.write(((RadioButton) addType.getSelectedToggle()).getText() + "\n");
+                sortie.write(((RadioButton) addQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(addLong.getText() + "\n");
                 sortie.flush();
 
                 InputStream fluxEntrant = socket.getInputStream();
@@ -88,18 +69,18 @@ public class DistributeurController {
                 entree.close();
                 reloadItems();
                 messageParser(couleur, message);
-            } catch(Exception e){
+            } catch (Exception e) {
                 messageParser("rouge", "ERREUR LORS DE L'ENVOIE DES DONNÉES");
                 e.printStackTrace();
             }
-        } else{
+        } else {
             messageParser("rouge", "ERREUR: ENTRÉE INVALIDE");
         }
     }
 
-    public void modItemListView(){
-        if(!modNom.getText().isEmpty()&&!modCode.getText().isEmpty()&&!modMes.getText().isEmpty()&& !modPrix.getText().isEmpty()
-                &&!modInventaire.getText().isEmpty()&&modType.getSelectedToggle().isSelected()&&modQuantity.getSelectedToggle().isSelected()){
+    public void modItemListView() {
+        if (!modNom.getText().isEmpty() && !modCode.getText().isEmpty() && !modMes.getText().isEmpty() && !modPrix.getText().isEmpty()
+                && !modInventaire.getText().isEmpty() && modType.getSelectedToggle().isSelected() && modQuantity.getSelectedToggle().isSelected()) {
             messageParser("blanc", "Envoie des données...");
             try {
                 Socket socket = new Socket("127.0.0.1", 8080);
@@ -108,26 +89,27 @@ public class DistributeurController {
                 OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
                 sortie.write("distributeur\n");
                 sortie.write("modItem\n");
-                sortie.write(oldName.getText()+"\n");
-                sortie.write(modNom.getText()+"\n");
-                sortie.write(modCode.getText()+"\n");
+                sortie.write(oldName.getText() + "\n");
+                sortie.write(modNom.getText() + "\n");
+                sortie.write(modCode.getText() + "\n");
                 float mesure = Math.round(Float.parseFloat(modMes.getText()) * 1000.0f) / 1000.0f;
-                switch (((RadioButton)modQuantity.getSelectedToggle()).getText()){
+                switch (((RadioButton) modQuantity.getSelectedToggle()).getText()) {
                     case "Kilo":
-                        mesure*=1000;
-                        sortie.write(mesure+"\n");
+                        mesure *= 1000;
+                        sortie.write(mesure + "\n");
                         break;
                     case "Mili":
-                        mesure*=0.0001;
-                        sortie.write(mesure+"\n");
+                        mesure *= 0.0001;
+                        sortie.write(mesure + "\n");
                         break;
                     default:
-                        sortie.write(mesure+"\n");
+                        sortie.write(mesure + "\n");
                 }
-                sortie.write(modPrix.getText()+"\n");
-                sortie.write(modInventaire.getText()+"\n");
-                sortie.write(((RadioButton)modType.getSelectedToggle()).getText() + "\n");
-                sortie.write(((RadioButton)modQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(modPrix.getText() + "\n");
+                sortie.write(modInventaire.getText() + "\n");
+                sortie.write(((RadioButton) modType.getSelectedToggle()).getText() + "\n");
+                sortie.write(((RadioButton) modQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(modLong.getText() + "\n");
                 sortie.flush();
 
                 InputStream fluxEntrant = socket.getInputStream();
@@ -139,20 +121,20 @@ public class DistributeurController {
                 reloadItems();
                 messageParser(couleur, message);
                 oldName.setText(modNom.getText());
-            } catch(Exception e){
+            } catch (Exception e) {
                 messageParser("rouge", "ERREUR LORS DE L'ENVOIE DES DONNÉES");
                 e.printStackTrace();
             }
-        } else{
+        } else {
             messageParser("rouge", "ERREUR: ENTRÉE INVALIDE");
         }
     }
 
-    public void loadProduit(){
+    public void loadProduit() {
         try {
-            if(modType.getSelectedToggle() !=null)
+            if (modType.getSelectedToggle() != null)
                 modType.getSelectedToggle().setSelected(false);
-            if(modQuantity.getSelectedToggle() !=null)
+            if (modQuantity.getSelectedToggle() != null)
                 modQuantity.getSelectedToggle().setSelected(false);
             Socket socket = new Socket("127.0.0.1", 8080);
 
@@ -160,7 +142,7 @@ public class DistributeurController {
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             sortie.write("distributeur\n");
             sortie.write("findByName\n");
-            sortie.write(listView.getSelectionModel().getSelectedItem()+"\n");
+            sortie.write(listView.getSelectionModel().getSelectedItem() + "\n");
             sortie.flush();
             oldName.setText(listView.getSelectionModel().getSelectedItem().toString());
             InputStream fluxEntrant = socket.getInputStream();
@@ -169,40 +151,39 @@ public class DistributeurController {
             modCode.setText(entree.readLine());
             String what = entree.readLine();
             float mesure = Math.round(Float.parseFloat(what) * 1000.0f) / 1000.0f;
-            if(mesure>=1000){
+            if (mesure >= 1000) {
                 modKilo.setSelected(true);
-                mesure*=0.001;
+                mesure *= 0.001;
 
-            }
-            else if(mesure<1){
+            } else if (mesure < 1) {
                 modMili.setSelected(true);
-                mesure*=1000;
-            }
-            else
+                mesure *= 1000;
+            } else
                 modRien.setSelected(true);
             modMes.setText(Double.toString(mesure));
             modPrix.setText(entree.readLine());
             modInventaire.setText(entree.readLine());
             String mesureType = entree.readLine();
-            if(mesureType.equals("Litre"))
+            if (mesureType.equals("Litre"))
                 modL.setSelected(true);
-            else if(mesureType.equals("Gramme"))
+            else if (mesureType.equals("Gramme"))
                 modG.setSelected(true);
+            modLong.setText(entree.readLine());
             entree.close();
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void messageParser(String couleur, String message){
-        if(couleur.equals("rouge"))
+    public void messageParser(String couleur, String message) {
+        if (couleur.equals("rouge"))
             erreur.setTextFill(Color.web("#ff0000"));
         else
             erreur.setTextFill(Color.web("#ffffff"));
         erreur.setText(message);
     }
 
-    public void reloadItems(){
+    public void reloadItems() {
         try {
             Socket socket = new Socket("127.0.0.1", 8080);
 
@@ -217,7 +198,7 @@ public class DistributeurController {
             listView.getSelectionModel().clearSelection();
             listView.getItems().clear();
             String amount = entree.readLine();
-            for(int i = 0;i<Integer.parseInt(amount);i++){
+            for (int i = 0; i < Integer.parseInt(amount); i++) {
                 listView.getItems().add(entree.readLine());
             }
             String couleur = entree.readLine();
@@ -229,7 +210,7 @@ public class DistributeurController {
         }
     }
 
-    public void modSupItem(){
+    public void modSupItem() {
         try {
             Socket socket = new Socket("127.0.0.1", 8080);
 
@@ -237,7 +218,7 @@ public class DistributeurController {
             OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
             sortie.write("distributeur\n");
             sortie.write("supItem\n");
-            sortie.write(oldName.getText()+"\n");
+            sortie.write(oldName.getText() + "\n");
             sortie.flush();
             sortie.close();
 

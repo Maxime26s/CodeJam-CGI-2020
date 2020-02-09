@@ -1,5 +1,7 @@
 package classes;
 
+import java.time.LocalDate;
+
 public class DateExpiration {
     private int year, month, day;
 
@@ -7,6 +9,14 @@ public class DateExpiration {
         this.year = year;
         this.month = month;
         this.day = day;
+    }
+
+    public DateExpiration(LocalDate localDate, int longevite) {
+        localDate = localDate.plusDays(longevite);
+
+        this.year = localDate.getYear();
+        this.month = localDate.getMonthValue();
+        this.day = localDate.getDayOfMonth();
     }
 
     public int getYear() {

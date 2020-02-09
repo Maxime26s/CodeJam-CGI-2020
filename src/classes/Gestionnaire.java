@@ -1,8 +1,7 @@
 package classes;
 
-        import java.time.LocalDate;
-        import java.util.ArrayList;
-        import sample.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Gestionnaire {
     private ArrayList<ProduitInventaire> inventaire;
@@ -19,41 +18,39 @@ public class Gestionnaire {
         LocalDate localDate = LocalDate.now();
         for (ProduitInventaire produit :
                 this.getInventaire()) {
-            if (produit.getDateExp().getYear() < localDate.getYear()){
+            if (produit.getDateExp().getYear() < localDate.getYear()) {
                 produit.setExpire(true);
-            }
-            else if (produit.getDateExp().getYear() == localDate.getYear() && produit.getDateExp().getMonth() < localDate.getMonthValue()){
+            } else if (produit.getDateExp().getYear() == localDate.getYear() && produit.getDateExp().getMonth() < localDate.getMonthValue()) {
                 produit.setExpire(true);
-            }
-            else if (produit.getDateExp().getYear() == localDate.getYear() && produit.getDateExp().getMonth() == localDate.getMonthValue()
-                    && produit.getDateExp().getDay() < localDate.getDayOfMonth()){
+            } else if (produit.getDateExp().getYear() == localDate.getYear() && produit.getDateExp().getMonth() == localDate.getMonthValue()
+                    && produit.getDateExp().getDay() < localDate.getDayOfMonth()) {
                 produit.setExpire(true);
             }
             int joursAvantExpiration = 0;
-            joursAvantExpiration += 365 * (produit.getDateExp().getYear()-localDate.getYear());
-            joursAvantExpiration += 30 * (produit.getDateExp().getMonth()-localDate.getMonthValue());
-            joursAvantExpiration += (produit.getDateExp().getDay()-localDate.getDayOfMonth());
+            joursAvantExpiration += 365 * (produit.getDateExp().getYear() - localDate.getYear());
+            joursAvantExpiration += 30 * (produit.getDateExp().getMonth() - localDate.getMonthValue());
+            joursAvantExpiration += (produit.getDateExp().getDay() - localDate.getDayOfMonth());
             produit.setJoursExpiration(joursAvantExpiration);
         }
     }
 
-    public void retirerIngredients(Recette p_recette, ArrayList<ProduitInventaire> p_inventaire){
-        for (ProduitInventaire ingredientRequis:
+    public void retirerIngredients(Recette p_recette, ArrayList<ProduitInventaire> p_inventaire) {
+        for (ProduitInventaire ingredientRequis :
                 p_recette.getIngredientsRequis()) {
-            for (ProduitInventaire ingredientInventaire:
+            for (ProduitInventaire ingredientInventaire :
                     p_inventaire) {
-                if (ingredientRequis.getProduit().getNom().equals(ingredientInventaire.getProduit().getNom())){
-                    ingredientInventaire.setQuantite(ingredientInventaire.getQuantite()-ingredientRequis.getQuantite());
+                if (ingredientRequis.getProduit().getNom().equals(ingredientInventaire.getProduit().getNom())) {
+                    ingredientInventaire.setQuantite(ingredientInventaire.getQuantite() - ingredientRequis.getQuantite());
                 }
             }
         }
     }
 
-    public void ajouterProduitInventaire(ProduitInventaire produitAAjouter){
+    public void ajouterProduitInventaire(ProduitInventaire produitAAjouter) {
         inventaire.add(produitAAjouter);
     }
 
-    public void ajouterRecette(Recette recetteAAjouter){
+    public void ajouterRecette(Recette recetteAAjouter) {
         recettes.add(recetteAAjouter);
     }
 

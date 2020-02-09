@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AddRecetteController {
 
@@ -39,7 +38,7 @@ public class AddRecetteController {
     public ArrayList<String> ingredients = new ArrayList<>();
     public ArrayList<Float> quantites = new ArrayList<>();
 
-    public void initialize(){
+    public void initialize() {
         ingredients = new ArrayList<>();
         quantites = new ArrayList<>();
         colNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -73,24 +72,24 @@ public class AddRecetteController {
     public void ajouterRecetteAuLivre(){
         ArrayList<ProduitInventaire> produitInventaires = new ArrayList<>();
         int i = 0;
-        for (String ingredient:
-             ingredients) {
-            for (Produit prod:
-                 Main.gestionnaire.getProduitsDisponibles()) {
-                if (ingredient.toUpperCase().equals(prod.getNom().toUpperCase())){
-                    produitInventaires.add(new ProduitInventaire(prod, quantites.get(i), prod.getMesureType(), new DateExpiration(0,0,0)));
+        for (String ingredient :
+                ingredients) {
+            for (Produit prod :
+                    Main.gestionnaire.getProduitsDisponibles()) {
+                if (ingredient.toUpperCase().equals(prod.getNom().toUpperCase())) {
+                    produitInventaires.add(new ProduitInventaire(prod, quantites.get(i), prod.getMesureType(), new DateExpiration(0, 0, 0)));
                 }
             }
             i++;
         }
         ArrayList<String> tagos = new ArrayList<>();
-        if (vegeBox.isSelected()){
+        if (vegeBox.isSelected()) {
             tagos.add("Vegetarien");
         }
-        if (veganBox.isSelected()){
+        if (veganBox.isSelected()) {
             tagos.add("Vegan");
         }
-        if (halalBox.isSelected()){
+        if (halalBox.isSelected()) {
             tagos.add("Halal");
         }
         Main.gestionnaire.getRecettes().add(new Recette(new ArrayList<>(produitInventaires), instructionsArea.getText(), nomField.getText(),

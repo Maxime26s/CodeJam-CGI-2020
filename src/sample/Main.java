@@ -1,18 +1,13 @@
 package sample;
 
-import classes.*;
+import classes.Gestionnaire;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Main extends Application {
     public static Stage alimentStage = new Stage();
@@ -20,8 +15,9 @@ public class Main extends Application {
     public static Stage addRecetteStage = new Stage();
     public static Parent alimentParent;
     public static Gestionnaire gestionnaire = new Gestionnaire();
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
 /*
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat poutine", "8378932", "10", "50", "LITRES", "1"));

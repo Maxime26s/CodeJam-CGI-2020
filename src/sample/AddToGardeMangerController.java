@@ -1,5 +1,9 @@
 package sample;
 
+import classes.DateExpiration;
+import classes.Produit;
+import classes.ProduitInventaire;
+import classes.ProduitTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,14 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
-import classes.*;
 
 import java.io.*;
 import java.net.Socket;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class AddToGardeMangerController {
 
@@ -45,13 +47,16 @@ public class AddToGardeMangerController {
         reloadItems();
     }
 
-    public void annuler()
-    {
+    @FXML
+    public void onClose() {
+
+    }
+
+    public void annuler() {
         Main.addToGardeMangerStage.close();
     }
 
-    public void removeCommande()
-    {
+    public void removeCommande() {
 
     }
 
@@ -101,6 +106,7 @@ public class AddToGardeMangerController {
                     qteTextField.getText().toString(),
                     produitPrix);
             commandeTable.getItems().add(produitTable);
+
         }
     }
 
@@ -163,7 +169,7 @@ public class AddToGardeMangerController {
                 if (!found) {
                     for (int j = 0; j < Main.gestionnaire.getProduitsDisponibles().size(); j++) {
                         if (Main.gestionnaire.getProduitsDisponibles().get(j).getNom().equals(nom)) {
-                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity), "", new DateExpiration(2050, 05, 01)));
+                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity), "", new DateExpiration(LocalDate.now(), Integer.parseInt(Main.gestionnaire.getProduitsDisponibles().get(j).getLongevite()))));
                             break;
                         }
                     }
@@ -205,7 +211,7 @@ public class AddToGardeMangerController {
             String amount = entree.readLine();
             Main.gestionnaire.getProduitsDisponibles().clear();
             for (int i = 0; i < Integer.parseInt(amount); i++) {
-                Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
+                Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
             }
             sortie.close();
             entree.close();

@@ -1,6 +1,6 @@
 package classes;
 
-public enum Mesures{
+public enum Mesures {
     LITRE("Litre"),
     GRAMME("GRAMME"),
     ONCE("ONCE"),

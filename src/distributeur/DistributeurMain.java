@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class DistributeurMain extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("distributeur.fxml"));
         primaryStage.setTitle("Épicerie");
         Scene mainScene = new Scene(root, 480, 400);

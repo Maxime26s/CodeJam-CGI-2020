@@ -1,6 +1,6 @@
 package classes;
 
-public class ProduitTable{
+public class ProduitTable {
     String nom, quantity, prix;
 
     public ProduitTable(String nom, String quantity, String prix) {

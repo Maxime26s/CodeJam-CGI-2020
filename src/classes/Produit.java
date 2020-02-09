@@ -1,10 +1,6 @@
 package classes;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Produit implements Serializable {
     private String nom;
@@ -13,14 +9,16 @@ public class Produit implements Serializable {
     private String mesurePoids;
     private String mesureType;
     private String quantite;
+    private String longevite;
 
-    public Produit(String nom, String codeBar, String prix, String mesurePoids, String mesureType, String quantite) {
+    public Produit(String nom, String codeBar, String prix, String mesurePoids, String mesureType, String quantite, String longevite) {
         this.nom = nom;
         this.codeBar = codeBar;
         this.prix = prix;
         this.mesurePoids = mesurePoids;
         this.mesureType = mesureType;
         this.quantite = quantite;
+        this.longevite = longevite;
     }
 
     public String getNom() {
@@ -69,5 +67,13 @@ public class Produit implements Serializable {
 
     public void setQuantite(String quantite) {
         this.quantite = quantite;
+    }
+
+    public String getLongevite() {
+        return longevite;
+    }
+
+    public void setLongevite(String quantite) {
+        this.longevite = longevite;
     }
 }
