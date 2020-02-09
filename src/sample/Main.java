@@ -23,12 +23,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
+/*
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat poutine", "8378932", "10", "50", "LITRES", "1"));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat chicken", "8378932", "10", "50", "GRAMMES", "1"));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat salade", "8378932", "10", "50", "CUILLIERESOUPE", "1"));
         gestionnaire.getProduitsDisponibles().add(new Produit("Fat horace", "8378932", "10", "50", "LITRES", "1"));
 
+
+ */
 
         /*
         public ArrayList<ProduitInventaire> recetteObjet = new ArrayList<ProduitInventaire>(gestionnaire.getProduitsDisponibles().)

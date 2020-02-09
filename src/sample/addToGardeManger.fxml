@@ -48,7 +48,7 @@
                   <Button layoutX="85.0" layoutY="173.0" mnemonicParsing="false" onAction="#addCommande" text="-&gt;" />
                   <Button layoutX="85.0" layoutY="224.0" mnemonicParsing="false" text="&lt;-" />
                   <Button layoutX="59.0" layoutY="326.0" mnemonicParsing="false" onAction="#commander" text="Commander" />
-                  <Button layoutX="71.0" layoutY="365.0" mnemonicParsing="false" text="Annuler" />
+                  <Button layoutX="71.0" layoutY="365.0" mnemonicParsing="false" onAction="#annuler" text="Annuler" />
                </children>
             </AnchorPane>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">

@@ -45,6 +45,16 @@ public class AddToGardeMangerController {
         reloadItems();
     }
 
+    public void annuler()
+    {
+        Main.addToGardeMangerStage.close();
+    }
+
+    public void removeCommande()
+    {
+
+    }
+
     public void openAddAlimentWindow() {
         try {
             Parent alimentScene = FXMLLoader.load(getClass().getResource("addAliment.fxml"));
@@ -162,6 +172,7 @@ public class AddToGardeMangerController {
             }
             sortie.close();
             entree.close();
+            Main.addToGardeMangerStage.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
