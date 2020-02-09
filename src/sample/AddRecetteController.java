@@ -55,10 +55,10 @@ public class AddRecetteController {
     public void ajouterIngredient(){
         ingredients.add(ingredientRecetteField.getValue().toString());
         ProduitTable tempo = new ProduitTable(ingredientRecetteField.getValue().toString(),qteField.getText(),"0");
-        ingredientRecetteField.setValue(null);
         quantites.add(Float.parseFloat(qteField.getText()));
         tableIngredients.getItems().add(tempo);
         qteField.setText("");
+        ingredientRecetteField.setValue(null);
     }
 
     public void retireringredient()
@@ -74,10 +74,10 @@ public class AddRecetteController {
         int i = 0;
         for (String ingredient :
                 ingredients) {
-            for (Produit prod :
-                    Main.gestionnaire.getProduitsDisponibles()) {
-                if (ingredient.toUpperCase().equals(prod.getNom().toUpperCase())) {
-                    produitInventaires.add(new ProduitInventaire(prod, quantites.get(i), prod.getMesureType(), new DateExpiration(0, 0, 0)));
+            for (ProduitInventaire prod :
+                    Main.gestionnaire.getInventaire()) {
+                if (ingredient.toUpperCase().equals(prod.getProduit().getNom().toUpperCase())) {
+                    produitInventaires.add(new ProduitInventaire(prod.getProduit(), quantites.get(i), prod.getProduit().getMesureType(), new DateExpiration(0, 0, 0)));
                 }
             }
             i++;

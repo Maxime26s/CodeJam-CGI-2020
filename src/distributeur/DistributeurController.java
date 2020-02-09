@@ -210,7 +210,7 @@ public class DistributeurController {
             for (int i = 0; i < Integer.parseInt(amount); i++) {
                 listView.getItems().add(entree.readLine());
             }
-            revenu.setText(entree.readLine());
+            revenu.setText("Revenu(s): "+entree.readLine()+"$");
             String couleur = entree.readLine();
             String message = entree.readLine();
             sortie.close();

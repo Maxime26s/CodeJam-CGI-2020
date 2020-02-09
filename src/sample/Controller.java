@@ -389,7 +389,7 @@ public class Controller {
         }));
         timerLoop.setCycleCount(timerInit.get());
         timerLoop.setOnFinished(event -> {
-            String musicFile = "src/alarme.wav";     // For example
+            String musicFile = "alarme.wav";
 
             Media sound = new Media(new File(musicFile).toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(sound);
@@ -436,12 +436,29 @@ public class Controller {
         String[] adjectifArray = {"vigoureusement", "abondamment", "efficacement", "rapidement", "à l'ancienne", "avec précaution"};
         String[] timeArray = {"pendant 5 minutes", "jusqu'à texture uniforme", "à souhait", "jusqu'à ébullition", "jusqu'à ce que le mélange épaississe", "généreusement"};
         String[] containerArray = {"dans un bol", "dans une assiette", "dans une chaudron", "dans un bocal", "dans le four", "dans le micro-ondes"};
-        ArrayList<ProduitInventaire> gardemanger = Main.gestionnaire.getInventaire();
+        ArrayList<String> ingredTitre = new ArrayList<>();
+        ArrayList<ProduitInventaire> gardemanger = (ArrayList<ProduitInventaire>) Main.gestionnaire.getInventaire().clone();
+        int minIngredient, maxIngredient;
         String nomRecette = "";
         String finalrecette = "";
-        int[] quantite = new int[gardemanger.size()];
-        for (int i = 0; i < gardemanger.size(); i++) {
-            float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
+        minIngredient = 2;
+        if (gardemanger.size() < 2)
+        {
+            minIngredient = gardemanger.size();
+        }
+        if (gardemanger.size() > 10)
+        {
+            maxIngredient = 10;
+        }
+        else {
+            maxIngredient = gardemanger.size()-1;
+        }
+        int nbIngredient = (int)(Math.random()*maxIngredient + minIngredient);
+        int[] quantite = new int[nbIngredient+1];
+        ArrayList<ProduitInventaire> gardemangerSave = (ArrayList<ProduitInventaire>) gardemanger.clone();
+        for (int i = 0; i < nbIngredient; i++) {
+            int ingredientIndex = (int)(Math.random()*gardemanger.size());
+            float mesure = Math.round(Float.parseFloat(gardemanger.get(ingredientIndex).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
             if (mesure >= 1000) {
                 mesure *= 0.001;
 
@@ -451,10 +468,15 @@ public class Controller {
             Random rand = new Random();
             quantite[i] = (int) (Math.random() * mesure) + 1;
 
-            finalrecette = finalrecette + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + "\n";
+            finalrecette = finalrecette + quantite[i] + " " + gardemanger.get(ingredientIndex).getProduit().getMesureType() + " de " + gardemanger.get(ingredientIndex).getProduit().getNom().toLowerCase() + "\n";
+            ingredTitre.add(gardemanger.get(ingredientIndex).getProduit().getNom());
+            gardemanger.remove(ingredientIndex);
+
         }
-        for (int i = 0; i < gardemanger.size(); i++) {
-            float mesure = Math.round(Float.parseFloat(gardemanger.get(i).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
+        gardemanger = (ArrayList<ProduitInventaire>) gardemangerSave.clone();
+        for (int i = 0; i < nbIngredient; i++) {
+            int ingredientIndex = (int)(Math.random()*gardemanger.size());
+            float mesure = Math.round(Float.parseFloat(gardemanger.get(ingredientIndex).getProduit().getMesurePoids()) * 1000.0f) / 1000.0f;
             if (mesure >= 1000) {
                 mesure *= 0.001;
 
@@ -466,21 +488,22 @@ public class Controller {
             int adjectifint = rand.nextInt(adjectifArray.length);
             int timeint = rand.nextInt(timeArray.length);
             int containerint = rand.nextInt(containerArray.length);
-            finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(i).getProduit().getMesureType() + " de " + gardemanger.get(i).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
+            finalrecette = finalrecette + verbeArray[verbeint] + " " + adjectifArray[adjectifint] + " " + quantite[i] + " " + gardemanger.get(ingredientIndex).getProduit().getMesureType() + " de " + gardemanger.get(ingredientIndex).getProduit().getNom().toLowerCase() + " " + containerArray[containerint] + " " + timeArray[timeint] + "\n";
+            gardemanger.remove(ingredientIndex);
         }
 
         String[] ingredients = {"agneau", "boeuf", "dinde", "fruit de mer", "gibier", "légumineuses", "oeufs", "oie", "pintade", "volaille", "orge", "quinoa", "poisson", "porc", "poulet", "riz", "tofu", "soya", "veau"};
         String[] debuts = {"bol de", "bol de riz au", "mijoté de", "pilon de", "pizza au", "pâte au", "fondue au", "macaroni au", "poulet grillé au", "pain doré au", "granola au", "tofu au", "gauffres au", "bacon au"};
         Random rand = new Random();
-        int ingredientint = rand.nextInt(ingredients.length);
-        int ingredientint2 = rand.nextInt(ingredients.length);
+        int ingredientint = rand.nextInt(ingredTitre.size());
+        int ingredientint2 = rand.nextInt(ingredTitre.size());
         int debutsint = rand.nextInt(debuts.length);
         int auint = rand.nextInt(2);
         if (auint == 1) {
-            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint];
+            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredTitre.get(ingredientint);
         } else {
-            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2];
-        }
+            nomRecette = debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredTitre.get(ingredientint) + " et au " + ingredTitre.get(ingredientint2);
+    }
         recetteAleatoire.setText("Recette Aléatoire:\n\n" + nomRecette + "\n-----------------\n" + finalrecette);
     }
 
