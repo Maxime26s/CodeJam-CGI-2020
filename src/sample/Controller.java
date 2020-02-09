@@ -16,8 +16,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.util.Duration;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,8 +63,7 @@ public class Controller {
     @FXML
     Button boutonStop;
 
-    public void refresh()
-    {
+    public void refresh() {
         ArrayList<String> arrayGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             arrayGardeManger.add(Main.gestionnaire.getInventaire().get(i).getProduit().getNom());
@@ -94,21 +92,16 @@ public class Controller {
         }
     }
 
-    public void supprimerRecette()
-    {
-        try
-        {
+    public void supprimerRecette() {
+        try {
             Main.gestionnaire.getRecettes().remove(listeGardeManger.getSelectionModel().getSelectedIndex());
             refresh();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Aucun aliment selectionné");
         }
     }
 
-    public void resultatRecherche()
-    {
+    public void resultatRecherche() {
         ArrayList<String> rechercheGardeManger = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().toLowerCase().contains(boiteRecherche.getText().toLowerCase())) {
@@ -119,12 +112,10 @@ public class Controller {
         listeGardeManger.setItems(observableList);
     }
 
-    public void resultatRecherche1()
-    {
+    public void resultatRecherche1() {
         ArrayList<String> rechercheRecette = new ArrayList<String>();
         for (int i = 0; i < Main.gestionnaire.getRecettes().size(); i++) {
-            if (Main.gestionnaire.getRecettes().get(i).getNom().toLowerCase().contains(boiteRecherche1.getText().toLowerCase()))
-            {
+            if (Main.gestionnaire.getRecettes().get(i).getNom().toLowerCase().contains(boiteRecherche1.getText().toLowerCase())) {
                 rechercheRecette.add(Main.gestionnaire.getRecettes().get(i).getNom());
             }
         }
@@ -132,8 +123,7 @@ public class Controller {
         listeRecettes.setItems(observableList);
     }
 
-    public void showInfo()
-    {
+    public void showInfo() {
         String nomProduit = listeGardeManger.getItems().get(listeGardeManger.getSelectionModel().getSelectedIndex()).toString();
         for (int i = 0; i < Main.gestionnaire.getInventaire().size(); i++) {
             if (Main.gestionnaire.getInventaire().get(i).getProduit().getNom().contains(nomProduit)) {
@@ -162,15 +152,15 @@ public class Controller {
                     infoBuffer = infoBuffer + produitInventaire.getProduit().getNom() + ": "
                             + produitInventaire.getQuantite() + produitInventaire.getTypeMesure() + "\n";
                 }
-                infoBuffer = infoBuffer +  "\n" +  "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
+                infoBuffer = infoBuffer + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getInstructions()
                         + "\n" + "\n" + Main.gestionnaire.getRecettes().get(i).getPrix() + "$" + "\n";
-                if (Main.gestionnaire.getRecettes().get(i).getTags().size() != 0){
+                if (Main.gestionnaire.getRecettes().get(i).getTags().size() != 0) {
                     infoBuffer = infoBuffer + "[";
-                    for (String tag:
+                    for (String tag :
                             Main.gestionnaire.getRecettes().get(i).getTags()) {
                         infoBuffer = infoBuffer + tag + ", ";
                     }
-                    infoBuffer = infoBuffer.substring(0, infoBuffer.length()-2) + "]";
+                    infoBuffer = infoBuffer.substring(0, infoBuffer.length() - 2) + "]";
                 }
                 affichageInfo1.setText(infoBuffer);
             }
@@ -389,6 +379,42 @@ public class Controller {
             System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint]);
         } else {
             System.out.print(debuts[debutsint].substring(0, 1).toUpperCase() + debuts[debutsint].substring(1) + " " + ingredients[ingredientint] + " et au " + ingredients[ingredientint2]);
+        }
+    }
+
+    public void chooseDistributeur() {
+        try {
+            ChoiceDialog<String> alerte = new ChoiceDialog<>("Default");
+            alerte.setTitle("Sélection du distributeur");
+            alerte.setHeaderText("Veuillez choisir le distributeur");
+            alerte.setContentText("Votre choix: ");
+
+            Socket socket = new Socket("127.0.0.1", 8080);
+
+            OutputStream fluxSortant = socket.getOutputStream();
+            OutputStreamWriter sortie = new OutputStreamWriter(fluxSortant);
+            sortie.write("client\n");
+            sortie.write("changeDistributeur\n");
+            sortie.flush();
+
+            InputStream fluxEntrant = socket.getInputStream();
+            BufferedReader entree = new BufferedReader(new InputStreamReader(fluxEntrant));
+            int amount = Integer.parseInt(entree.readLine());
+            for (int i = 0; i < amount; i++)
+                alerte.getItems().add(entree.readLine());
+
+            try {
+                sortie.write(alerte.showAndWait().get() + "\n");
+            } catch (Exception e) {
+                sortie.write("Default");
+            }
+
+            sortie.close();
+            entree.close();
+
+            openAddToGardeMangerWindow();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
