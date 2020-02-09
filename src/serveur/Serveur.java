@@ -67,13 +67,13 @@ public class Serveur {
                     for (int i = 0; i < parts.length; i++)
                         parts[i] = entree.readLine();
 
-                    save(parts,"Commande");
+                    save(parts, "Commande");
 
                     String[] envoie = new String[nbCommande * 3];
                     sortie.write(nbCommande + "\n");
                     for (int i = 0; i < nbCommande; i++) {
                         sortie.write(parts[i * 3] + "\n");
-                        envoie[i] = parts[i];
+                        envoie[i * 3] = parts[i * 3];
                         if (hashMapEpicerie.get(parts[i * 3]).quantite - Integer.parseInt(parts[i * 3 + 1]) >= 0) {
                             envoie[i + 1] = parts[i * 3 + 1];
                             sortie.write(envoie[i * 3 + 1] + "\n");
@@ -87,7 +87,7 @@ public class Serveur {
                         revenu += Float.parseFloat(envoie[i * 3 + 2]);
                     }
                     sortie.close();
-                    save(parts,"Envoie");
+                    save(parts, "Envoie");
                     System.out.println("Commande terminé");
 
                     break;
