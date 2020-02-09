@@ -32,7 +32,7 @@ public class DistributeurController {
     private ListView listView;
 
     @FXML
-    private TextField modNom, modCode, modMes, modPrix, modInventaire, addNom, addCode, addMes, addPrix, addInventaire;
+    private TextField modNom, modCode, modMes, modPrix, modInventaire, modLong, addNom, addCode, addMes, addPrix, addInventaire, addLong;
 
     @FXML
     private RadioButton modG, modL, modMili, modRien, modKilo, addG, addL, addMili, addRien, addKilo;
@@ -78,6 +78,7 @@ public class DistributeurController {
                 sortie.write(addInventaire.getText()+"\n");
                 sortie.write(((RadioButton)addType.getSelectedToggle()).getText() + "\n");
                 sortie.write(((RadioButton)addQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(addLong.getText() + "\n");
                 sortie.flush();
 
                 InputStream fluxEntrant = socket.getInputStream();
@@ -128,6 +129,7 @@ public class DistributeurController {
                 sortie.write(modInventaire.getText()+"\n");
                 sortie.write(((RadioButton)modType.getSelectedToggle()).getText() + "\n");
                 sortie.write(((RadioButton)modQuantity.getSelectedToggle()).getText() + "\n");
+                sortie.write(modLong.getText() + "\n");
                 sortie.flush();
 
                 InputStream fluxEntrant = socket.getInputStream();
@@ -188,6 +190,7 @@ public class DistributeurController {
                 modL.setSelected(true);
             else if(mesureType.equals("Gramme"))
                 modG.setSelected(true);
+            modLong.setText(entree.readLine());
             entree.close();
         } catch(Exception e){
             e.printStackTrace();

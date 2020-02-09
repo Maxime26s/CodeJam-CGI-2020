@@ -45,6 +45,11 @@ public class AddToGardeMangerController {
         reloadItems();
     }
 
+    @FXML
+    public void onClose(){
+
+    }
+
     public void annuler()
     {
         Main.addToGardeMangerStage.close();
@@ -101,6 +106,7 @@ public class AddToGardeMangerController {
                     qteTextField.getText().toString(),
                     produitPrix);
             commandeTable.getItems().add(produitTable);
+            
         }
     }
 
@@ -163,7 +169,7 @@ public class AddToGardeMangerController {
                 if (!found) {
                     for (int j = 0; j < Main.gestionnaire.getProduitsDisponibles().size(); j++) {
                         if (Main.gestionnaire.getProduitsDisponibles().get(j).getNom().equals(nom)) {
-                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity), "", new DateExpiration(2050, 05, 01)));
+                            Main.gestionnaire.getInventaire().add(new ProduitInventaire(Main.gestionnaire.getProduitsDisponibles().get(j), Float.parseFloat(quantity), "", new DateExpiration(LocalDate.now(), Integer.parseInt(Main.gestionnaire.getProduitsDisponibles().get(j).getLongevite()))));
                             break;
                         }
                     }
@@ -205,7 +211,7 @@ public class AddToGardeMangerController {
             String amount = entree.readLine();
             Main.gestionnaire.getProduitsDisponibles().clear();
             for (int i = 0; i < Integer.parseInt(amount); i++) {
-                Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
+                Main.gestionnaire.getProduitsDisponibles().add(new Produit(entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine(), entree.readLine()));
             }
             sortie.close();
             entree.close();

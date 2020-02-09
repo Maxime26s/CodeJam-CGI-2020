@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -23,36 +22,6 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
             <Menu mnemonicParsing="false" text="Rafraichir">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#reloadItems" text="Rafraichir" />
@@ -79,6 +48,11 @@
                                        <children>
                                           <VBox layoutX="14.0" layoutY="14.0" prefHeight="343.2" prefWidth="507.2" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                                              <children>
+                                                <Label fx:id="oldName">
+                                                   <VBox.margin>
+                                                      <Insets left="100.0" />
+                                                   </VBox.margin>
+                                                </Label>
                                                 <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
                                                    <children>
                                                       <Label prefWidth="75.0" text="Nom:" />
@@ -97,7 +71,7 @@
                                                       <TextField fx:id="modMes" maxWidth="-Infinity" promptText="Mesure" />
                                                       <VBox spacing="10.0">
                                                          <children>
-                                                            <RadioButton fx:id="modG" mnemonicParsing="false" text="Gramme">
+                                                            <RadioButton fx:id="modG" mnemonicParsing="false" selected="true" text="Gramme">
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="modType" />
                                                                </toggleGroup>
@@ -113,7 +87,7 @@
                                                             <ToggleGroup fx:id="modQuantity" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="modRien" mnemonicParsing="false" text="----" toggleGroup="$modQuantity" />
+                                                      <RadioButton fx:id="modRien" mnemonicParsing="false" selected="true" text="----" toggleGroup="$modQuantity" />
                                                       <RadioButton fx:id="modKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$modQuantity" />
                                                    </children>
                                                 </HBox>
@@ -129,10 +103,15 @@
                                                       <TextField fx:id="modInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
                                                    </children>
                                                 </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Longévité:" />
+                                                      <TextField fx:id="modLong" maxWidth="-Infinity" promptText="Longévité (jours)" />
+                                                   </children>
+                                                </HBox>
                                                 <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0">
                                                    <children>
                                                       <Button fx:id="modUpdate" mnemonicParsing="false" onAction="#modItemListView" text="Mettre à Jour" />
-                                                      <Label fx:id="oldName" />
                                                       <Button fx:id="modSup" mnemonicParsing="false" onAction="#modSupItem" text="Supprimer" />
                                                    </children>
                                                    <padding>
@@ -165,10 +144,10 @@
                                                 <HBox alignment="CENTER_LEFT" spacing="20.0">
                                                    <children>
                                                       <Label prefWidth="75.0" text="Mesure:" />
-                                                      <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure" />
+                                                      <TextField fx:id="addMes" maxWidth="-Infinity" promptText="Mesure (&gt;0.001)" />
                                                       <VBox spacing="10.0">
                                                          <children>
-                                                            <RadioButton fx:id="addG" mnemonicParsing="false" text="Gramme">
+                                                            <RadioButton fx:id="addG" mnemonicParsing="false" selected="true" text="Gramme">
                                                                <toggleGroup>
                                                                   <ToggleGroup fx:id="addType" />
                                                                </toggleGroup>
@@ -181,7 +160,7 @@
                                                             <ToggleGroup fx:id="addQuantity" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" text="----" toggleGroup="$addQuantity" />
+                                                      <RadioButton fx:id="addRien" mnemonicParsing="false" selected="true" text="----" toggleGroup="$addQuantity" />
                                                       <RadioButton fx:id="addKilo" mnemonicParsing="false" text="Kilo" toggleGroup="$addQuantity" />
                                                    </children>
                                                 </HBox>
@@ -195,6 +174,12 @@
                                                    <children>
                                                       <Label prefHeight="75.0" prefWidth="75.0" text="Nombre en inventaire:" wrapText="true" />
                                                       <TextField fx:id="addInventaire" maxWidth="-Infinity" promptText="Nombre en inventaire" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                                                   <children>
+                                                      <Label prefWidth="75.0" text="Longévité:" />
+                                                      <TextField fx:id="addLong" maxWidth="-Infinity" promptText="Longévité (jours)" />
                                                    </children>
                                                 </HBox>
                                                 <Button fx:id="addAjouter" mnemonicParsing="false" onAction="#addItemListView" text="Ajouter">
